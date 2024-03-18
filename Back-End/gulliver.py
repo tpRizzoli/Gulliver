@@ -39,6 +39,28 @@ def findAttivitaByTipologie(nomeLuogo):
 
     return json.dumps(listaTipologie, default=vars)
 
+@app.route('/getUser?<utenti>', methods=['GET'])
+def getUser(utenti):
+    cursor = db.cursor()
+    
+    sql= 'select * from utenti'
+    
+    try:
+        cursor.execute(sql)
+        
+        results = cursor.fetchall()
+
+        utenti = []
+
+        for row in utenti:
+            id = row[0]
+            username = row[1]
+            password = row [2]
+            utenti.append(Utente(id, username, password))
+    except:
+        print("Error: unable to fetch data")
+    return json.dumps(utenti, default=vars)
+
 @app.route("/logout")
 def closeAll():
     db.close()

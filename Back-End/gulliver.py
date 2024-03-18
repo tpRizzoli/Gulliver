@@ -33,7 +33,7 @@ def fetchTipologieByLuogo():
                 join luoghi as l on l.id = al.id_luogo
                 where l.nome = '""" + args.get('nomeLuogo') + """'
                 group by t.id;""" 
-    print(sql)
+    
     
     try:
         cursor.execute(sql)
@@ -61,7 +61,7 @@ def getUser():
 
     
     sql= """select * from utenti where username = '""" + args.get('utente') + """' and pwd = '""" + args.get('password') + """';"""
-    print(sql)
+    
     
     try:
         cursor.execute(sql)
@@ -78,6 +78,7 @@ def getUser():
     except:
         print("Error: unable to fetch data")
     return json.dumps(results, default=vars)
+
 
 
 #@app.route('/findItinerarioUtente',methods=['GET'])
@@ -105,6 +106,51 @@ def getUser():
 #    except:
 #        print("Error: unable to fetch data")
 #    return json.dumps(results, default=vars)
+
+
+@app.route('/findAttivitaTipologie', methods=["GET"])
+def findAttivitaTipologie():
+    cursor = db.cursor()
+
+    args = request.args
+
+    idTipolgie = args.getlist('idTipologia')
+    listaTipologie = ''
+    
+    for index, tip in enumerate(idTipolgie):
+        if index == len(idTipolgie) - 1:
+            listaTipologie += 't.id = ' + tip
+        else:
+            listaTipologie += 't.id = ' + tip + ' or '
+    
+    sql= """select a.*
+            from attivita as a
+            join tipologie as t on t.id = a.id_tipologia
+            join attivita_luoghi as al on al.id_attivita = a.id
+            join luoghi as l on l.id = al.id_luogo
+            where l.id = """ + args.get('idLuogo') + """ and (""" + listaTipologie + """);"""
+    print(sql)
+   
+    
+    try:
+        cursor.execute(sql)
+        
+        results = []
+        results = cursor.fetchall()
+
+
+        for row in results:
+            id = row[0]
+            nome = row[1]
+            tipologia = row [2]
+            difficolta = row [3]
+            descrizione = row [4]
+            results.append(Attivita(id, nome, tipologia, difficolta, descrizione))
+
+    except:
+        print("Error: unable to fetch data")
+
+    return json.dumps(results, default=vars)
 
 @app.route("/logout")
 def closeAll():

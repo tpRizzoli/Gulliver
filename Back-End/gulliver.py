@@ -12,54 +12,99 @@ MYSQL_USER = 'root'
 MYSQL_PASSWORD = 'password'
 MYSQL_DB = 'gulliver'
 
+
+
 # Connessione al DB
 db = pymysql.connect(host = MYSQL_HOST, user = MYSQL_USER, password = MYSQL_PASSWORD, db = MYSQL_DB)
 
-@app.route('/findTipologie?<nomeLuogo>', methods=['GET'])
-def findAttivitaByTipologie(nomeLuogo):
+
+
+"""Trova le tipologie di attività in base al luogo indicato"""
+@app.route('/findTipologie', methods=['GET'])
+def fetchTipologieByLuogo():
     cursor = db.cursor()
 
-    sql = 'select * from tipologie as t where t.nome = ' + nomeLuogo + ';'
+    args = request.args
 
-    try:
-        cursor.execute(sql)
-        # Fetch tutti i dati in una lista di liste
-        results = None
-        results = cursor.fetchall()
-
-        listaTipologie = []
-
-        for row in results:
-            id = row[0]
-            nome = row[1]
-            listaTipologie.append(Tipolgia(id, nome))
-
-    except:
-        print ("Error: unable to fecth data")
-
-    return json.dumps(listaTipologie, default=vars)
-
-@app.route('/getUser?<utenti>', methods=['GET'])
-def getUser(utenti):
-    cursor = db.cursor()
-    
-    sql= 'select * from utenti'
+    sql = """select t.*
+                from tipologie as t 
+                join attivita as a on a.id_tipologia = t.id
+                join attivita_luoghi as al on al.id_attivita = a.id
+                join luoghi as l on l.id = al.id_luogo
+                where l.nome = '""" + args.get('nomeLuogo') + """'
+                group by t.id;""" 
+    print(sql)
     
     try:
         cursor.execute(sql)
         
+        results = []
         results = cursor.fetchall()
 
-        utenti = []
+        for row in results:
+            id = row[0]
+            nome = row[1]
+            results.append(Tipologia(id, nome))
 
-        for row in utenti:
+    except:
+        print("Error: unable to fetch data")
+
+    return json.dumps(results, default=vars)
+
+
+
+@app.route('/getUser', methods=['GET'])
+def getUser():
+    cursor = db.cursor()
+
+    args = request.args
+
+    
+    sql= """select * from utenti where username = '""" + args.get('utente') + """' and pwd = '""" + args.get('password') + """';"""
+    print(sql)
+    
+    try:
+        cursor.execute(sql)
+        
+        results = []
+        results = cursor.fetchall()
+
+
+        for row in results:
             id = row[0]
             username = row[1]
             password = row [2]
-            utenti.append(Utente(id, username, password))
+            results.append(Utente(id, username, password))
     except:
         print("Error: unable to fetch data")
-    return json.dumps(utenti, default=vars)
+    return json.dumps(results, default=vars)
+
+
+#@app.route('/findItinerarioUtente',methods=['GET'])
+#def findItinerarioUtente():
+#    cursor = db.cursor()
+
+#    args = request.args
+
+    
+#    sql= """select * from utenti where username = '""" + args.get('utente') + """' and pwd = '""" + args.get('password') + """';"""
+#    print(sql)
+    
+#    try:
+#        cursor.execute(sql)
+        
+#        results = []
+#        results = cursor.fetchall()
+
+
+#        for row in results:
+#            id = row[0]
+#            username = row[1]
+#            password = row [2]
+#            results.append(Utente(id, username, password))
+#    except:
+#        print("Error: unable to fetch data")
+#    return json.dumps(results, default=vars)
 
 @app.route("/logout")
 def closeAll():

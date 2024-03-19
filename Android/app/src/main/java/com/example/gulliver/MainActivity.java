@@ -1,25 +1,22 @@
 package com.example.gulliver;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-
-import androidx.activity.EdgeToEdge;
+import android.view.View;
+import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity
-        implements BottomNavigationView
-        .OnNavigationItemSelectedListener {
+        implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     BottomNavigationView bottomNavigationView;
-    FirstFragment firstFragment = new FirstFragment();
-    SecondFragment secondFragment = new SecondFragment();
-    ThirdFragment thirdFragment = new ThirdFragment();
+    HomePageFragment homePageFragment = new HomePageFragment();
+    ItinerariFragment itinerariFragment = new ItinerariFragment();
+    ProfileShowFragment profileShowFragment = new ProfileShowFragment();
+    ProfileShowFragment profileEditFragment = new ProfileShowFragment();
 
 
     @Override
@@ -27,12 +24,11 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bottomNavigationView
-                = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-        bottomNavigationView
-                .setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.homePage);
+
     }
 
     @Override
@@ -42,13 +38,17 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.homePage)
-            frag = firstFragment;
+            frag = homePageFragment;
 
         if (id == R.id.itinerari)
-            frag = secondFragment;
+            frag = itinerariFragment;
 
         if (id == R.id.profilo)
-            frag = thirdFragment;
+            frag = profileShowFragment;
+
+        if (id == R.id.btnModificaProfilo)
+            frag = profileEditFragment;
+
 
         assert frag != null;
         getSupportFragmentManager()

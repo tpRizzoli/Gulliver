@@ -3,14 +3,13 @@
 from flask import Flask, render_template, request
 import pymysql
 import json
-import jsonify
 
 app = Flask(__name__)
 
 # Configurazione connessione DB MySQL
 MYSQL_HOST = 'localhost'
 MYSQL_USER = 'root'
-MYSQL_PASSWORD = 'ciao'
+MYSQL_PASSWORD = 'password'
 MYSQL_DB = 'gulliver'
 
 
@@ -93,68 +92,7 @@ def fetchTipologieByLuogo():
     return json.dumps(output, indent=4)
 
 
-
-@app.route('/getUser', methods=['GET'])
-def getUser():
-    cursor = db.cursor()
-
-    args = request.args
-
-    
-    sql= """select * from utenti where username = '""" + args.get('utente') + """' and pwd = '""" + args.get('password') + """';"""
-    
-    
-    try:
-        cursor.execute(sql)
-        
-        output = []
-        results = cursor.fetchall()
-
-
-        for row in results:
-            utente = Utente(row[0], row[1], row[2], row[3])
-            output.append(utente)
-    except:
-        print("Error: unable to fetch data")
-    return json.dumps(output, indent=4)
-
-
-
-@app.route('/findItinerarioUtente',methods=['GET'])
-def findItinerarioUtente():
-    cursor = db.cursor()
-
-    args = request.args
-
-    
-    sql= """SELECT u.id, u.username, i.id , i.nome 
-            from utenti as u 
-            join utenti_itinerari as ui on ui.id_utente = u.id 
-            join itinerari as i on i.id = ui.id_itinerario 
-            where i.nome='"""+ args.get('nomeItinerari') +"""';"""
-    print(sql)
-    
-    try:
-        cursor.execute(sql)
-        
-        results = []
-        results = cursor.fetchall()
-
-
-        for row in results:
-            id_utente = row[0]
-            utente = row[1]
-            id_itinerario=row[2]
-            itinerario = row[3]
-            
-            results.append(utente_itinerario( id_utente, utente, id_itinerario, itinerario))
-    except:
-        print("Error: unable to fetch data")
-    return json.dumps(results, default=vars)
-
-
-
-
+# Restituisce una lista di Attività in base al Luogo e alle Tipologie indicate 
 @app.route('/findAttivitaTipologie', methods=["GET"])
 def findAttivitaTipologie():
     cursor = db.cursor()
@@ -191,6 +129,98 @@ def findAttivitaTipologie():
     except:
         print("Error: unable to fetch data")
 
+    return json.dumps(output, indent=4)
+
+
+@app.route('/createItinerario', methods=['POST'])
+def createItinerario():
+    cursor = db.cursor()
+
+    args = request.args
+
+    sql = """select t.*
+                from tipologie as t 
+                join attivita as a on a.id_tipologia = t.id
+                join attivita_luoghi as al on al.id_attivita = a.id
+                join luoghi as l on l.id = al.id_luogo
+                where l.nome = '""" + args.get('nomeLuogo') + """'
+                group by t.id;""" 
+    
+    
+    try:
+        cursor.execute(sql)
+        
+        results = cursor.fetchall()
+        output = []
+
+        for row in results:
+            tipolgia = Tipologia(row[0], row[1])
+            output.append(tipologia)
+
+    except:
+        print("Error: unable to fetch data")
+
+    return json.dumps(output, indent=4)
+
+# Restituisce la lista di Itinerari salvati dall'utente
+@app.route('/findItinerarioUtente',methods=['GET'])
+def findItinerarioUtente():
+    cursor = db.cursor()
+
+    args = request.args
+
+    
+    sql= """SELECT u.id, u.username, i.id , i.nome 
+            from utenti as u 
+            join utenti_itinerari as ui on ui.id_utente = u.id 
+            join itinerari as i on i.id = ui.id_itinerario 
+            where i.nome='"""+ args.get('nomeItinerari') +"""';"""
+    print(sql)
+    
+    try:
+        cursor.execute(sql)
+        
+        results = cursor.fetchall()
+
+        output = []
+
+        for row in results:
+            dictionary = {
+                'id_utente': row[0],
+                'utente': row[1],
+                'id_itinerario': row[2],
+                'itinerario': row[3]
+            }
+            
+            
+            output.append(dictionary)
+    except:
+        print("Error: unable to fetch data")
+    return json.dumps(output, indent=4)
+
+# Restituisce i dati di un utente (Login)
+@app.route('/getUser', methods=['GET'])
+def getUser():
+    cursor = db.cursor()
+
+    args = request.args
+
+    
+    sql= """select * from utenti where username = '""" + args.get('utente') + """' and pwd = '""" + args.get('password') + """';"""
+    
+    
+    try:
+        cursor.execute(sql)
+        
+        output = []
+        results = cursor.fetchall()
+
+
+        for row in results:
+            utente = Utente(row[0], row[1], row[2], row[3])
+            output.append(utente)
+    except:
+        print("Error: unable to fetch data")
     return json.dumps(output, indent=4)
 
 @app.route("/logout")

@@ -1,26 +1,60 @@
 package com.example.gulliver;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.view.MenuItem;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+public class MainActivity extends AppCompatActivity
+        implements BottomNavigationView
+        .OnNavigationItemSelectedListener {
+
+    BottomNavigationView bottomNavigationView;
+    FirstFragment firstFragment = new FirstFragment();
+    SecondFragment secondFragment = new SecondFragment();
+    ThirdFragment thirdFragment = new ThirdFragment();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnOpenActivity = findViewById(R.id.btnLoginPage);
-        btnOpenActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent activity = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(activity);
-            }
-        });
+        bottomNavigationView
+                = findViewById(R.id.bottomNavigationView);
+
+        bottomNavigationView
+                .setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.setSelectedItemId(R.id.homePage);
+    }
+
+    @Override
+    public boolean
+    onNavigationItemSelected(MenuItem item) {
+        Fragment frag = null;
+        int id = item.getItemId();
+
+        if (id == R.id.homePage)
+            frag = firstFragment;
+
+        if (id == R.id.itinerari)
+            frag = secondFragment;
+
+        if (id == R.id.profilo)
+            frag = thirdFragment;
+
+        assert frag != null;
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.flFragment, frag)
+                .commit();
+        return true;
     }
 }

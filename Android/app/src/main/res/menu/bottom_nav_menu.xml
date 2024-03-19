@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homePage"
+        android:title="Home Page"
+        android:icon="@drawable/icohomepage"/>
+    <item
+        android:id="@+id/itinerari"
+        android:title="Itinerari"
+        android:icon="@drawable/icoitinerari"/>
+    <item
+        android:id="@+id/profilo"
+        android:title="Profilo"
+        android:icon="@drawable/icoprofilo"/>
+</menu>

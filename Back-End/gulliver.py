@@ -112,6 +112,8 @@ def findItinerarioUtente():
         print("Error: unable to fetch data")
     return json.dumps(results, default=vars)
 
+
+
 @app.route("/logout")
 def closeAll():
     db.close()

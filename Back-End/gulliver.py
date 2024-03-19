@@ -85,7 +85,7 @@ def fetchTipologieByLuogo():
 
         for row in results:
             tipolgia = Tipologia(row[0], row[1])
-            output.append(tipologia)
+            output.append(Tipologia)
 
     except:
         print("Error: unable to fetch data")

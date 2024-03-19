@@ -3,26 +3,26 @@ body{
     font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-style: normal;
+    margin-top: 90px;
 }
 
 .dash{
     height: 70px;
     width: 100%;
-    /*background-color:#0A4D68;*/
+    top: 0;
+    left: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 10px;
     border-bottom: #176B87 solid;
     background-color: rgb(196, 221, 244);
-    
+    z-index: 1000; /* Ensure it's above other content */
+    position: fixed;
 }
 
 .logo{
     position: relative;
     height: 50%;
-    /*border: #176B87 solid;
-    background-color: #86B6F6;*/
     padding: 7px 10px;
     border-radius: 7px;
     margin-left: 7px;
@@ -35,12 +35,7 @@ body{
 .logo-icon{
     margin-left: 20px;
     margin-bottom: -5px;
-   
 }
-
-/*.logo-name{
-    font-weight: 600;
-}*/
 
 .login-icon{
     margin-right: 20px;

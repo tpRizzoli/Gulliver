@@ -17,13 +17,15 @@ db = pymysql.connect(host = MYSQL_HOST, user = MYSQL_USER, password = MYSQL_PASS
 
 
 
-class Tipologie:
+class Categoria:
     nome_itinerario = None
     nome_categoria = None
 
     def __init__(self, ni, nc):
         self.nome_itinerario = ni
         self.nome_categoria = nc
+
+
 
 
 @appWebApi.route("/home")
@@ -51,7 +53,7 @@ def getIdeeMontagnaByDB():
             nome_categoria = row[1]
             #print ("nome_itinerario=%s, nome_categoria=%s" % \
             #      (nome_itinerario, nome_categoria))
-            listaItinerariXCategoria.append(Tipologie(nome_itinerario, nome_categoria))
+            listaItinerariXCategoria.append(Categoria(nome_itinerario, nome_categoria))
     except:
         print ("Error: cannot fetch data")
     return render_template("idee_montagna.html", categoria = nome_categoria, lista = listaItinerariXCategoria)
@@ -77,7 +79,7 @@ def getIdeeMareByDB():
             nome_categoria = row[1]
             #print ("nome_itinerario=%s, nome_categoria=%s" % \
             #       (nome_itinerario, nome_categoria))
-            listaItinerariXCategoria.append(Tipologie(nome_itinerario, nome_categoria))
+            listaItinerariXCategoria.append(Categoria(nome_itinerario, nome_categoria))
     except:
         print ("Error: cannot fetch data")
     return render_template('idee_mare.html',  categoria = nome_categoria, lista = listaItinerariXCategoria)
@@ -101,7 +103,7 @@ def getIdeeCittaByDB():
         for row in results:
             nome_itinerario = row[0]
             nome_categoria = row[1]
-            listaItinerariXCategoria.append(Tipologie(nome_itinerario, nome_categoria))
+            listaItinerariXCategoria.append(Categoria(nome_itinerario, nome_categoria))
             #print ("nome_itinerario=%s, nome_categoria=%s" % \
             #       (nome_itinerario, nome_categoria))
     except:
@@ -109,6 +111,31 @@ def getIdeeCittaByDB():
     return render_template('idee_citta.html',  categoria = nome_categoria, lista = listaItinerariXCategoria)
 
 
+@appWebApi.route("/destinazione") #GET http://localhost:5000/user?id=1
+def getTipologieAct():
+    nomeLuogo = int(request.args.get('luogo'))
+    cursor = db.cursor()
+    sql = "SELECT l.nome AS nome_luogo, t.nome AS nome_tipologia\
+        FROM luoghi l\
+        JOIN attivita_luoghi al ON l.ID = al.id_luogo\
+        JOIN attivita a ON al.id_attivita = a.ID\
+        JOIN tipologie t ON a.id_tipologia = t.ID\
+        WHERE l.nome ="+nomeLuogo+";"
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        listaTipologieXLuogo = []
+        for row in results:
+            nome_itinerario = row[0]
+            nome_categoria = row[1]
+            listaItinerariXCategoria.append(Tipologie(nome_itinerario, nome_categoria))
+            #print ("nome_itinerario=%s, nome_categoria=%s" % \
+            #       (nome_itinerario, nome_categoria))
+    except:
+        print ("Error: cannot fetch data")
+    return render_template('idee_citta.html',  categoria = nome_categoria, lista = listaItinerariXCategoria)
+
+   
 
 
 
@@ -142,10 +169,10 @@ class Luogo:
         self.latitudine = latitudine
         self.longitudine = longitudine
 
-class Tipologia:
-    def __init__(self, id, nome):
-        self.id = id
-        self.nome = nome
+# class Tipologia:
+#     def __init__(self, id, nome):
+#         self.id = id
+#         self.nome = nome
 
 class Categoria:
     def __init__(self, id, nome):
@@ -153,114 +180,6 @@ class Categoria:
         self.nome = nome
 
 
-
-# Trova le tipologie di attività in base al luogo indicato
-@appWebApi.route('/findTipologie', methods=['GET'])
-def fetchTipologieByLuogo():
-    cursor = db.cursor()
-
-    args = request.args
-
-    sql = """select t.*
-                from tipologie as t 
-                join attivita as a on a.id_tipologia = t.id
-                join attivita_luoghi as al on al.id_attivita = a.id
-                join luoghi as l on l.id = al.id_luogo
-                where l.nome = '""" + args.get('nomeLuogo') + """'
-                group by t.id;""" 
-    
-    
-    try:
-        cursor.execute(sql)
-        
-        results = cursor.fetchall()
-        output = []
-
-        for row in results:
-            tipolgia = Tipologia(row[0], row[1])
-            output.append(tipologia)
-
-    except:
-        print("Error: unable to fetch data")
-
-    return json.dumps(output, indent=4)
-
-
-
-
-
-@appWebApi.route('/findItinerarioUtente',methods=['GET'])
-def findItinerarioUtente():
-    cursor = db.cursor()
-
-    args = request.args
-
-    
-    sql= """SELECT u.id, u.username, i.id , i.nome 
-            from utenti as u 
-            join utenti_itinerari as ui on ui.id_utente = u.id 
-            join itinerari as i on i.id = ui.id_itinerario 
-            where i.nome='"""+ args.get('nomeItinerari') +"""';"""
-    print(sql)
-    
-    try:
-        cursor.execute(sql)
-        
-        results = []
-        results = cursor.fetchall()
-
-
-        for row in results:
-            id_utente = row[0]
-            utente = row[1]
-            id_itinerario=row[2]
-            itinerario = row[3]
-            
-            results.append(utente_itinerario( id_utente, utente, id_itinerario, itinerario))
-    except:
-        print("Error: unable to fetch data")
-    return json.dumps(results, default=vars)
-
-
-
-
-@appWebApi.route('/findAttivitaTipologie', methods=["GET"])
-def findAttivitaTipologie():
-    cursor = db.cursor()
-
-    args = request.args
-
-    idTipolgie = args.getlist('idTipologia')
-    listaTipologie = ''
-    
-    for index, tip in enumerate(idTipolgie):
-        if index == len(idTipolgie) - 1:
-            listaTipologie += 't.id = ' + tip
-        else:
-            listaTipologie += 't.id = ' + tip + ' or '
-    
-    sql= """select a.*
-            from attivita as a
-            join tipologie as t on t.id = a.id_tipologia
-            join attivita_luoghi as al on al.id_attivita = a.id
-            join luoghi as l on l.id = al.id_luogo
-            where l.id = """ + args.get('idLuogo') + """ and (""" + listaTipologie + """);"""
-   
-    
-    try:
-        cursor.execute(sql)
-        results = cursor.fetchall()
-        
-        output = []
-
-        for row in results:
-            attivita = Attivita(row[0], row[1], row[2], row[3], row[4])
-            output.append(attivita.__dict__)
-
-    except:
-        print("Error: unable to fetch data")
-
-    return json.dumps(output, indent=4)
 
 @appWebApi.route("/logout")
 def closeAll():

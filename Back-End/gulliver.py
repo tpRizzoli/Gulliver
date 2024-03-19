@@ -10,7 +10,7 @@ app = Flask(__name__)
 # Configurazione connessione DB MySQL
 MYSQL_HOST = 'localhost'
 MYSQL_USER = 'root'
-MYSQL_PASSWORD = 'password'
+MYSQL_PASSWORD = 'ciao'
 MYSQL_DB = 'gulliver'
 
 
@@ -120,31 +120,39 @@ def getUser():
 
 
 
-#@app.route('/findItinerarioUtente',methods=['GET'])
-#def findItinerarioUtente():
-#    cursor = db.cursor()
+@app.route('/findItinerarioUtente',methods=['GET'])
+def findItinerarioUtente():
+    cursor = db.cursor()
 
-#    args = request.args
+    args = request.args
 
     
-#    sql= """select * from utenti where username = '""" + args.get('utente') + """' and pwd = '""" + args.get('password') + """';"""
-#    print(sql)
+    sql= """SELECT u.id, u.username, i.id , i.nome 
+            from utenti as u 
+            join utenti_itinerari as ui on ui.id_utente = u.id 
+            join itinerari as i on i.id = ui.id_itinerario 
+            where i.nome='"""+ args.get('nomeItinerari') +"""';"""
+    print(sql)
     
-#    try:
-#        cursor.execute(sql)
+    try:
+        cursor.execute(sql)
         
-#        results = []
-#        results = cursor.fetchall()
+        results = []
+        results = cursor.fetchall()
 
 
-#        for row in results:
-#            id = row[0]
-#            username = row[1]
-#            password = row [2]
-#            results.append(Utente(id, username, password))
-#    except:
-#        print("Error: unable to fetch data")
-#    return json.dumps(results, default=vars)
+        for row in results:
+            id_utente = row[0]
+            utente = row[1]
+            id_itinerario=row[2]
+            itinerario = row[3]
+            
+            results.append(utente_itinerario( id_utente, utente, id_itinerario, itinerario))
+    except:
+        print("Error: unable to fetch data")
+    return json.dumps(results, default=vars)
+
+
 
 
 @app.route('/findAttivitaTipologie', methods=["GET"])

@@ -31,34 +31,20 @@
                 <p>Facci sapere cosa vorresti fare nel tuo viaggio e noi di  aiuteremo
                     a trovare le migliori attivita!</p>
 
-                <div class="customCheckBoxHolder">
-                    <input type="checkbox" id="cCB1" class="customCheckBoxInput">
-                    <label for="cCB1" class="customCheckBoxWrapper">
-                        <div class="customCheckBox">
-                          <div id="tipologia">Toggle Me</div>
-                        </div>
-                    </label> 
-                 </div> 
+                {% for elem in lista %}
+                    <div class="customCheckBoxHolder">
+                        <input type="checkbox" id="cCB1" class="customCheckBoxInput">
+                        <label for="cCB1" class="customCheckBoxWrapper">
+                            <div class="customCheckBox">
+                            <div id="tipologia">{{elem.nome_tipologia}}</div>
+                            </div>
+                        </label> 
+                    </div> 
+                {% endfor %}  
+                  
             </div>
         </div>
     </div>
     
 </body>
-<script>
-    // Fetch dei dati dal server Flask
-    fetch('/findTipologie')
-        .then(response => response.json())
-        .then(data => {
-            const container = document.getElementById('tipologia');
-            // Itera sui dati ottenuti e crea elementi HTML per ciascun dato
-            data.forEach(dato => {
-                const div = document.createElement('div');
-                div.textContent = `ID: ${dato.id}, Nome: ${dato.nome}`;
-                container.appendChild(div);
-            });
-        })
-        .catch(error => {
-            console.error('Si è verificato un errore:', error);
-        });
-</script>
 </html>

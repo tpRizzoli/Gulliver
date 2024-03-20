@@ -20,15 +20,20 @@ db = pymysql.connect(host = MYSQL_HOST, user = MYSQL_USER, password = MYSQL_PASS
 class Categoria:
     nome_itinerario = None
     nome_categoria = None
-
     def __init__(self, ni, nc):
         self.nome_itinerario = ni
         self.nome_categoria = nc
 
+class Tipologia:
+    id_tipologia = None
+    nome_tipologia =None
+    def __init__(self, id, nt):
+        self.id_tipologia = id
+        self.nome_tipologia = nt
 
 
 
-@appWebApi.route("/home")
+@appWebApi.route("/")
 def main():
     return render_template('home.html')
 
@@ -51,8 +56,6 @@ def getIdeeMontagnaByDB():
         for row in results:
             nome_itinerario = row[0]
             nome_categoria = row[1]
-            #print ("nome_itinerario=%s, nome_categoria=%s" % \
-            #      (nome_itinerario, nome_categoria))
             listaItinerariXCategoria.append(Categoria(nome_itinerario, nome_categoria))
     except:
         print ("Error: cannot fetch data")
@@ -77,8 +80,6 @@ def getIdeeMareByDB():
         for row in results:
             nome_itinerario = row[0]
             nome_categoria = row[1]
-            #print ("nome_itinerario=%s, nome_categoria=%s" % \
-            #       (nome_itinerario, nome_categoria))
             listaItinerariXCategoria.append(Categoria(nome_itinerario, nome_categoria))
     except:
         print ("Error: cannot fetch data")
@@ -111,11 +112,13 @@ def getIdeeCittaByDB():
     return render_template('idee_citta.html',  categoria = nome_categoria, lista = listaItinerariXCategoria)
 
 
-@appWebApi.route("/destinazione") #GET http://localhost:5000/user?id=1
-def getTipologieAct():
-    nomeLuogo = int(request.args.get('luogo'))
+#GET http://localhost:5000/?destinazione=
+@appWebApi.route("/destinazione") 
+def getTipologieAttivita():
+    nomeLuogo = str(request.args.get('destinazione'))
+
     cursor = db.cursor()
-    sql = "SELECT l.nome AS nome_luogo, t.nome AS nome_tipologia\
+    sql = "SELECT t.ID AS id_tipologia, t.nome AS nome_tipologia\
         FROM luoghi l\
         JOIN attivita_luoghi al ON l.ID = al.id_luogo\
         JOIN attivita a ON al.id_attivita = a.ID\
@@ -126,58 +129,57 @@ def getTipologieAct():
         results = cursor.fetchall()
         listaTipologieXLuogo = []
         for row in results:
-            nome_itinerario = row[0]
-            nome_categoria = row[1]
-            listaItinerariXCategoria.append(Tipologie(nome_itinerario, nome_categoria))
-            #print ("nome_itinerario=%s, nome_categoria=%s" % \
-            #       (nome_itinerario, nome_categoria))
+            id_tipologia = row[0]
+            nome_tipologia = row[1]
+            listaTipologieXLuogo.append(Tipologia(id_tipologia, nome_tipologia))
     except:
         print ("Error: cannot fetch data")
-    return render_template('idee_citta.html',  categoria = nome_categoria, lista = listaItinerariXCategoria)
+    return render_template('sceltaTipologia.html', tipologia = nome_tipologia, lista = listaTipologieXLuogo)
 
    
 
 
 
+
+
+
+
+
+
+
+#--------------------------------------------------------------------------------------------------------------------------------
 # Classi database
-class Attivita:
-    def __init__(self, id, nome, tipologia, difficolta, descrizione):
-        self.id = id
-        self.nome = nome
-        self.tipologia = tipologia
-        self.difficolta = difficolta
-        self.descrizione = descrizione
-
-class Utente:
-    def __init__(self, id, username, email, password):
-        self.id = id
-        self.username = username
-        self.email = email
-        self.password = password
-
-class Itinerario:
-    def __init__(self, id, nome, default):
-        self.id = id
-        self.nome = nome
-        self.default = default
-
-class Luogo:
-    def __init__(self, id, nome, stato, latitudine, longitudine):
-        self.id = id
-        self.nome = nome
-        self.stato = stato
-        self.latitudine = latitudine
-        self.longitudine = longitudine
-
-# class Tipologia:
-#     def __init__(self, id, nome):
+# class Attivita:
+#     def __init__(self, id, nome, tipologia, difficolta, descrizione):
 #         self.id = id
 #         self.nome = nome
+#         self.tipologia = tipologia
+#         self.difficolta = difficolta
+#         self.descrizione = descrizione
 
-class Categoria:
-    def __init__(self, id, nome):
-        self.id = id
-        self.nome = nome
+# class Utente:
+#     def __init__(self, id, username, email, password):
+#         self.id = id
+#         self.username = username
+#         self.email = email
+#         self.password = password
+
+# class Itinerario:
+#     def __init__(self, id, nome, default):
+#         self.id = id
+#         self.nome = nome
+#         self.default = default
+
+# class Luogo:
+#     def __init__(self, id, nome, stato, latitudine, longitudine):
+#         self.id = id
+#         self.nome = nome
+#         self.stato = stato
+#         self.latitudine = latitudine
+#         self.longitudine = longitudine
+
+
+
 
 
 

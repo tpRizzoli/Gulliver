@@ -1,6 +1,6 @@
 # Gulliver Back-End
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import pymysql
 import json
 import jsonify
@@ -137,20 +137,23 @@ def findItinerarioUtente():
     try:
         cursor.execute(sql)
         
-        results = []
+        
         results = cursor.fetchall()
-
+        output = []
 
         for row in results:
-            id_utente = row[0]
-            utente = row[1]
-            id_itinerario=row[2]
-            itinerario = row[3]
+            dictionary = {
+                'id_utente' : row[0],
+                'utente' : row[1],
+                'id_itinerario':row[2],
+                'itinerario' : row[3]
+            }
             
-            results.append(utente_itinerario( id_utente, utente, id_itinerario, itinerario))
+            
+            output.append(dictionary)
     except:
         print("Error: unable to fetch data")
-    return json.dumps(results, default=vars)
+    return json.dumps(output, indent=4)
 
 
 
@@ -193,6 +196,28 @@ def findAttivitaTipologie():
 
     return json.dumps(output, indent=4)
 
+
+@app.route('/createUser', methods=['GET','POST'])
+def inserisci_dati():
+    try:
+        username = request.args.get("username")
+        email = request.args.get("email")
+        pwd = request.args.get("password")
+        
+
+        with db.cursor() as cursor:
+            query = "INSERT INTO utenti (username, email, pwd) VALUES (%s, %s, %s)"
+            cursor.execute(query, (username, email, pwd))
+            db.commit()
+
+        response = {'messaggio': 'Dati inseriti con successo nel database'}
+        return json.dumps(response)
+    
+    except Exception as e:
+        db.rollback()
+        response = {'errore': str(e)}
+        return jsonify(response)
+        
 @app.route("/logout")
 def closeAll():
     db.close()

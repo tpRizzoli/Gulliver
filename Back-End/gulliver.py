@@ -155,9 +155,6 @@ def findItinerarioUtente():
         print("Error: unable to fetch data")
     return json.dumps(output, indent=4)
 
-
-
-
 @app.route('/findAttivitaTipologie', methods=["GET"])
 def findAttivitaTipologie():
     cursor = db.cursor()
@@ -199,24 +196,45 @@ def findAttivitaTipologie():
 
 @app.route('/createUser', methods=['GET','POST'])
 def inserisci_dati():
-    try:
-        username = request.args.get("username")
-        email = request.args.get("email")
-        pwd = request.args.get("password")
+    if request.method == 'POST': 
+        try:
+            username = request.args.get("username")
+            email = request.args.get("email")
+            pwd = request.args.get("password")
+            
+
+            with db.cursor() as cursor:
+                query = "INSERT INTO utenti (username, email, pwd) VALUES (%s, %s, %s)"
+                cursor.execute(query, (username, email, pwd))
+                db.commit()
+
+            response = {'messaggio': 'Dati inseriti con successo nel database'}
+            return json.dumps(response)
         
-
-        with db.cursor() as cursor:
-            query = "INSERT INTO utenti (username, email, pwd) VALUES (%s, %s, %s)"
-            cursor.execute(query, (username, email, pwd))
-            db.commit()
-
-        response = {'messaggio': 'Dati inseriti con successo nel database'}
-        return json.dumps(response)
+        except Exception as e:
+            db.rollback()
+            response = {'errore': str(e)}
+            return jsonify(response)
     
+@app.route("/modificaProfilo/<int:id>", methods = ['PUT'])
+def modificaProfilo(id):
+    try:
+        new_username = request.args.get("username")
+        new_email = request.args.get("email")
+        new_pwd = request.args.get("password")
+        with db.cursor() as cursor:
+            sql= "update utenti set username = %s, email = %s, pwd = %s where id = %s"
+            cursor.execute(sql,(new_username, new_email, new_pwd, id))
+
+            db.commit()
+    #capire perche' non mi ritorna il la classe di default del json utente ma mi ritorna il json {"Message": "Utente modificato con successo"}
+            return json.dumps(Utente.__dict__)
     except Exception as e:
         db.rollback()
-        response = {'errore': str(e)}
-        return jsonify(response)
+        return json.dumps({"Message":"Impossibile modificare l'utente"})
+
+
+
         
 @app.route("/logout")
 def closeAll():

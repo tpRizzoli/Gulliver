@@ -13,7 +13,6 @@ MYSQL_PASSWORD = 'password'
 MYSQL_DB = 'gulliver'
 
 
-
 # Connessione al DB
 db = pymysql.connect(host = MYSQL_HOST, user = MYSQL_USER, password = MYSQL_PASSWORD, db = MYSQL_DB)
 
@@ -132,35 +131,130 @@ def findAttivitaTipologie():
     return json.dumps(output, indent=4)
 
 
+
+
+
+
+
+
+
+# Crea un nuovo Itinerario nel Database
 @app.route('/createItinerario', methods=['POST'])
 def createItinerario():
     cursor = db.cursor()
 
     args = request.args
 
-    sql = """select t.*
-                from tipologie as t 
-                join attivita as a on a.id_tipologia = t.id
-                join attivita_luoghi as al on al.id_attivita = a.id
-                join luoghi as l on l.id = al.id_luogo
-                where l.nome = '""" + args.get('nomeLuogo') + """'
-                group by t.id;""" 
-    
-    
-    try:
-        cursor.execute(sql)
-        
-        results = cursor.fetchall()
-        output = []
+    output = []
 
-        for row in results:
-            tipolgia = Tipologia(row[0], row[1])
-            output.append(tipologia)
+    controllaItinerario = """select * from itinerari where nome = '%s';"""
+    controllaTabellaRelazione = """select * from utenti_itinerari where id_itinerario = %d and id_utente = %d;"""
+    creazioneItinerario = """INSERT INTO itinerari (nome) VALUES ('%s');"""
+    creazioneTabellaRelazioneUtenteItinerario = """INSERT INTO utenti_itinerari (id_utente, id_itinerario) VALUES (%d, %d);"""
+    creazioneTabellaRelazioneAttivitaItinerario = """INSERT INTO attivita_itinerari (id_attivita, id_itinerario) VALUES (%d, %d)"""
 
+    idUtente = int(args.get('idUtente'))
+    nomeItinerario = args.get('nomeItinerario')
+    listaAttivita = args.getlist('idAttivita')
+    
+    try: 
+        cursor.execute(controllaItinerario % (nomeItinerario)) #controllo se esiste un itinerario con questo nome
+        db.commit()
+        itinerari = cursor.fetchall()
+
+        if itinerari != ():
+            relazioneTrovata = False
+            for itinerario in itinerari:
+                print(itinerario, type(itinerario))
+                try:
+                    cursor.execute(controllaTabellaRelazione % (itinerario[0], idUtente)) #controllo se quell'itinerario è già assegnato a qualcuno
+                    relazione = cursor.fetchone()
+                    if relazione != None:
+                        relazioneTrovata = True
+                        break
+                except:
+                    print('!!! Query fallita: controllaTabellaRelazioneUtentiItinerario!!!')
+                
+            if relazioneTrovata == True:
+                output.append("Relazione gia presente")
+                return json.dumps(output, indent=4)
+            else:
+                #relazione
+
+                try: #controllare
+                    cursor.execute(creazioneTabellaRelazioneUtenteItinerario % (idUtente, relazione[3])) # crea record tabella Utente-Itinerario
+                    db.commit()
+                except:
+                    print('!!! Query fallita: creazioneTabellaUtenteItinerario!!!')
+
+                queryAttivita = ''
+                    
+                for index, att in enumerate(listaAttivita):
+                    if index == len(listaAttivita) - 1:
+                        queryAttivita += att
+                    else:
+                        queryAttivita += att + ', '
+
+                try:
+                    cursor.execute(creazioneTabellaRelazioneAttivitaItinerario % (queryAttivita, relazione[3]))
+                except:
+                    print('!!! Query fallita: creazioneTabellaAttivitaItinerario!!!')
+
+                for row in results: #sostituire ROW con qualcosa
+                    output.append(Itinerario(row[0], row[1], row[2]).__dict__)
+                    return json.dumps(output, indent=4)
+        else: 
+            try:
+                cursor.execute(creazioneItinerario % (nomeItinerario)) # crea nuovo itinerario e tabella di relazione
+                db.commit()
+            except:
+                print('!!! Query fallita: createItinerario!!!')
+
+            try:    
+                cursor.execute("SELECT LAST_INSERT_ID()") #reupera id itinerario creato
+                db.commit()
+                idItinerarioCreato = cursor.fetchone()[0]
+            except:
+                print('!!! Query fallita: idItinerarioCreato!!!')
+
+            try:
+                cursor.execute(creazioneTabellaRelazioneUtenteItinerario % (idUtente, idItinerarioCreato)) # crea record tabella Utente-Itinerario
+            except:
+                print('!!! Query fallita: creazioneTabellaUtenteItinerario!!!')
+
+            queryAttivita = ''
+                    
+            for index, att in enumerate(listaAttivita):
+                if index == len(listaAttivita) - 1:
+                    queryAttivita += att
+                else:
+                    queryAttivita += att + ', '
+
+            try:
+                cursor.execute(creazioneTabellaRelazioneAttivitaItinerario % (queryAttivita, idItinerarioCreato))
+            except:
+                print('!!! Query fallita: creazioneTabellaAttivitaItinerario!!!')
+
+
+            for row in results:
+                output.append(Itinerario(row[0], row[1], row[2]).__dict__)
+                return json.dumps(output, indent=4)
     except:
-        print("Error: unable to fetch data")
+        print("!!! Query fallita: controllaItinerari !!!")
 
-    return json.dumps(output, indent=4)
+    return json.dumps("Qualcosa non va!", indent=4)
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Restituisce la lista di Itinerari salvati dall'utente
 @app.route('/findItinerarioUtente',methods=['GET'])
@@ -218,7 +312,7 @@ def getUser():
 
         for row in results:
             utente = Utente(row[0], row[1], row[2], row[3])
-            output.append(utente)
+            output.append(utente.__dict__)
     except:
         print("Error: unable to fetch data")
     return json.dumps(output, indent=4)

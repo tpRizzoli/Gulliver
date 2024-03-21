@@ -192,20 +192,19 @@ def findAttivitaTipologie():
     return json.dumps(output, indent=4)
 
 
-@app.route('/createUser', methods=['GET','POST'])
+@app.route('/createUser', methods=['POST'])
 def inserisci_dati():
-    if request.method == 'POST': 
+        
         try:
             username = request.args.get("username")
             email = request.args.get("email")
             pwd = request.args.get("password")
-            
 
             with db.cursor() as cursor:
                 query = "INSERT INTO utenti (username, email, pwd) VALUES (%s, %s, %s)"
                 cursor.execute(query, (username, email, pwd))
                 db.commit()
-
+        #riguardare la risposta in json e la query per la visualizzazione del ID 
             response = {'messaggio': 'Dati inseriti con successo nel database'}
             return json.dumps(response)
         

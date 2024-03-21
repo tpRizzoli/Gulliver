@@ -1,6 +1,6 @@
 # Gulliver Back-End
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import pymysql
 import json
 
@@ -91,7 +91,68 @@ def fetchTipologieByLuogo():
     return json.dumps(output, indent=4)
 
 
-# Restituisce una lista di Attività in base al Luogo e alle Tipologie indicate 
+
+@app.route('/getUser', methods=['GET'])
+def getUser():
+    cursor = db.cursor()
+
+    args = request.args
+
+    
+    sql= """select * from utenti where username = '""" + args.get('utente') + """' and pwd = '""" + args.get('password') + """';"""
+    
+    
+    try:
+        cursor.execute(sql)
+        
+        output = []
+        results = cursor.fetchall()
+
+
+        for row in results:
+            utente = Utente(row[0], row[1], row[2], row[3])
+            output.append(utente)
+    except:
+        print("Error: unable to fetch data")
+    return json.dumps(output, indent=4)
+
+
+
+@app.route('/findItinerarioUtente',methods=['GET'])
+def findItinerarioUtente():
+    cursor = db.cursor()
+
+    args = request.args
+
+    
+    sql= """SELECT u.id, u.username, i.id , i.nome 
+            from utenti as u 
+            join utenti_itinerari as ui on ui.id_utente = u.id 
+            join itinerari as i on i.id = ui.id_itinerario 
+            where i.nome='"""+ args.get('nomeItinerari') +"""';"""
+    print(sql)
+    
+    try:
+        cursor.execute(sql)
+        
+        
+        results = cursor.fetchall()
+        output = []
+
+        for row in results:
+            dictionary = {
+                'id_utente' : row[0],
+                'utente' : row[1],
+                'id_itinerario':row[2],
+                'itinerario' : row[3]
+            }
+            
+            
+            output.append(dictionary)
+    except:
+        print("Error: unable to fetch data")
+    return json.dumps(output, indent=4)
+
 @app.route('/findAttivitaTipologie', methods=["GET"])
 def findAttivitaTipologie():
     cursor = db.cursor()
@@ -131,197 +192,55 @@ def findAttivitaTipologie():
     return json.dumps(output, indent=4)
 
 
+@app.route('/createUser', methods=['GET','POST'])
+def inserisci_dati():
+    if request.method == 'POST': 
+        try:
+            username = request.args.get("username")
+            email = request.args.get("email")
+            pwd = request.args.get("password")
+            
 
-
-
-
-
-
-
-# Crea un nuovo Itinerario nel Database
-@app.route('/createItinerario', methods=['POST']) #mi serve un idItinerario
-def createItinerario():
-    cursor = db.cursor()
-
-    args = request.args
-
-    output = []
-
-    controllaItinerario = """SELECT * FROM itinerari WHERE nome = '%s';"""
-    controllaRelazioneUtenteItinerario = """SELECT * FROM utenti_itinerari WHERE id_itinerario = %d AND id_utente = %d;"""
-
-    creazioneItinerario = """INSERT INTO itinerari (nome) VALUES ('%s');"""
-    creazioneRelazioneUtenteItinerario = """INSERT INTO utenti_itinerari (id_utente, id_itinerario) VALUES (%d, %d);"""
-    creazioneRelazioniAttivitaItinerario = """INSERT INTO attivita_itinerari (id_attivita, id_itinerario) VALUES (%d, %d)"""
-
-    idUtente = int(args.get('idUtente'))
-    nomeItinerario = args.get('nomeItinerario')
-    listaAttivita = args.getlist('idAttivita')
-
-    idItinerario = None
-    
-    try: 
-        cursor.execute(controllaItinerario % (nomeItinerario)) #controllo se esiste un itinerario con questo nome
-        db.commit()
-        itinerari = cursor.fetchall()
-
-        if itinerari != (): # se esiste almeno un itinerario con quel nome, controllo se uno ha una relazione con l'utente
-            relazioneTrovata = False
-            for itinerario in itinerari:
-               
-                try:
-                    cursor.execute(controllaRelazioneUtenteItinerario % (itinerario[0], idUtente)) #controllo se quell'itinerario è già assegnato a qualcuno
-                    relazione = cursor.fetchone()
-
-                    if relazione != None: 
-                        relazioneTrovata = True
-                        break
-                    
-                except:
-                    print('!!! Query fallita: controllo Relazione Utenti-Itinerario !!!')
-                
-            if relazioneTrovata == True: #se c'è relazione, lo comunico e termino
-                output.append("Itinerario già presente per questo utente")
-                return json.dumps(output, indent=4)
-
-            else: #se non c'è relazione, associo l'utente all'itinerario e aggiungo le attivita
-                print(creazioneRelazioneUtenteItinerario % (idUtente, idItinerario))
-                try:
-                    cursor.execute(creazioneRelazioneUtenteItinerario % (idUtente, idItinerario)) # crea record tabella Utente-Itinerario
-                    db.commit()
-                except:
-                    print('!!! Query fallita: creazione relazione Utente-Itinerario !!!')
-
-                queryAttivita = ''
-                    
-                for index, att in enumerate(listaAttivita):
-                    if index == len(listaAttivita) - 1:
-                        queryAttivita += att
-                    else:
-                        queryAttivita += att + ', '
-
-                try:
-                    cursor.execute(creazioneRelazioniAttivitaItinerario % (queryAttivita, relazione[3]))
-                except:
-                    print('!!! Query fallita: creazione relazione Attivita-Itinerario !!!')
-
-                for row in results: #sostituire ROW con qualcosa
-                    output.append(Itinerario(row[0], row[1], row[2]).__dict__)
-                    return json.dumps(output, indent=4)
-        else: 
-            try:
-                cursor.execute(creazioneItinerario % (nomeItinerario)) # crea nuovo itinerario e tabella di relazione
+            with db.cursor() as cursor:
+                query = "INSERT INTO utenti (username, email, pwd) VALUES (%s, %s, %s)"
+                cursor.execute(query, (username, email, pwd))
                 db.commit()
-            except:
-                print('!!! Query fallita: createItinerario!!!')
 
-            try:    
-                cursor.execute("SELECT LAST_INSERT_ID()") #reupera id itinerario creato
-                db.commit()
-                idItinerarioCreato = cursor.fetchone()[0]
-            except:
-                print('!!! Query fallita: idItinerarioCreato!!!')
-
-            try:
-                cursor.execute(creazioneTabellaRelazioneUtenteItinerario % (idUtente, idItinerarioCreato)) # crea record tabella Utente-Itinerario
-            except:
-                print('!!! Query fallita: creazioneTabellaUtenteItinerario!!!')
-
-            queryAttivita = ''
-                    
-            for index, att in enumerate(listaAttivita):
-                if index == len(listaAttivita) - 1:
-                    queryAttivita += att
-                else:
-                    queryAttivita += att + ', '
-
-            try:
-                cursor.execute(creazioneTabellaRelazioneAttivitaItinerario % (queryAttivita, idItinerarioCreato))
-            except:
-                print('!!! Query fallita: creazioneTabellaAttivitaItinerario!!!')
-
-
-            for row in results:
-                output.append(Itinerario(row[0], row[1], row[2]).__dict__)
-                return json.dumps(output, indent=4)
-    except:
-        print("!!! Query fallita: controllaItinerari !!!")
-
-    return json.dumps("Qualcosa non va!", indent=4)
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Restituisce la lista di Itinerari salvati dall'utente
-@app.route('/findItinerarioUtente',methods=['GET'])
-def findItinerarioUtente():
-    cursor = db.cursor()
-
-    args = request.args
-
-    
-    sql= """SELECT u.id, u.username, i.id , i.nome 
-            from utenti as u 
-            join utenti_itinerari as ui on ui.id_utente = u.id 
-            join itinerari as i on i.id = ui.id_itinerario 
-            where i.nome='"""+ args.get('nomeItinerari') +"""';"""
-    print(sql)
-    
-    try:
-        cursor.execute(sql)
+            response = {'messaggio': 'Dati inseriti con successo nel database'}
+            return json.dumps(response)
         
-        results = cursor.fetchall()
+        except Exception as e:
+            db.rollback()
+            response = {'errore': str(e)}
+            return jsonify(response)
+    
+@app.route("/modificaProfilo/<int:id>", methods = ['PUT'])
+def modificaProfilo(id):
+    try:
+        new_username = request.args.get("username")
+        new_email = request.args.get("email")
+        new_pwd = request.args.get("password")
 
-        output = []
+        with db.cursor() as cursor:
+            sql= "update utenti set username = %s, email = %s, pwd = %s where id = %s"
+            cursor.execute(sql,(new_username, new_email, new_pwd, id))
+            db.commit()
 
-        for row in results:
-            dictionary = {
-                'id_utente': row[0],
-                'utente': row[1],
-                'id_itinerario': row[2],
-                'itinerario': row[3]
+            u = {
+                'id' : id,
+                'username' : new_username,
+                'email' : new_email,
+                'password': new_pwd 
             }
-            
-            
-            output.append(dictionary)
-    except:
-        print("Error: unable to fetch data")
-    return json.dumps(output, indent=4)
 
-# Restituisce i dati di un utente (Login)
-@app.route('/getUser', methods=['GET'])
-def getUser():
-    cursor = db.cursor()
+            return json.dumps(u)
+    except Exception as e:
+        db.rollback()
+        return json.dumps({"Message":"Impossibile modificare l'utente"})
 
-    args = request.args
 
-    
-    sql= """select * from utenti where username = '""" + args.get('utente') + """' and pwd = '""" + args.get('password') + """';"""
-    
-    
-    try:
-        cursor.execute(sql)
+
         
-        output = []
-        results = cursor.fetchall()
-
-
-        for row in results:
-            utente = Utente(row[0], row[1], row[2], row[3])
-            output.append(utente.__dict__)
-    except:
-        print("Error: unable to fetch data")
-    return json.dumps(output, indent=4)
-
 @app.route("/logout")
 def closeAll():
     db.close()

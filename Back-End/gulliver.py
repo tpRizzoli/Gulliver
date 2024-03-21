@@ -236,6 +236,14 @@ def modificaProfilo(id):
     except Exception as e:
         db.rollback()
         return json.dumps({"Message":"Impossibile modificare l'utente"})
+#da controllare appena il metodo creazione itinerario è completato   
+#@app.route('/delete/<int:id>', methods = ['DELETE'])
+#def delete(id):
+#   cur = db.connection.cursor()
+#   cur.execute("DELETE FROM itineri WHERE id=%s", (id))
+#
+#   db.connection.commit()
+#   return json.dumps({"Messaggio" : "Itinerario eliminato con successo"})
 
 
 

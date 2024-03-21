@@ -222,13 +222,20 @@ def modificaProfilo(id):
         new_username = request.args.get("username")
         new_email = request.args.get("email")
         new_pwd = request.args.get("password")
+
         with db.cursor() as cursor:
             sql= "update utenti set username = %s, email = %s, pwd = %s where id = %s"
             cursor.execute(sql,(new_username, new_email, new_pwd, id))
-
             db.commit()
-    #capire perche' non mi ritorna il la classe di default del json utente ma mi ritorna il json {"Message": "Utente modificato con successo"}
-            return json.dumps(Utente.__dict__)
+
+            u = {
+                'id' : id,
+                'username' : new_username,
+                'email' : new_email,
+                'password': new_pwd 
+            }
+
+            return json.dumps(u)
     except Exception as e:
         db.rollback()
         return json.dumps({"Message":"Impossibile modificare l'utente"})

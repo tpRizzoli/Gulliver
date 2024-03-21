@@ -139,7 +139,7 @@ def findAttivitaTipologie():
 
 
 # Crea un nuovo Itinerario nel Database
-@app.route('/createItinerario', methods=['POST'])
+@app.route('/createItinerario', methods=['POST']) #mi serve un idItinerario
 def createItinerario():
     cursor = db.cursor()
 
@@ -147,45 +147,50 @@ def createItinerario():
 
     output = []
 
-    controllaItinerario = """select * from itinerari where nome = '%s';"""
-    controllaTabellaRelazione = """select * from utenti_itinerari where id_itinerario = %d and id_utente = %d;"""
+    controllaItinerario = """SELECT * FROM itinerari WHERE nome = '%s';"""
+    controllaRelazioneUtenteItinerario = """SELECT * FROM utenti_itinerari WHERE id_itinerario = %d AND id_utente = %d;"""
+
     creazioneItinerario = """INSERT INTO itinerari (nome) VALUES ('%s');"""
-    creazioneTabellaRelazioneUtenteItinerario = """INSERT INTO utenti_itinerari (id_utente, id_itinerario) VALUES (%d, %d);"""
-    creazioneTabellaRelazioneAttivitaItinerario = """INSERT INTO attivita_itinerari (id_attivita, id_itinerario) VALUES (%d, %d)"""
+    creazioneRelazioneUtenteItinerario = """INSERT INTO utenti_itinerari (id_utente, id_itinerario) VALUES (%d, %d);"""
+    creazioneRelazioniAttivitaItinerario = """INSERT INTO attivita_itinerari (id_attivita, id_itinerario) VALUES (%d, %d)"""
 
     idUtente = int(args.get('idUtente'))
     nomeItinerario = args.get('nomeItinerario')
     listaAttivita = args.getlist('idAttivita')
+
+    idItinerario = None
     
     try: 
         cursor.execute(controllaItinerario % (nomeItinerario)) #controllo se esiste un itinerario con questo nome
         db.commit()
         itinerari = cursor.fetchall()
 
-        if itinerari != ():
+        if itinerari != (): # se esiste almeno un itinerario con quel nome, controllo se uno ha una relazione con l'utente
             relazioneTrovata = False
             for itinerario in itinerari:
-                print(itinerario, type(itinerario))
+               
                 try:
-                    cursor.execute(controllaTabellaRelazione % (itinerario[0], idUtente)) #controllo se quell'itinerario è già assegnato a qualcuno
+                    cursor.execute(controllaRelazioneUtenteItinerario % (itinerario[0], idUtente)) #controllo se quell'itinerario è già assegnato a qualcuno
                     relazione = cursor.fetchone()
-                    if relazione != None:
+
+                    if relazione != None: 
                         relazioneTrovata = True
                         break
+                    
                 except:
-                    print('!!! Query fallita: controllaTabellaRelazioneUtentiItinerario!!!')
+                    print('!!! Query fallita: controllo Relazione Utenti-Itinerario !!!')
                 
-            if relazioneTrovata == True:
-                output.append("Relazione gia presente")
+            if relazioneTrovata == True: #se c'è relazione, lo comunico e termino
+                output.append("Itinerario già presente per questo utente")
                 return json.dumps(output, indent=4)
-            else:
-                #relazione
 
-                try: #controllare
-                    cursor.execute(creazioneTabellaRelazioneUtenteItinerario % (idUtente, relazione[3])) # crea record tabella Utente-Itinerario
+            else: #se non c'è relazione, associo l'utente all'itinerario e aggiungo le attivita
+                print(creazioneRelazioneUtenteItinerario % (idUtente, idItinerario))
+                try:
+                    cursor.execute(creazioneRelazioneUtenteItinerario % (idUtente, idItinerario)) # crea record tabella Utente-Itinerario
                     db.commit()
                 except:
-                    print('!!! Query fallita: creazioneTabellaUtenteItinerario!!!')
+                    print('!!! Query fallita: creazione relazione Utente-Itinerario !!!')
 
                 queryAttivita = ''
                     
@@ -196,9 +201,9 @@ def createItinerario():
                         queryAttivita += att + ', '
 
                 try:
-                    cursor.execute(creazioneTabellaRelazioneAttivitaItinerario % (queryAttivita, relazione[3]))
+                    cursor.execute(creazioneRelazioniAttivitaItinerario % (queryAttivita, relazione[3]))
                 except:
-                    print('!!! Query fallita: creazioneTabellaAttivitaItinerario!!!')
+                    print('!!! Query fallita: creazione relazione Attivita-Itinerario !!!')
 
                 for row in results: #sostituire ROW con qualcosa
                     output.append(Itinerario(row[0], row[1], row[2]).__dict__)

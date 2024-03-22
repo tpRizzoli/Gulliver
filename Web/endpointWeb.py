@@ -166,17 +166,17 @@ def getAttivita():
         WHERE t.nome = 'safari'\
         AND l.nome ='"+nomeLuogo+"';" 
     
-    listaAttivitaXTipologia = []
-    try:
-        cursor.execute(sql)
-        results = cursor.fetchall()
-        for row in results:
-            nome_attivita = row[0]
-            difficolta = row[1]
-            descrizione_attivita = row[2]
-            listaAttivitaXTipologia.append(Attivita(nome_attivita, difficolta, descrizione_attivita))
-    except:
-        print ("Error: cannot fetch data")        
+    # listaAttivitaXTipologia = []
+    # try:
+    #     cursor.execute(sql)
+    #     results = cursor.fetchall()
+    #     for row in results:
+    #         nome_attivita = row[0]
+    #         difficolta = row[1]
+    #         descrizione_attivita = row[2]
+    #         listaAttivitaXTipologia.append(Attivita(nome_attivita, difficolta, descrizione_attivita))
+    # except:
+    #     print ("Error: cannot fetch data")        
 
     return render_template('sceltaAttivita.html', destinazione = nomeLuogo, listaTipologie = listaTipologieSelezionate)
 

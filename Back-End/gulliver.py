@@ -251,7 +251,7 @@ def createItinerario():
     
     return json.dumps(output, indent=4)
 
-
+#lista degli itinerari che possiede un utente
 @app.route('/findItinerariUtente',methods=['GET'])
 def findItinerariUtente():
     cursor = db.cursor()
@@ -344,7 +344,7 @@ def createUser():
         print('Error: unable to fetch data')
         return 'Errore'
     
-
+#login utente
 @app.route('/getUser', methods=['GET'])
 def getUser():
     cursor = db.cursor()
@@ -366,7 +366,7 @@ def getUser():
 
     return json.dumps(output, indent=4)
 
-
+#modifica del profilo utente
 @app.route("/modificaProfilo/<int:id>", methods = ['PUT'])
 def modificaProfilo(id):
     try:
@@ -428,7 +428,7 @@ def findItinerariSuggeriti():
                 JOIN attivita a ON al.id_attivita = a.ID
                 JOIN attivita_itinerari ai ON a.ID = ai.id_attivita
                 JOIN itinerari i ON ai.id_itinerario = i.ID
-                WHERE c.nome ='""" +categoria_nome+ """' ;"""
+                WHERE c.nome ='""" +categoria_nome+ """' AND i.sysDefault = '1' ;"""
     try:
         cursor.execute(sql)
         result=cursor.fetchall()
@@ -439,8 +439,8 @@ def findItinerariSuggeriti():
                 u= {
                     "itinerario_id": row[2],
                     "itinerario_nome": row[3],
-                    "luogo_id": row[0],
-                    "luogo_nome": row[1]
+                    "luogo_id": row[5],
+                    "luogo_nome": row[6]
                     }
                 output.append(u)
             

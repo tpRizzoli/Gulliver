@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     ProfileShowFragment profileShowFragment = new ProfileShowFragment();
     ProfileShowFragment profileEditFragment = new ProfileShowFragment();
 
+    ItinerariUtenteFragment itinerariUtenteFragment = new ItinerariUtenteFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             frag = homePageFragment;
 
         if (id == R.id.itinerari)
-            frag = itinerariFragment;
+            frag = itinerariUtenteFragment;
 
         if (id == R.id.profilo)
             frag = profileShowFragment;

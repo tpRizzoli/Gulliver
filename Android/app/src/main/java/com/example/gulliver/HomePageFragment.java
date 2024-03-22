@@ -34,16 +34,27 @@ public class HomePageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_homepage, container, false);
 
         Button btnCercaItinerario = view.findViewById(R.id.btnCercaItinerario);
+        /*
+        RecyclerView recyclerView = view.findViewById(R.id.recycler);
+        ArrayList<String> arrayList = new ArrayList<>();
+
+        // Add multiple images to arraylist.
+        arrayList.add("");
+        arrayList.add("");
+        arrayList.add("");
+        arrayList.add("");
+         */
         btnCercaItinerario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ItinerariFragment ItinerariFragment = new ItinerariFragment();
-                ((MainActivity)ctx).changeFragment(ItinerariFragment);
+                ((MainActivity) ctx).changeFragment(ItinerariFragment);
             }
         });
 
         return view;
     }
+
 }
 
 

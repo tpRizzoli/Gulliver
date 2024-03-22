@@ -351,10 +351,10 @@ def getUser():
 
     args = request.args
     
-    sql= """select * from utenti where username = '%s' and pwd = '%s';"""
+    sql= "select * from utenti where username = '%s' and pwd = '%s';" % (args.get('utente'), args.get('password'))
     
     try:
-        cursor.execute(sql % (args.get('username'), args.get('password')))
+        cursor.execute(sql)
         results = cursor.fetchall()
         
         output = []

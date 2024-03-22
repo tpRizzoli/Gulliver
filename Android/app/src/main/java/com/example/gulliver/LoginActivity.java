@@ -23,7 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     protected final static String USERNAME_DATA_KEY = "usernameData";
     protected final static String PASSWORD_DATA_KEY = "passwordData";
 
-    public static final String BASE_URL = "http://192.168.0.135:5000/";
+    public static final String BASE_URL = "http://192.168.0.135:5000";
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())

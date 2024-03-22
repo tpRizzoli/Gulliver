@@ -316,24 +316,33 @@ def getDettagliItinerari():
 
 @app.route('/createUser', methods=['POST'])
 def createUser():
-        
-        try:
-            username = request.args.get("username")
-            email = request.args.get("email")
-            pwd = request.args.get("password")
+    cursor = db.cursor()
+    args = request.args
 
-            with db.cursor() as cursor:
-                query = "INSERT INTO utenti (username, email, pwd) VALUES (%s, %s, %s)"
-                cursor.execute(query, (username, email, pwd))
-                db.commit()
-        #riguardare la risposta in json e la query per la visualizzazione del ID 
-            response = {'messaggio': 'Dati inseriti con successo nel database'}
-            return json.dumps(response)
-        
-        except Exception as e:
-            db.rollback()
-            response = {'errore': str(e)}
-            return jsonify(response)
+    username = args.get("username")
+    email = args.get("email")
+    pwd = args.get("password")
+    
+    query = "INSERT INTO utenti (username, email, pwd) VALUES ('%s', '%s', '%s');"
+
+    try:
+        test = query % (username, email, pwd)
+        cursor.execute(query % (username, email, pwd))
+        db.commit()
+
+        try:
+            cursor.execute('SELECT * FROM utenti WHERE id = LAST_INSERT_ID();')
+            res = cursor.fetchone()
+            output = Utente(res[0], res[1], res[2], res[3]).__dict__
+        except:
+            print('QUERY_ERROR : Get Utente appena registrato')
+            return "Errore"
+
+        return json.dumps(output, indent=4)
+    
+    except:
+        print('Error: unable to fetch data')
+        return 'Errore'
     
 
 @app.route('/getUser', methods=['GET'])

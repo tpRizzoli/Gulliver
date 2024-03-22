@@ -7,7 +7,9 @@ create table utenti (
 	ID int primary key auto_increment,
     username varchar(50),
     email varchar(50),
-    pwd varchar(50)
+    pwd varchar(50),
+    unique(username),
+    unique(email)
 ) engine InnoDB;
 
 create table itinerari (

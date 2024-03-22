@@ -46,7 +46,7 @@
         android:layout_marginStart="20dp"/>
 
     <EditText
-        android:id="@+id/cUsername"
+        android:id="@+id/inputDataUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Inserisci il tuo username"
@@ -67,7 +67,7 @@
         android:layout_marginStart="20dp"/>
 
     <EditText
-        android:id="@+id/cPassword"
+        android:id="@+id/inputDataPassword"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="Inserisci la password"
@@ -76,9 +76,8 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"/>
 
-
     <CheckBox
-        android:id="@+id/checkBoxMemCredenziali"
+        android:id="@+id/saveCredenziali"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ricorda credenziali"
@@ -86,19 +85,17 @@
         android:buttonTint="@color/black"
         android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-    />
+        android:layout_marginEnd="20dp" />
 
     <Button
-        android:id="@+id/btnAccedi"
+        android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="Accedi"
         android:backgroundTint="@color/azzurro"
         android:layout_marginTop="50dp"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        />
+        android:layout_marginEnd="20dp" />
 
     <Button
         android:id="@+id/btnRegistrazione"
@@ -108,8 +105,8 @@
         android:backgroundTint="@color/azzurro"
         android:layout_marginTop="30dp"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        />
+        android:layout_marginEnd="20dp" />
+
 
 
 </LinearLayout>

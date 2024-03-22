@@ -82,7 +82,7 @@ def fetchTipologieByLuogo():
         output = []
 
         for row in results:
-            tipolgia = Tipologia(row[0], row[1])
+            tipologia = Tipologia(row[0], row[1])
             output.append(tipologia)
 
     except:
@@ -111,7 +111,7 @@ def getUser():
 
         for row in results:
             utente = Utente(row[0], row[1], row[2], row[3])
-            output.append(utente)
+            output.append(utente.__dict__)
     except:
         print("Error: unable to fetch data")
     return json.dumps(output, indent=4)

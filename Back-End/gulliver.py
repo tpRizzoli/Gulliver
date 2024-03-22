@@ -276,6 +276,32 @@ def findItinerariUtente():
 
     return json.dumps(output, indent=4)
 
+@app.route('/getDettagliItinerari', methods=['GET'])
+def getDettagliItinerari():
+    cursor = db.cursor()
+
+    args = request.args
+
+    
+    sql = 'SELECT * FROM itinerari WHERE id IN (%s);'
+
+    listaId = ', '.join(args.getlist('idItinerario'))
+
+    try:
+        cursor.execute(sql % (listaId))
+        results = cursor.fetchall()
+
+        output = []
+        for row in results:
+            output.append(Itinerario(row[0], row[1], row[2]).__dict__)
+
+    except:
+        print('Error: unable to fetch data')
+        return 'Errore'
+    
+    return json.dumps(output, indent=4)
+
+
 
 @app.route('/createUser', methods=['POST'])
 def createUser():

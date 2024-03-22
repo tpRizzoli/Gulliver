@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Web/static/css/decisi.css"> <!--con server ONLINE questo href non serve-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/decisi.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+    <title>Scegli Attività</title>
+</head>
+<body>
+    
+    <nav class="dash">
+        <div class="logo-icon">
+            <img src="/Web/static/images/planet-icon.png"  alt="">
+        </div>
+        <div class="login-icon">
+            <img src="/Web/static/images/user-icon.png" alt="">
+        </div>
+    </nav>
+
+    <div class="main">
+        <div class="left">
+            MAPPA
+        </div>
+        <div class="right">
+            <div class="right-content">
+                <h1>Attività da fare a <span>{{destinazione}}</span></h1>
+                <p>Seleziona le attività desiderate</p>
+
+                    <!-- {% for elem in lista %}
+                    <p>{{elem.nome_attivita}} , {{elem.difficolta}}  ,  {{elem.descrizione_attivita}} </p>
+                    <p>{{elem}}</p>
+                    {% endfor %} -->
+
+                
+
+
+
+                <div class="wrapper">
+                    {% for elem in listaTipologie %}
+                    <div class="collapsible">
+                        <input type="checkbox" id="collapsible-head{{ loop.index }}">
+                        <label for="collapsible-head{{ loop.index }}">{{elem}}</label>
+                        <div class="collapsible-text">
+                            <h2>//nome attivita</h2>
+                            <p>//descrizione attivita
+                                Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod
+                                tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim
+                                veniam, quis nostrum exercitationem ullam corporis
+                                suscipit laboriosam,
+                                nisi ut ali
+                            </p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <button>Avanti</button>
+                </div>
+
+                
+                
+                  
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

@@ -432,10 +432,6 @@ def findItinerariSuggeriti():
     except:
         
         return json.dumps({"message": "Error fetching itinerari"}, indent=4)
-
-
-
-
         
 @app.route("/logout")
 def closeAll():

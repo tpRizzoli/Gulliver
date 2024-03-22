@@ -382,15 +382,23 @@ def modificaProfilo(id):
         db.rollback()
         return json.dumps({"Message":"Impossibile modificare l'utente"})
         
-#da controllare appena il metodo creazione itinerario è completato   
-@app.route('/delete/<int:id>', methods = ['DELETE'])
-def delete(id):
-  cur = db.connection.cursor()
-  cur.execute("DELETE FROM itineri WHERE id=%s", (id))
+# Elimina un itinerario   
+@app.route('/eliminaItinerario/<int:id>', methods = ['DELETE'])
+def deleteItinerario(id):
+    cursor = db.cursor()
+    try:
+        cursor.execute("DELETE FROM attivita_itinerari WHERE id_itinerario = %s;" % (id))
+        cursor.execute("DELETE FROM utenti_itinerari WHERE id_itinerario = %s;" % (id))
+        cursor.execute("DELETE FROM itinerari WHERE id = %s;" % (id))
+        db.commit()
+    except:
+        print('Query Error')
+        return 'Errore'
 
-  db.connection.commit()
-  return json.dumps({"Messaggio" : "Itinerario eliminato con successo"})
+    return 'Itinerario eliminato'
 
+
+# Ritorna elenco di Itinerari in base alla categoria scelta
 @app.route("/findItinerariSuggeriti/", methods=['GET'])
 def findItinerariSuggeriti():
     

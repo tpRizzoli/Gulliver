@@ -27,24 +27,32 @@
         </div>
         <div class="right">
             <div class="right-content">
-                <h1>Tipologia di attività a</h1>
+                <h1>Tipologia di attività a <span>{{destinazione}}</span></h1>
                 <p>Facci sapere cosa vorresti fare nel tuo viaggio e noi di  aiuteremo
                     a trovare le migliori attivita!</p>
 
-                {% for elem in lista %}
-                    <div class="customCheckBoxHolder">
-                        <input type="checkbox" id="cCB1" class="customCheckBoxInput">
-                        <label for="cCB1" class="customCheckBoxWrapper">
-                            <div class="customCheckBox">
-                            <div id="tipologia">{{elem.nome_tipologia}}</div>
-                            </div>
-                        </label> 
-                    </div> 
-                {% endfor %}  
+                <div class="checkbox-container">
+                    <form action="/Attivita" method="POST">
+                        <input type="hidden" name="destinazione" value="{{destinazione}}"/>
+                        {% for elem in lista %}
+                            <div class="checkbox-holder">
+                                <input type="checkbox" id="cCB{{ loop.index }}" name="opzioneDinamica" value="{{elem.nome_tipologia}}">
+                                <label for="cCB{{ loop.index }}">{{elem.nome_tipologia}}</label> 
+                            </div> 
+                        {% endfor %} 
+                        
+                    
+
+                        <button type="submit">Avanti</button>
+                    </form>
+                </div> 
+                
                   
             </div>
         </div>
     </div>
     
 </body>
+
+
 </html>

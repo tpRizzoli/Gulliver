@@ -31,7 +31,16 @@ class Tipologia:
         self.id_tipologia = id
         self.nome_tipologia = nt
 
-
+class Attivita:
+    id_attivita = None
+    nome_attivita = None
+    difficolta = None
+    descrizione_attivita = None
+    def __init__(self, id, nome, difficolta, descrizione):
+        self.id = id
+        self.nome = nome
+        self.difficolta = difficolta
+        self.descrizione = descrizione
 
 @appWebApi.route("/")
 def main():
@@ -123,20 +132,54 @@ def getTipologieAttivita():
         JOIN attivita_luoghi al ON l.ID = al.id_luogo\
         JOIN attivita a ON al.id_attivita = a.ID\
         JOIN tipologie t ON a.id_tipologia = t.ID\
-        WHERE l.nome ="+nomeLuogo+";"
+        WHERE l.nome ='"+nomeLuogo+"';"
+    
+    print(sql)
+    listaTipologieXLuogo = []
+
     try:
         cursor.execute(sql)
         results = cursor.fetchall()
-        listaTipologieXLuogo = []
         for row in results:
             id_tipologia = row[0]
             nome_tipologia = row[1]
             listaTipologieXLuogo.append(Tipologia(id_tipologia, nome_tipologia))
     except:
         print ("Error: cannot fetch data")
-    return render_template('sceltaTipologia.html', tipologia = nome_tipologia, lista = listaTipologieXLuogo)
+    return render_template('sceltaTipologia.html', destinazione = nomeLuogo, lista = listaTipologieXLuogo)
 
-   
+
+@appWebApi.route("/Attivita", methods=["POST"]) 
+def getAttivita():
+    nomeLuogo = request.form.get('destinazione')
+    listaTipologieSelezionate = request.form.getlist('opzioneDinamica')
+    print("Destinazione: ", nomeLuogo)
+    print("Tipologie selezionate:", listaTipologieSelezionate)
+    
+
+    cursor = db.cursor()
+    sql = "SELECT a.nome, a.difficolta, a.descrizione FROM attivita as a\
+        JOIN tipologie t ON a.id_tipologia = t.ID\
+        JOIN attivita_luoghi al ON a.ID = al.id_attivita\
+        JOIN luoghi l ON al.id_luogo = l.ID\
+        WHERE t.nome = 'safari'\
+        AND l.nome = 'Kenya';" 
+    
+    listaAttivitaXTipologia = []
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        for row in results:
+            nome_attivita = row[0]
+            difficolta = row[1]
+            descrizione_attivita = row[2]
+            listaAttivitaXTipologia.append(Attivita(nome_attivita, difficolta, descrizione_attivita))
+    except:
+        print ("Error: cannot fetch data")        
+
+    return render_template('sceltaAttivita.html', destinazione = nomeLuogo, lista = listaTipologieSelezionate)
+
+
 
 
 
@@ -149,13 +192,7 @@ def getTipologieAttivita():
 
 #--------------------------------------------------------------------------------------------------------------------------------
 # Classi database
-# class Attivita:
-#     def __init__(self, id, nome, tipologia, difficolta, descrizione):
-#         self.id = id
-#         self.nome = nome
-#         self.tipologia = tipologia
-#         self.difficolta = difficolta
-#         self.descrizione = descrizione
+
 
 # class Utente:
 #     def __init__(self, id, username, email, password):

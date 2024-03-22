@@ -353,6 +353,49 @@ def delete(id):
   db.connection.commit()
   return json.dumps({"Messaggio" : "Itinerario eliminato con successo"})
 
+@app.route("/findItinerariSuggeriti/", methods=['GET'])
+def findItinerariSuggeriti():
+    
+    categoria_nome = request.args.get('categoria_nome')
+    cursor=db.cursor()  
+    sql="""SELECT
+                c.ID AS categoria_ID,
+                c.nome AS categoria_nome,
+                i.ID AS itinerario_ID,
+                i.nome AS itinerario_nome,
+                i.sysDefault AS itinerario_sysDefault,
+                l.ID AS luogo_ID,
+                l.nome AS luogo_nome
+                FROM categorie c
+                JOIN luoghi_categorie lc ON c.ID = lc.id_categoria
+                JOIN luoghi l ON lc.id_luogo = l.ID
+                JOIN attivita_luoghi al ON l.ID = al.id_luogo
+                JOIN attivita a ON al.id_attivita = a.ID
+                JOIN attivita_itinerari ai ON a.ID = ai.id_attivita
+                JOIN itinerari i ON ai.id_itinerario = i.ID
+                WHERE c.nome ='""" +categoria_nome+ """' ;"""
+    try:
+        cursor.execute(sql)
+        result=cursor.fetchall()
+            
+        output=[]
+
+        for row in result:
+                u= {
+                    "itinerario_id": row[2],
+                    "itinerario_nome": row[3],
+                    "luogo_id": row[0],
+                    "luogo_nome": row[1]
+                    }
+                output.append(u)
+            
+        return json.dumps(output, indent=4) 
+                   
+    except:
+        
+        return json.dumps({"message": "Error fetching itinerari"}, indent=4)
+
+
 
 
         

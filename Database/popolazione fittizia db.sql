@@ -63,7 +63,7 @@ VALUES
 INSERT INTO categorie (nome) VALUES
 ('Mare'),
 ('Montagna'),
-('Città');
+('Citta');
 
 -- Inserimento dei luoghi
 INSERT INTO luoghi (nome, stato, longitudine, latitudine) 

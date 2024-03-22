@@ -276,25 +276,37 @@ def findItinerariUtente():
 
     return json.dumps(output, indent=4)
 
-@app.route('/getDettagliItinerari', methods=['GET'])
+@app.route('/getDettagliItinerario', methods=['GET'])
 def getDettagliItinerari():
     cursor = db.cursor()
 
     args = request.args
 
     
-    sql = 'SELECT * FROM itinerari WHERE id IN (%s);'
+    sql = '''SELECT a.id, a.nome, a.descrizione, t.nome, a.difficolta
+            FROM attivita a
+            JOIN tipologie t ON a.id_tipologia = t.id
+            JOIN attivita_itinerari ai ON a.id = ai.id_attivita
+            WHERE ai.id_itinerario = %d;'''
 
-    listaId = ', '.join(args.getlist('idItinerario'))
 
+    idItinerario = int(args.get('idItinerario'))    
+    
     try:
-        cursor.execute(sql % (listaId))
+        cursor.execute(sql % (idItinerario))
         results = cursor.fetchall()
 
         output = []
         for row in results:
-            output.append(Itinerario(row[0], row[1], row[2]).__dict__)
-
+            attivita = {
+                'id' : row[0],
+                'nome' : row[1],
+                'descrizione' : row[2],
+                'tipologia' : row[3],
+                'difficolta' : row[4]
+            }
+            output.append(attivita)
+            
     except:
         print('Error: unable to fetch data')
         return 'Errore'

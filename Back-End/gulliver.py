@@ -278,7 +278,7 @@ def findItinerariUtente():
 
 
 @app.route('/createUser', methods=['POST'])
-def inserisci_dati():
+def createUser():
         
         try:
             username = request.args.get("username")

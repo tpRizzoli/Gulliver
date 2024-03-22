@@ -275,9 +275,47 @@ def findItinerariUtente():
 
     return json.dumps(output, indent=4)
 
-#registrazione utente
+@app.route('/getDettagliItinerario', methods=['GET'])
+def getDettagliItinerari():
+    cursor = db.cursor()
+
+    args = request.args
+
+    
+    sql = '''SELECT a.id, a.nome, a.descrizione, t.nome, a.difficolta
+            FROM attivita a
+            JOIN tipologie t ON a.id_tipologia = t.id
+            JOIN attivita_itinerari ai ON a.id = ai.id_attivita
+            WHERE ai.id_itinerario = %d;'''
+
+
+    idItinerario = int(args.get('idItinerario'))    
+    
+    try:
+        cursor.execute(sql % (idItinerario))
+        results = cursor.fetchall()
+
+        output = []
+        for row in results:
+            attivita = {
+                'id' : row[0],
+                'nome' : row[1],
+                'descrizione' : row[2],
+                'tipologia' : row[3],
+                'difficolta' : row[4]
+            }
+            output.append(attivita)
+            
+    except:
+        print('Error: unable to fetch data')
+        return 'Errore'
+    
+    return json.dumps(output, indent=4)
+
+
+
 @app.route('/createUser', methods=['POST'])
-def inserisci_dati():
+def createUser():
         
         try:
             username = request.args.get("username")
@@ -344,16 +382,23 @@ def modificaProfilo(id):
         db.rollback()
         return json.dumps({"Message":"Impossibile modificare l'utente"})
         
-#da controllare appena il metodo creazione itinerario è completato   
-@app.route('/delete/<int:id>', methods = ['DELETE'])
-def delete(id):
-  cur = db.connection.cursor()
-  cur.execute("DELETE FROM itineri WHERE id=%s", (id))
+# Elimina un itinerario   
+@app.route('/eliminaItinerario/<int:id>', methods = ['DELETE'])
+def deleteItinerario(id):
+    cursor = db.cursor()
+    try:
+        cursor.execute("DELETE FROM attivita_itinerari WHERE id_itinerario = %s;" % (id))
+        cursor.execute("DELETE FROM utenti_itinerari WHERE id_itinerario = %s;" % (id))
+        cursor.execute("DELETE FROM itinerari WHERE id = %s;" % (id))
+        db.commit()
+    except:
+        print('Query Error')
+        return 'Errore'
 
-  db.connection.commit()
-  return json.dumps({"Messaggio" : "Itinerario eliminato con successo"})
+    return 'Itinerario eliminato'
 
-#trova tutti gli itinerari predefiniti in base alla categoria 
+
+# Ritorna elenco di Itinerari in base alla categoria scelta
 @app.route("/findItinerariSuggeriti/", methods=['GET'])
 def findItinerariSuggeriti():
     
@@ -395,10 +440,6 @@ def findItinerariSuggeriti():
     except:
         
         return json.dumps({"message": "Error fetching itinerari"}, indent=4)
-
-
-
-
         
 @app.route("/logout")
 def closeAll():

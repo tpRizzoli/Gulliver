@@ -88,12 +88,9 @@ def fetchTipologieByLuogo():
 
     except:
         print("Error: unable to fetch data")
+        return 'Errore'
 
     return json.dumps(output, indent=4)
-
-
-
-
 
 
 @app.route('/findAttivitaTipologie', methods=["GET"])
@@ -102,25 +99,20 @@ def findAttivitaTipologie():
 
     args = request.args
 
+    idLuogo = int(args.get('idLuogo'))
     idTipolgie = args.getlist('idTipologia')
-    listaTipologie = ''
-    
-    for index, tip in enumerate(idTipolgie):
-        if index == len(idTipolgie) - 1:
-            listaTipologie += 't.id = ' + tip
-        else:
-            listaTipologie += 't.id = ' + tip + ' or '
-    
-    sql= """select a.*
-            from attivita as a
-            join tipologie as t on t.id = a.id_tipologia
-            join attivita_luoghi as al on al.id_attivita = a.id
-            join luoghi as l on l.id = al.id_luogo
-            where l.id = """ + args.get('idLuogo') + """ and (""" + listaTipologie + """);"""
+    listaId = ', '.join(idTipolgie)
+   
+    sql= """SELECT a.* 
+            FROM attivita AS a
+            JOIN tipologie AS t ON t.id = a.id_tipologia
+            JOIN attivita_luoghi AS al ON al.id_attivita = a.id
+            JOIN luoghi AS l ON l.id = al.id_luogo
+            WHERE l.id = %d AND t.id IN (%s);"""
    
     
     try:
-        cursor.execute(sql)
+        cursor.execute(sql % (idLuogo, listaId))
         results = cursor.fetchall()
         
         output = []
@@ -131,6 +123,7 @@ def findAttivitaTipologie():
 
     except:
         print("Error: unable to fetch data")
+        return 'Errore'
 
     return json.dumps(output, indent=4)
 
@@ -260,42 +253,30 @@ def createItinerario():
     return json.dumps(output, indent=4)
 
 
-@app.route('/findItinerarioUtente',methods=['GET'])
-def findItinerarioUtente():
+@app.route('/findItinerariUtente',methods=['GET'])
+def findItinerariUtente():
     cursor = db.cursor()
 
     args = request.args
 
     
-    sql= """SELECT u.id, u.username, i.id , i.nome 
-            from utenti as u 
-            join utenti_itinerari as ui on ui.id_utente = u.id 
-            join itinerari as i on i.id = ui.id_itinerario 
-            where i.nome='"""+ args.get('nomeItinerari') +"""';"""
-    print(sql)
+    sql= 'SELECT i.* FROM itinerari i JOIN utenti_itinerari ui ON i.id = ui.id_itinerario WHERE ui.id_itinerario = %s;'
     
     try:
-        cursor.execute(sql)
-        
-        
+        cursor.execute(sql % (int(args.get('idUtente'))))
         results = cursor.fetchall()
+        
         output = []
-
         for row in results:
-            dictionary = {
-                'id_utente' : row[0],
-                'utente' : row[1],
-                'id_itinerario':row[2],
-                'itinerario' : row[3]
-            }
-            
-            
-            output.append(dictionary)
+            i = Itinerario(row[0], row[1], row[2])
+            output.append(i.__dict__)
     except:
         print("Error: unable to fetch data")
+        return 'Errore'
+
     return json.dumps(output, indent=4)
 
-    
+
 @app.route('/createUser', methods=['POST'])
 def inserisci_dati():
         

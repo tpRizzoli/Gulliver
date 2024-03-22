@@ -93,63 +93,8 @@ def fetchTipologieByLuogo():
 
 
 
-@app.route('/getUser', methods=['GET'])
-def getUser():
-    cursor = db.cursor()
-
-    args = request.args
-    
-    sql= """select * from utenti where username = '%s' and pwd = '%s';"""
-    
-    try:
-        cursor.execute(sql % (args.get('username'), args.get('password')))
-        results = cursor.fetchall()
-        
-        output = []
-        for row in results:
-            utente = Utente(row[0], row[1], row[2], row[3])
-            output.append(utente.__dict__)
-    except:
-        print("Error: unable to fetch data")
-
-    return json.dumps(output, indent=4)
 
 
-
-@app.route('/findItinerarioUtente',methods=['GET'])
-def findItinerarioUtente():
-    cursor = db.cursor()
-
-    args = request.args
-
-    
-    sql= """SELECT u.id, u.username, i.id , i.nome 
-            from utenti as u 
-            join utenti_itinerari as ui on ui.id_utente = u.id 
-            join itinerari as i on i.id = ui.id_itinerario 
-            where i.nome='"""+ args.get('nomeItinerari') +"""';"""
-    print(sql)
-    
-    try:
-        cursor.execute(sql)
-        
-        
-        results = cursor.fetchall()
-        output = []
-
-        for row in results:
-            dictionary = {
-                'id_utente' : row[0],
-                'utente' : row[1],
-                'id_itinerario':row[2],
-                'itinerario' : row[3]
-            }
-            
-            
-            output.append(dictionary)
-    except:
-        print("Error: unable to fetch data")
-    return json.dumps(output, indent=4)
 
 @app.route('/findAttivitaTipologie', methods=["GET"])
 def findAttivitaTipologie():
@@ -315,6 +260,42 @@ def createItinerario():
     return json.dumps(output, indent=4)
 
 
+@app.route('/findItinerarioUtente',methods=['GET'])
+def findItinerarioUtente():
+    cursor = db.cursor()
+
+    args = request.args
+
+    
+    sql= """SELECT u.id, u.username, i.id , i.nome 
+            from utenti as u 
+            join utenti_itinerari as ui on ui.id_utente = u.id 
+            join itinerari as i on i.id = ui.id_itinerario 
+            where i.nome='"""+ args.get('nomeItinerari') +"""';"""
+    print(sql)
+    
+    try:
+        cursor.execute(sql)
+        
+        
+        results = cursor.fetchall()
+        output = []
+
+        for row in results:
+            dictionary = {
+                'id_utente' : row[0],
+                'utente' : row[1],
+                'id_itinerario':row[2],
+                'itinerario' : row[3]
+            }
+            
+            
+            output.append(dictionary)
+    except:
+        print("Error: unable to fetch data")
+    return json.dumps(output, indent=4)
+
+    
 @app.route('/createUser', methods=['POST'])
 def inserisci_dati():
         
@@ -336,6 +317,29 @@ def inserisci_dati():
             response = {'errore': str(e)}
             return jsonify(response)
     
+
+@app.route('/getUser', methods=['GET'])
+def getUser():
+    cursor = db.cursor()
+
+    args = request.args
+    
+    sql= """select * from utenti where username = '%s' and pwd = '%s';"""
+    
+    try:
+        cursor.execute(sql % (args.get('username'), args.get('password')))
+        results = cursor.fetchall()
+        
+        output = []
+        for row in results:
+            utente = Utente(row[0], row[1], row[2], row[3])
+            output.append(utente.__dict__)
+    except:
+        print("Error: unable to fetch data")
+
+    return json.dumps(output, indent=4)
+
+
 @app.route("/modificaProfilo/<int:id>", methods = ['PUT'])
 def modificaProfilo(id):
     try:

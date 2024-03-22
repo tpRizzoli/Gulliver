@@ -120,7 +120,6 @@ def findAttivitaTipologie():
         for row in results:
             utente = Utente(row[0], row[1], row[2], row[3])
             output.append(utente.__dict__)
-            output.append(utente.__dict__)
     except:
         print("Error: unable to fetch data")
         return 'Errore'

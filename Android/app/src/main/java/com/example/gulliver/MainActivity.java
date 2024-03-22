@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.flFragment, frag)
-                .addToBackStack(null) // Aggiungi il fragment allo stack all'interno del back stack
+                .addToBackStack("windows") // Aggiungi il fragment allo stack all'interno del back stack
                 .commit();
     }
 

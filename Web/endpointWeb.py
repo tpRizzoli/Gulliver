@@ -158,27 +158,26 @@ def getAttivita():
     
 
     cursor = db.cursor()
-    #ciclo for per ogni attivita selezionata
     sql = "SELECT a.nome, a.difficolta, a.descrizione FROM attivita as a\
         JOIN tipologie t ON a.id_tipologia = t.ID\
         JOIN attivita_luoghi al ON a.ID = al.id_attivita\
         JOIN luoghi l ON al.id_luogo = l.ID\
         WHERE t.nome = 'safari'\
-        AND l.nome ='"+nomeLuogo+"';" 
+        AND l.nome = 'Kenya';" 
     
-    # listaAttivitaXTipologia = []
-    # try:
-    #     cursor.execute(sql)
-    #     results = cursor.fetchall()
-    #     for row in results:
-    #         nome_attivita = row[0]
-    #         difficolta = row[1]
-    #         descrizione_attivita = row[2]
-    #         listaAttivitaXTipologia.append(Attivita(nome_attivita, difficolta, descrizione_attivita))
-    # except:
-    #     print ("Error: cannot fetch data")        
+    listaAttivitaXTipologia = []
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        for row in results:
+            nome_attivita = row[0]
+            difficolta = row[1]
+            descrizione_attivita = row[2]
+            listaAttivitaXTipologia.append(Attivita(nome_attivita, difficolta, descrizione_attivita))
+    except:
+        print ("Error: cannot fetch data")        
 
-    return render_template('sceltaAttivita.html', destinazione = nomeLuogo, listaTipologie = listaTipologieSelezionate)
+    return render_template('sceltaAttivita.html', destinazione = nomeLuogo, lista = listaTipologieSelezionate)
 
 
 

@@ -3,29 +3,38 @@ body{
     font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-style: normal;
-    margin-top: 100px;
+    margin-top: 90px;
 }
 
 .dash{
-    height: 50px;
+    height: 70px;
     width: 100%;
+    top: 0;
+    left: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: #176B87 solid;
-    background-color: rgb(196, 221, 244);  
+    background-color: rgb(196, 221, 244);
+    z-index: 1000; /* Ensure it's above other content */
     position: fixed;
-    top: 0;
-    left: 0;
-    padding: 10px 0;;
-    z-index: 1000; /* Assicura che sia sopra gli altri contenuti */
 }
 
+.logo{
+    position: relative;
+    height: 50%;
+    padding: 7px 10px;
+    border-radius: 7px;
+    margin-left: 7px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .logo-icon{
     margin-left: 20px;
     margin-bottom: -5px;
-   
 }
 
 .login-icon{

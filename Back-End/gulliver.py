@@ -71,19 +71,20 @@ def fetchTipologieByLuogo():
                 join attivita as a on a.id_tipologia = t.id
                 join attivita_luoghi as al on al.id_attivita = a.id
                 join luoghi as l on l.id = al.id_luogo
-                where l.nome = '""" + args.get('nomeLuogo') + """'
+                where l.nome = '%s'
                 group by t.id;""" 
     
     
     try:
-        cursor.execute(sql)
-        
+        test = sql % (args.get('nomeLuogo'))
+        cursor.execute(sql % (args.get('nomeLuogo')))
         results = cursor.fetchall()
+        
         output = []
 
         for row in results:
-            tipolgia = Tipologia(row[0], row[1])
-            output.append(tipologia)
+            tipologia = Tipologia(row[0], row[1])
+            output.append(tipologia.__dict__)
 
     except:
         print("Error: unable to fetch data")
@@ -97,23 +98,20 @@ def getUser():
     cursor = db.cursor()
 
     args = request.args
-
     
-    sql= """select * from utenti where username = '""" + args.get('utente') + """' and pwd = '""" + args.get('password') + """';"""
-    
+    sql= """select * from utenti where username = '%s' and pwd = '%s';"""
     
     try:
-        cursor.execute(sql)
+        cursor.execute(sql % (args.get('username'), args.get('password')))
+        results = cursor.fetchall()
         
         output = []
-        results = cursor.fetchall()
-
-
         for row in results:
             utente = Utente(row[0], row[1], row[2], row[3])
-            output.append(utente)
+            output.append(utente.__dict__)
     except:
         print("Error: unable to fetch data")
+
     return json.dumps(output, indent=4)
 
 
@@ -192,6 +190,131 @@ def findAttivitaTipologie():
     return json.dumps(output, indent=4)
 
 
+@app.route('/createItinerario', methods=['POST']) #mi serve un idItinerario
+
+def createItinerario():
+
+    args = request.args
+
+    cercaItinerarioNome = """SELECT * FROM itinerari WHERE nome = '%s';"""
+    cercaItinerarioId = """SELECT * FROM itinerari WHERE id = '%d';"""
+    controllaRelazioneUtenteItinerario = """SELECT * FROM utenti_itinerari WHERE id_utente = %d AND id_itinerario = %d;"""
+
+    creazioneItinerario = """INSERT INTO itinerari (nome) VALUES ('%s');"""
+    creazioneRelazioniAttivitaItinerario = """INSERT INTO attivita_itinerari (id_attivita, id_itinerario) VALUES (%d, %d);"""
+    creazioneRelazioneUtenteItinerario = """INSERT INTO utenti_itinerari (id_utente, id_itinerario) VALUES (%d, %d);"""
+
+    idUtente = int(args.get('idUtente'))
+
+    try:
+        idItinerario = int(args.get('idItinerario'))
+    except:
+        idItinerario = None
+
+    try:
+        nomeItinerario = args.get('nomeItinerario')
+    except:
+        nomeItinerario = None
+    
+    try:
+        listaAttivita = args.getlist('idAttivita')
+    except:
+        listaAttivita = None
+
+  
+
+    if idItinerario != None and nomeItinerario != None:
+        print('REQUEST_ERROR : Non posso ricevere sia idItinerario e nomeItinerario')
+        return 'Errore'
+
+
+    cursor = db.cursor() 
+    
+
+    if idItinerario != None: # controllo se l'itinerario è assegnato a questo utente
+        try:
+            cursor.execute(cercaItinerarioId % (idItinerario))
+            i = cursor.fetchone()
+
+            if i == None:
+                print('REQUEST_ERROR : idItinerario inesistente')
+                return 'Errore'
+
+        except:
+            print('QUERY_ERROR : Ricerca Itinerario per ID')
+            return "Errore"
+
+        try:
+            cursor.execute(controllaRelazioneUtenteItinerario % (idUtente, idItinerario))
+            r = cursor.fetchone()
+        except:
+            print('QUERY_ERROR : Controllo Relazione Relazioni Utente-Itinerario')
+            return "Errore"
+
+        if r == None: #non assegnato a questo utente
+            try:
+                cursor.execute(creazioneRelazioneUtenteItinerario % (idUtente, idItinerario))
+                db.commit();
+            except:
+                print('QUERY_ERROR : Creazione Record Relazioni Utente-Itinerario')
+                return "Errore"
+
+            try:
+                cursor.execute('SELECT * FROM itinerari WHERE id = %d;' % (idItinerario))
+                i = Itinerario(*cursor.fetchone())
+                output = i.__dict__
+            except:
+                print('QUERY_ERROR : Get Itinerario')
+                return "Errore"
+        else: # già assegnato a questo utente
+            output = 'Itinerario gia assegnato ad utente'
+
+    else: # cerco itinerari per nome
+        try:
+            cursor.execute(cercaItinerarioNome % (nomeItinerario))
+            itinerariTrovati = cursor.fetchall()
+        except:
+            print('QUERY_ERROR : Ricerca Itinerari per Nome')
+            return "Errore"
+
+        if itinerariTrovati == (): # non esiste itinerario
+            try:
+                cursor.execute(creazioneItinerario % nomeItinerario)
+                db.commit()
+                
+                cursor.execute('SELECT * FROM itinerari WHERE id = LAST_INSERT_ID()')
+                itinerarioCreato = Itinerario(*cursor.fetchone())
+            
+            except:
+                print('QUERY_ERROR : Creazione Record Itinerario')
+                return "Errore"
+            
+            try:
+                for val in listaAttivita:
+                    cursor.execute(creazioneRelazioniAttivitaItinerario % (int(val), itinerarioCreato.id))
+                db.commit()
+            
+            except:
+                print('QUERY_ERROR : Creazione Record Relazioni Attività-Itinerario')
+                return "Errore"
+
+            try:
+                cursor.execute(creazioneRelazioneUtenteItinerario % (idUtente, itinerarioCreato.id))
+                db.commit();
+            except:
+                print('QUERY_ERROR : Creazione Record Relazioni Utente-Itinerario')
+                return "Errore"
+            
+            output = itinerarioCreato.__dict__
+                    
+        else:
+            output = 'Itinerario gia assegnato ad utente'
+                
+    
+    
+    return json.dumps(output, indent=4)
+
+
 @app.route('/createUser', methods=['POST'])
 def inserisci_dati():
         
@@ -236,14 +359,15 @@ def modificaProfilo(id):
     except Exception as e:
         db.rollback()
         return json.dumps({"Message":"Impossibile modificare l'utente"})
+        
 #da controllare appena il metodo creazione itinerario è completato   
-#@app.route('/delete/<int:id>', methods = ['DELETE'])
-#def delete(id):
-#   cur = db.connection.cursor()
-#   cur.execute("DELETE FROM itineri WHERE id=%s", (id))
-#
-#   db.connection.commit()
-#   return json.dumps({"Messaggio" : "Itinerario eliminato con successo"})
+@app.route('/delete/<int:id>', methods = ['DELETE'])
+def delete(id):
+  cur = db.connection.cursor()
+  cur.execute("DELETE FROM itineri WHERE id=%s", (id))
+
+  db.connection.commit()
+  return json.dumps({"Messaggio" : "Itinerario eliminato con successo"})
 
 
 

@@ -16,10 +16,7 @@ public interface MyApiEndpointInterface {
     Call<ArrayList<User>> getUser(@Query("utente") String username, @Query("password") String password);
 
     @PUT("/modificaProfilo/{id}")
-    Call<Void> modificaUsername(
-            @Query("id") int id,
-            @Query("username") String newUsername
-    );
+    Call<Void> modificaUsername(@Path("id") int idUtente, @Body UserUpdateRequest userUpdateRequest);
 
     @GET("/allusers")
     Call<ArrayList<User>> getAllUsers();

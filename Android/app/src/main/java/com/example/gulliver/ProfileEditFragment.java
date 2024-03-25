@@ -1,3 +1,5 @@
+// ProfileEditFragment.java
+
 package com.example.gulliver;
 
 import android.content.Context;
@@ -18,12 +20,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileEditFragment extends Fragment {
 
-    public static final String BASE_URL = "http://192.168.1.7:5000";
+    public static final String BASE_URL = "http://192.168.0.110:5000";
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
-     @Override
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_modificaprofilo, container, false);
 
@@ -36,16 +39,16 @@ public class ProfileEditFragment extends Fragment {
         });
 
         return view;
-
-
     }
 
     private void updateUsername(String newUsername) {
         MyApiEndpointInterface apiService = retrofit.create(MyApiEndpointInterface.class);
-        // Qui devi ottenere l'id dell'utente dal tuo SharedPreferences
-        int userId = getUserIdFromSharedPreferences();
 
-        Call<Void> call = apiService.modificaUsername(userId, newUsername);
+        String idUtente = "1"; //getUserIdFromSharedPreferences(); // Prende l'id dalla SharedPreferences salvata
+
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest(newUsername, null, null);
+
+        Call<Void> call = apiService.modificaUsername(Integer.parseInt(idUtente), userUpdateRequest);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -63,10 +66,8 @@ public class ProfileEditFragment extends Fragment {
         });
     }
 
-    // Metodo fittizio per ottenere l'id dell'utente
-    private int getUserIdFromSharedPreferences() {
-        // Implementa la logica per ottenere l'id dell'utente dal SharedPreferences
+    private String getUserIdFromSharedPreferences() {
         SharedPreferences prefs = getActivity().getSharedPreferences("Autenticazione", Context.MODE_PRIVATE);
-        return prefs.getInt("userId", 0); // Ritorna un valore di default
+        return prefs.getString("userId", ""); // Ritorna un valore di default
     }
 }

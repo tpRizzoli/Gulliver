@@ -33,11 +33,12 @@
         android:layout_marginEnd="20dp"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="horizontal"
-        android:layout_marginTop="50dp">
+        android:orientation="vertical"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center_horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -46,7 +47,8 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginEnd="20dp"/>
 
         <EditText
@@ -55,16 +57,19 @@
             android:layout_height="wrap_content"
             android:text="Mario Rossi"
             android:textColor="@color/black"
-            android:textSize="20sp"/>
+            android:layout_marginStart="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="20dp"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="horizontal"
-        android:layout_marginTop="50dp">
+        android:orientation="vertical"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center_horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -74,14 +79,49 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginStart="30dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginEnd="20dp"/>
 
-        <TextView
+        <EditText
+            android:id="@+id/cEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="mario.rossi@gmail.com"
             android:textColor="@color/black"
-            android:textSize="20sp"/>
+            android:layout_marginStart="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="20dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginStart="30dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="20dp"/>
+
+        <EditText
+            android:id="@+id/cPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="password123"
+            android:textColor="@color/black"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="20dp"/>
 
     </LinearLayout>
 

@@ -367,16 +367,19 @@ def getUser():
     return json.dumps(output, indent=4)
 
 #modifica del profilo utente
-@app.route("/modificaProfilo/<int:id>", methods = ['PUT'])
+@app.route("/modificaProfilo/<id>", methods = ['PUT'])
 def modificaProfilo(id):
     try:
+        #id = request.args.get('id')
         new_username = request.args.get("username")
         new_email = request.args.get("email")
         new_pwd = request.args.get("password")
 
+        print("modificaProfilo ->", id, new_username, new_email, new_pwd)
         with db.cursor() as cursor:
-            sql= "update utenti set username = %s, email = %s, pwd = %s where id = %s"
-            cursor.execute(sql,(new_username, new_email, new_pwd, id))
+            sql= "update utenti set username = '%s', email = '%s', pwd = '%s' where id = %s" % (new_username, new_email, new_pwd, id)
+            print("modificaProfilo sql=", sql)
+            cursor.execute(sql)
             db.commit()
 
             u = {
@@ -392,7 +395,7 @@ def modificaProfilo(id):
         return json.dumps({"Message":"Impossibile modificare l'utente"})
         
 # Elimina un itinerario   
-@app.route('/eliminaItinerario/<int:id>', methods = ['DELETE'])
+@app.route('/eliminaItinerario/<id>', methods = ['DELETE'])
 def deleteItinerario(id):
     cursor = db.cursor()
     try:

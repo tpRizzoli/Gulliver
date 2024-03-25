@@ -68,7 +68,6 @@
 
         </RelativeLayout>
 
-
         <TextView
             android:id="@+id/txt2"
             android:layout_width="wrap_content"
@@ -78,8 +77,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            />
+            android:layout_marginStart="20dp"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -89,8 +87,7 @@
             android:textColor="#000000"
             android:layout_marginTop="5dp"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            />
+            android:layout_marginEnd="20dp"/>
 
         <Button
             android:id="@+id/btnCercaItinerario"
@@ -102,8 +99,7 @@
             android:layout_marginEnd="20dp"
             android:textColor="@color/white"
             android:backgroundTint="@color/azzurro"
-            android:layout_gravity="center_horizontal"
-            />
+            android:layout_gravity="center_horizontal"/>
 
         <TextView
             android:id="@+id/txt3"
@@ -114,8 +110,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginTop="30dp"
-            android:layout_marginStart="20dp"
-            />
+            android:layout_marginStart="20dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -125,13 +120,13 @@
 
             <Button
                 android:id="@+id/imageMare"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_margin="20dp"
+                android:layout_weight="1"
                 android:background="@color/azzurro"
-                android:drawableTop="@drawable/spiaggia"
-                android:padding="15dp" />
+                android:drawableTop="@drawable/mareico"
+                android:padding="15dp"/>
 
             <Button
                 android:id="@+id/imageMontagna"
@@ -141,7 +136,7 @@
                 android:layout_margin="20dp"
                 android:background="@color/azzurro"
                 android:drawableTop="@drawable/montagna"
-                android:padding="15dp" />
+                android:padding="15dp"/>
 
             <Button
                 android:id="@+id/imageCitta"
@@ -151,7 +146,7 @@
                 android:layout_margin="20dp"
                 android:background="@color/azzurro"
                 android:drawableTop="@drawable/citta"
-                android:padding="15dp" />
+                android:padding="15dp"/>
 
         </LinearLayout>
     </LinearLayout>

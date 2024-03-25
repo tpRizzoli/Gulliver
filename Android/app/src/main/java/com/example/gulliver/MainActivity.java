@@ -16,8 +16,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     ItinerariFragment itinerariFragment = new ItinerariFragment();
     ProfileShowFragment profileShowFragment = new ProfileShowFragment();
     ProfileShowFragment profileEditFragment = new ProfileShowFragment();
-
     ItinerariUtenteFragment itinerariUtenteFragment = new ItinerariUtenteFragment();
+    ItMareFragment itMareFragment = new ItMareFragment();
+    ItMontagnaFragment itMontagnaFragment = new ItMontagnaFragment();
+    ItCittaFragment itCittaFragment = new ItCittaFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         if (id == R.id.btnModificaProfilo)
             frag = profileEditFragment;
+
+        if (id == R.id.imageMare){
+            frag = itMareFragment;
+        }
+
+        if (id == R.id.imageMontagna){
+            frag = itMontagnaFragment;
+        }
+
+        if (id == R.id.imageCitta){
+            frag = itCittaFragment;
+        }
 
         // Cambia il fragment in base alla selezione dell'utente
         changeFragment(frag);

@@ -28,7 +28,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"/>
 
@@ -37,19 +37,17 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Username:"
+            android:text="Username"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginStart="20dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="20dp"/>
+            android:layout_gravity="center_horizontal" />
 
         <EditText
             android:id="@+id/cUsername"
@@ -57,9 +55,7 @@
             android:layout_height="wrap_content"
             android:text="Mario Rossi"
             android:textColor="@color/black"
-            android:layout_marginStart="20dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="20dp"/>
+            android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>
 
@@ -68,19 +64,17 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Email:"
+            android:layout_gravity="center_horizontal"
+            android:text="Email"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginStart="30dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="20dp"/>
+            android:textStyle="bold"/>
 
         <EditText
             android:id="@+id/cEmail"
@@ -88,9 +82,7 @@
             android:layout_height="wrap_content"
             android:text="mario.rossi@gmail.com"
             android:textColor="@color/black"
-            android:layout_marginStart="20dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="20dp"/>
+            android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>
 
@@ -99,7 +91,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal">
 
         <TextView
@@ -109,9 +101,7 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginStart="30dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="20dp"/>
+            android:layout_gravity="center_horizontal"/>
 
         <EditText
             android:id="@+id/cPassword"
@@ -119,40 +109,35 @@
             android:layout_height="wrap_content"
             android:text="password123"
             android:textColor="@color/black"
-            android:layout_marginStart="20dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="20dp"/>
+            android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:layout_marginTop="50dp">
+        android:layout_gravity="center_horizontal">
 
         <Button
             android:id="@+id/btnSalvaModfiche"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="50dp"
-            android:text="Salva modifiche"
-            android:backgroundTint="@color/verde"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/verde"
+            android:text="Salva" />
 
         <Button
             android:id="@+id/btnAnnullaModfiche"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:text="Annulla modifiche"
-            android:backgroundTint="@color/rosso"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/rosso"
+            android:text="Annulla" />
 
     </LinearLayout>
 </LinearLayout>

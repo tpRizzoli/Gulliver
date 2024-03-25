@@ -411,7 +411,7 @@ def deleteItinerario(id):
 
 
 # Ritorna elenco di Itinerari in base alla categoria scelta
-@app.route("/findItinerariSuggeriti/", methods=['GET'])
+@app.route("/findItinerariSuggeriti", methods=['GET'])
 def findItinerariSuggeriti():
     
     categoria_nome = request.args.get('categoria_nome')

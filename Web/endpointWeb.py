@@ -7,7 +7,7 @@ appWebApi = Flask(__name__)
 # Configurazione connessione DB MySQL
 MYSQL_HOST = 'localhost'
 MYSQL_USER = 'root'
-MYSQL_PASSWORD = 'NUOVAPASSWORD'
+MYSQL_PASSWORD = 'password'
 MYSQL_DB = 'gulliver'
 
 

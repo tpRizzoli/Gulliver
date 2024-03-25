@@ -191,16 +191,100 @@ def getAttivita():
 
 
 
+@appWebApi.route('/createUser', methods=['POST'])
+def createUser():
+    cursor = db.cursor()
+    args = request.args
+
+    username = args.get("username")
+    email = args.get("email")
+    pwd = args.get("password")
+    
+    query = "INSERT INTO utenti (username, email, pwd) VALUES ('%s', '%s', '%s');"
+
+    try:
+        
+        cursor.execute(query % (username, email, pwd))
+        db.commit()
+
+        try:
+            cursor.execute('SELECT * FROM utenti WHERE id = LAST_INSERT_ID();')
+            res = cursor.fetchone()
+            output = Utente(res[0], res[1], res[2], res[3]).__dict__
+        except:
+            print('QUERY_ERROR : Get Utente appena registrato')
+            return "Errore"
+
+        return render_template('createUser.html')
+    
+    except:
+        print('Error: unable to fetch data')
+        return 'Errore'
+    
+#login utente
+@appWebApi.route('/getUser', methods=['GET'])
+def getUser():
+    cursor = db.cursor()
+
+    args = request.args
+    
+    sql= "select * from utenti where username = '%s' and pwd = '%s';" % (args.get('utente'), args.get('password'))
+    
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        
+        output = []
+        for row in results:
+            utente = Utente(row[0], row[1], row[2], row[3])
+            output.append(utente.__dict__)
+    except:
+        print("Error: unable to fetch data")
+
+    return render_template('getUser.html')
+
+#modifica del profilo utente
+@appWebApi.route("/modificaProfilo/<int:id>", methods = ['PUT'])
+def modificaProfilo(id):
+    try:
+        new_username = request.args.get("username")
+        new_email = request.args.get("email")
+        new_pwd = request.args.get("password")
+
+        with db.cursor() as cursor:
+            sql= "update utenti set username = %s, email = %s, pwd = %s where id = %s"
+            cursor.execute(sql,(new_username, new_email, new_pwd, id))
+            db.commit()
+
+            u = {'id' : id, 'username' : new_username, 'email' : new_email,'password': new_pwd}
+
+            return render_template(u)
+    except Exception as e:
+        db.rollback()
+        return render_template("Impossibile modificare l'utente")
+
+
+
+
+
+
+
+
+
+
+
+
+
 #--------------------------------------------------------------------------------------------------------------------------------
 # Classi database
 
 
-# class Utente:
-#     def __init__(self, id, username, email, password):
-#         self.id = id
-#         self.username = username
-#         self.email = email
-#         self.password = password
+class Utente:
+     def __init__(self, id, username, email, password):
+         self.id = id
+         self.username = username
+         self.email = email
+         self.password = password
 
 # class Itinerario:
 #     def __init__(self, id, nome, default):

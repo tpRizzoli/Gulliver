@@ -45,14 +45,17 @@
                         <input type="checkbox" id="collapsible-head{{ loop.index }}">
                         <label for="collapsible-head{{ loop.index }}">{{elem}}</label>
                         <div class="collapsible-text">
-                            <h2>//nome attivita</h2>
-                            <p>//descrizione attivita<br>
+                            {% for activity in listaAct %}
+                            <h2>{{activity.nome_attivita}}</h2>
+                            <p>{{activity.descrizione_attivita}}<br>
+                                difficoltà: {{activity.difficolta}}<br>
                                 Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod
                                 tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim
                                 veniam, quis nostrum exercitationem ullam corporis
                                 suscipit laboriosam,
                                 nisi ut ali
                             </p>
+                            {% endfor %}
                         </div>
                     </div>
                     {% endfor %}

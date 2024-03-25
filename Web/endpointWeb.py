@@ -132,7 +132,8 @@ def getTipologieAttivita():
         JOIN attivita_luoghi al ON l.ID = al.id_luogo\
         JOIN attivita a ON al.id_attivita = a.ID\
         JOIN tipologie t ON a.id_tipologia = t.ID\
-        WHERE l.nome ='"+nomeLuogo+"';"
+        WHERE l.nome ='"+nomeLuogo+"'\
+        GROUP BY t.id;"
     
     print(sql)
     listaTipologieXLuogo = []
@@ -155,29 +156,29 @@ def getAttivita():
     listaTipologieSelezionate = request.form.getlist('opzioneDinamica')
     print("Destinazione: ", nomeLuogo)
     print("Tipologie selezionate:", listaTipologieSelezionate)
-    
 
-    cursor = db.cursor()
-    sql = "SELECT a.nome, a.difficolta, a.descrizione FROM attivita as a\
-        JOIN tipologie t ON a.id_tipologia = t.ID\
-        JOIN attivita_luoghi al ON a.ID = al.id_attivita\
-        JOIN luoghi l ON al.id_luogo = l.ID\
-        WHERE t.nome = 'safari'\
-        AND l.nome = 'Kenya';" 
-    
     listaAttivitaXTipologia = []
-    try:
-        cursor.execute(sql)
-        results = cursor.fetchall()
-        for row in results:
-            nome_attivita = row[0]
-            difficolta = row[1]
-            descrizione_attivita = row[2]
-            listaAttivitaXTipologia.append(Attivita(nome_attivita, difficolta, descrizione_attivita))
-    except:
-        print ("Error: cannot fetch data")        
+    for i in range(len(listaTipologieSelezionate)):
+        cursor = db.cursor()
+        sql = "SELECT a.nome, a.difficolta, a.descrizione FROM attivita as a\
+            JOIN tipologie t ON a.id_tipologia = t.ID\
+            JOIN attivita_luoghi al ON a.ID = al.id_attivita\
+            JOIN luoghi l ON al.id_luogo = l.ID\
+            WHERE l.nome = '"+nomeLuogo+"'\
+            AND t.nome IN ("+listaTipologieSelezionate[i]+");" 
+        
+        try:
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            for row in results:
+                nome_attivita = row[0]
+                difficolta = row[1]
+                descrizione_attivita = row[2]
+                listaAttivitaXTipologia.append(Attivita(nome_attivita, difficolta, descrizione_attivita))
+        except:
+            print ("Error: cannot fetch data")        
 
-    return render_template('sceltaAttivita.html', destinazione = nomeLuogo, lista = listaTipologieSelezionate)
+    return render_template('sceltaAttivita.html', destinazione = nomeLuogo, lista = listaTipologieSelezionate, listaAct = listaAttivitaXTipologia)
 
 
 

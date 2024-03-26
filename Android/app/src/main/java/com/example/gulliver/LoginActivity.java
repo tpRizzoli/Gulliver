@@ -55,45 +55,33 @@ public class LoginActivity extends AppCompatActivity {
             String username = outputViewUsername.getText().toString();
             String password = outputViewPassword.getText().toString();
 
-            Call<ResponseBody> call = apiService.getUser(username, password);
-            call.enqueue(new Callback<ResponseBody>() {
+            Call<User> call = apiService.getUser(username, password);
+            call.enqueue(new Callback<User>() {
+
                 @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                public void onResponse(Call<User> call, Response<User> response) {
 
                     if (response.isSuccessful()) {
-                        ResponseBody body = response.body();
-                        try {
-                            String jsonString = body.string();
-                            if(!jsonString.equals("[]")) {
-                                Gson gson = new Gson();
+                        User utenteCreato = response.body();
 
-                                User utenteCreato = gson.fromJson(jsonString, User.class);
+                        savePreferencesData(utenteCreato);
 
-                                savePreferencesData(utenteCreato);
+                        Intent activity = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(activity);
+                        Toast.makeText(LoginActivity.this, "Accesso eseguito con successo!", Toast.LENGTH_SHORT).show();
 
-                                Intent activity = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(activity);
-                                Toast.makeText(LoginActivity.this, "Accesso eseguito con successo!", Toast.LENGTH_SHORT).show();
-                            }else{
-                                Toast.makeText(LoginActivity.this, "Credenziali errate", Toast.LENGTH_SHORT).show();
-                            }
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                     } else {
-                        Toast.makeText(LoginActivity.this, "Errore di rete", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Credenziali errate", Toast.LENGTH_SHORT).show();
                     }
+                }
+
+                public void onFailure(Call<User> call, Throwable t) {
+                    Toast.makeText(LoginActivity.this, "Errore di rete", Toast.LENGTH_SHORT).show();
                 }
 
                 private boolean isUserLoggedIn() {
                     SharedPreferences prefs = getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
                     return prefs.contains(ID) && prefs.contains(USERNAME) && prefs.contains(EMAIL) && prefs.contains(PASSWORD);
-                }
-
-
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Toast.makeText(LoginActivity.this, "Errore di rete", Toast.LENGTH_SHORT).show();
                 }
             });
         });

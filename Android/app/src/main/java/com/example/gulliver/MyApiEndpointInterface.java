@@ -1,8 +1,6 @@
 package com.example.gulliver;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -17,11 +15,10 @@ public interface MyApiEndpointInterface {
 
     // GET http://api.myservice.com/users/francesca
     @GET("/getUser")
-    Call<ResponseBody> getUser(@Query("utente") String username, @Query("password") String password);
-    Call<ResponseBody> getUser();
+    Call<User> getUser(@Query("utente") String username, @Query("password") String password);
 
     @PUT("/modificaProfilo/{id}")
-    Call<ResponseBody> modificaUsername(@Path("id")Integer id, @Query("username") String username, @Query("email") String email, @Query("password") String pwd);
+    Call<User> modificaProfilo(@Path("id")Integer id, @Query("username") String username, @Query("email") String email, @Query("password") String pwd);
 
     @GET("/allusers")
     Call<ArrayList<User>> getAllUsers();

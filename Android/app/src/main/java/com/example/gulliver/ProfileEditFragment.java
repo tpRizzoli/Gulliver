@@ -2,7 +2,11 @@
 
 package com.example.gulliver;
 
-import static com.example.gulliver.LoginActivity.*;
+import static com.example.gulliver.LoginActivity.EMAIL;
+import static com.example.gulliver.LoginActivity.ID;
+import static com.example.gulliver.LoginActivity.MY_PREFERENCES;
+import static com.example.gulliver.LoginActivity.PASSWORD;
+import static com.example.gulliver.LoginActivity.USERNAME;
 import static com.example.gulliver.MyApiEndpointInterface.urlServer;
 
 import android.content.Context;
@@ -19,12 +23,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
-import java.io.IOException;
-import java.util.ArrayList;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,10 +30,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileEditFragment extends Fragment {
-
-
-
     public static final String BASE_URL = urlServer;
+
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -98,39 +94,24 @@ public class ProfileEditFragment extends Fragment {
 
        Integer idUtente = sp.getInt(LoginActivity.ID, -1); // Integer.parseInt(getUserIdFromSharedPreferences()); // Prende l'id dalla SharedPreferences salvata
 
-        Call<ResponseBody> call = apiService.modificaUsername(idUtente, new_username, new_email, new_pwd);
-        call.enqueue(new Callback<ResponseBody>() {
+        Call<User> call = apiService.modificaProfilo(idUtente, new_username, new_email, new_pwd);
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-                    ResponseBody body = response.body();
+                    User utenteModificato = response.body();
+                    savePreferencesData(utenteModificato);
 
-                    try {
-                        String jsonString = body.string();
-                        if (!jsonString.equals("[]")) {
-                            Gson gson = new Gson();
-
-                            User utenteCreato = gson.fromJson(jsonString, User.class);
-
-                            savePreferencesData(utenteCreato);
-
-                            Intent activity = new Intent(getActivity(), MainActivity.class);
-                            startActivity(activity);
-                            Toast.makeText(getActivity(), "Username aggiornato con successo", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getActivity(), "Errore durante l'aggiornamento dell'username", Toast.LENGTH_SHORT).show();
-                        }
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    Intent activity = new Intent(getActivity(), MainActivity.class);
+                    startActivity(activity);
+                    Toast.makeText(getActivity(), "Profilo aggiornato con successo", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), "Errore di rete", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Errore durante l'aggiornamento del Profilo", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call < ResponseBody > call, Throwable t){
+            public void onFailure(Call < User > call, Throwable t){
                 Toast.makeText(getActivity(), "Errore di rete", Toast.LENGTH_SHORT).show();
             }
         });

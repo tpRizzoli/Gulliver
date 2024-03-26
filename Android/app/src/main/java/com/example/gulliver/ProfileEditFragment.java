@@ -102,8 +102,6 @@ public class ProfileEditFragment extends Fragment {
                     User utenteModificato = response.body();
                     savePreferencesData(utenteModificato);
 
-                    Intent activity = new Intent(getActivity(), MainActivity.class);
-                    startActivity(activity);
                     Toast.makeText(getActivity(), "Profilo aggiornato con successo", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), "Errore durante l'aggiornamento del Profilo", Toast.LENGTH_SHORT).show();
@@ -116,6 +114,8 @@ public class ProfileEditFragment extends Fragment {
             }
         });
     }
+
+
 
     private String getUserIdFromSharedPreferences() {
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);

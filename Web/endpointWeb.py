@@ -7,7 +7,7 @@ appWebApi = Flask(__name__)
 # Configurazione connessione DB MySQL
 MYSQL_HOST = 'localhost'
 MYSQL_USER = 'root'
-MYSQL_PASSWORD = 'password'
+MYSQL_PASSWORD = 'NUOVAPASSWORD'
 MYSQL_DB = 'gulliver'
 
 
@@ -44,6 +44,34 @@ class Attivita:
 def main():
     return render_template('home.html')
 
+@appWebApi.route("/ideeCategorie")
+def getCategorie():
+    categoriaPassata = request.args.get('categoria')
+
+    listaItinerariXCategoria = []
+    cursor = db.cursor()
+    sql = "SELECT i.nome AS nome_itinerario, c.nome AS nome_categoria \
+            FROM itinerari i \
+            JOIN attivita_itinerari ai ON i.ID = ai.id_itinerario\
+            JOIN attivita_luoghi al ON ai.id_attivita = al.id_attivita\
+            JOIN luoghi l ON al.id_luogo = l.ID\
+            JOIN luoghi_categorie lc ON l.ID = lc.id_luogo\
+            JOIN categorie c ON lc.id_categoria = c.ID\
+            Where c.nome ='"+categoriaPassata+"'\
+            GROUP BY i.nome;"
+    
+    print(sql)
+    
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        for row in results:
+            nome_itinerario = row[0]
+            nome_categoria = row[1]
+            listaItinerariXCategoria.append(Categoria(nome_itinerario, nome_categoria))
+    except:
+        print ("Error: cannot fetch data")
+    return render_template('ideeUnicoProva.html',  categoria = categoriaPassata, lista = listaItinerariXCategoria)
 
 @appWebApi.route("/ideemontagna")
 def getIdeeMontagnaByDB():

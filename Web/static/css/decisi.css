@@ -121,15 +121,11 @@ button {
   width: 100%;
   overflow: hidden;
   font-weight: 500;
-  
-  
 }
 
-.collapsible input{
+.tohide{
   display: none;
 }
-
-
 
 .collapsible label{
   position: relative;
@@ -151,7 +147,6 @@ button {
   right: 15px;
   top: 15px;
   width: 18px;
-  height: 18px;
   transition: all 0.3s ease;
 }
 
@@ -162,7 +157,6 @@ button {
 .collapsible-text{
   overflow: hidden;
   border-radius: 4px;
-  line-height: 1.4;
   position: relative;
   max-height: 0;
   opacity: 0;
@@ -183,8 +177,14 @@ button {
 }
 
 .collapsible-text h2{
-  margin-bottom: 10px;
-  padding: 15px 15px 0;
+  margin-bottom: 0;
+  padding: 0 15px;
+  color: #176B87;
+}
+
+.collapsible-text h3{
+  margin-top: 0;
+  padding: 0 15px;
   color: #176B87;
 }
 

@@ -32,20 +32,46 @@ class Tipologia:
         self.nome_tipologia = nt
 
 class Attivita:
-    id_attivita = None
     nome_attivita = None
     difficolta = None
     descrizione_attivita = None
-    def __init__(self, id, nome, difficolta, descrizione):
-        self.id = id
-        self.nome = nome
+    def __init__(self, nome, difficolta, descrizione):
+        self.nome_attivita = nome
         self.difficolta = difficolta
-        self.descrizione = descrizione
+        self.descrizione_attivita = descrizione
 
 @appWebApi.route("/")
 def main():
     return render_template('home.html')
 
+@appWebApi.route("/ideeCategorie")
+def getCategorie():
+    categoriaPassata = request.args.get('categoria')
+
+    listaItinerariXCategoria = []
+    cursor = db.cursor()
+    sql = "SELECT i.nome AS nome_itinerario, c.nome AS nome_categoria \
+            FROM itinerari i \
+            JOIN attivita_itinerari ai ON i.ID = ai.id_itinerario\
+            JOIN attivita_luoghi al ON ai.id_attivita = al.id_attivita\
+            JOIN luoghi l ON al.id_luogo = l.ID\
+            JOIN luoghi_categorie lc ON l.ID = lc.id_luogo\
+            JOIN categorie c ON lc.id_categoria = c.ID\
+            Where c.nome ='"+categoriaPassata+"'\
+            GROUP BY i.nome;"
+    
+    print(sql)
+    
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        for row in results:
+            nome_itinerario = row[0]
+            nome_categoria = row[1]
+            listaItinerariXCategoria.append(Categoria(nome_itinerario, nome_categoria))
+    except:
+        print ("Error: cannot fetch data")
+    return render_template('ideeUnicoProva.html',  categoria = categoriaPassata, lista = listaItinerariXCategoria)
 
 @appWebApi.route("/ideemontagna")
 def getIdeeMontagnaByDB():
@@ -57,7 +83,8 @@ def getIdeeMontagnaByDB():
             JOIN luoghi l ON al.id_luogo = l.ID\
             JOIN luoghi_categorie lc ON l.ID = lc.id_luogo\
             JOIN categorie c ON lc.id_categoria = c.ID\
-            Where c.ID = 1;"
+            Where c.ID = 1\
+            GROUP BY i.nome;"
     try:
         cursor.execute(sql)
         results = cursor.fetchall()
@@ -81,7 +108,8 @@ def getIdeeMareByDB():
             JOIN luoghi l ON al.id_luogo = l.ID\
             JOIN luoghi_categorie lc ON l.ID = lc.id_luogo\
             JOIN categorie c ON lc.id_categoria = c.ID\
-            Where c.ID = 2;"
+            Where c.ID = 2\
+            GROUP BY i.nome;"
     try:
         cursor.execute(sql)
         results = cursor.fetchall()
@@ -105,7 +133,8 @@ def getIdeeCittaByDB():
             JOIN luoghi l ON al.id_luogo = l.ID\
             JOIN luoghi_categorie lc ON l.ID = lc.id_luogo\
             JOIN categorie c ON lc.id_categoria = c.ID\
-            Where c.ID = 3;"
+            Where c.ID = 3\
+            GROUP BY i.nome;"
     try:
         cursor.execute(sql)
         results = cursor.fetchall()
@@ -156,32 +185,51 @@ def getAttivita():
     listaTipologieSelezionate = request.form.getlist('opzioneDinamica')
     print("Destinazione: ", nomeLuogo)
     print("Tipologie selezionate:", listaTipologieSelezionate)
-
-    listaAttivitaXTipologia = []
-    for i in range(len(listaTipologieSelezionate)):
-        cursor = db.cursor()
+    
+   
+    dizionarioAttivita = {}
+    # whereClause = "AND t.nome IN ('" + listaTipologieSelezionate[0]+"',"
+    # for i in range(1,len(listaTipologieSelezionate)):
+    #     whereClause += "'"+listaTipologieSelezionate[i] + "' "
+    #     whereClause += ");"
+    
+    cursor = db.cursor()
+    # sql = "SELECT a.nome, a.difficolta, a.descrizione FROM attivita as a\
+    #         JOIN tipologie t ON a.id_tipologia = t.ID\
+    #         JOIN attivita_luoghi al ON a.ID = al.id_attivita\
+    #         JOIN luoghi l ON al.id_luogo = l.ID\
+    #         WHERE l.nome = '"+nomeLuogo+"' "+whereClause
+    
+    for i in range(len(listaTipologieSelezionate)): 
         sql = "SELECT a.nome, a.difficolta, a.descrizione FROM attivita as a\
             JOIN tipologie t ON a.id_tipologia = t.ID\
             JOIN attivita_luoghi al ON a.ID = al.id_attivita\
             JOIN luoghi l ON al.id_luogo = l.ID\
-            WHERE l.nome = '"+nomeLuogo+"'\
-            AND t.nome IN ("+listaTipologieSelezionate[i]+");" 
-        
+            WHERE l.nome = '"+nomeLuogo+"' " + "AND t.nome " "IN "+"('"+(listaTipologieSelezionate[i])+"');"
+
+        dizionarioAttivita[listaTipologieSelezionate[i]] = []
+
+        print(sql)
         try:
             cursor.execute(sql)
             results = cursor.fetchall()
+
+
+            print(results)
             for row in results:
                 nome_attivita = row[0]
                 difficolta = row[1]
                 descrizione_attivita = row[2]
-                listaAttivitaXTipologia.append(Attivita(nome_attivita, difficolta, descrizione_attivita))
+                dizionarioAttivita[listaTipologieSelezionate[i]].append(Attivita(nome_attivita, difficolta, descrizione_attivita))
+
         except:
-            print ("Error: cannot fetch data")        
+            print ("Error: cannot fetch data")
 
-    return render_template('sceltaAttivita.html', destinazione = nomeLuogo, lista = listaTipologieSelezionate, listaAct = listaAttivitaXTipologia)
+    return render_template('sceltaAttivita.html', destinazione = nomeLuogo, lista = dizionarioAttivita)
 
 
 
+    
 
 
 

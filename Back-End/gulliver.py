@@ -365,13 +365,13 @@ def modificaProfilo(id):
     email = args.get("email")
     password = args.get("password")
 
-    sql= "UPDATE utenti SET username = '%s', email = '%s', pwd = '%s' WHERE id = %d" % (username, email, password, id)
+    sql= "UPDATE utenti SET username = '%s', email = '%s', pwd = '%s' WHERE id = %d" % (username, email, password, int(id))
 
     try:
         cursor.execute(sql)
         db.commit()
 
-        output = Utente(id, username, email, password)
+        output = Utente(id, username, email, password).__dict__
 
     except:
         print('Query error')

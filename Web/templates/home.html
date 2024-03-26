@@ -37,13 +37,15 @@
                 </form>
         </div>
 
+        
         <div class="card right">
             <h2>Lasciati ispirare. . .</h2>
 
             <div class="idee">
-                <a href="/categorie"><img src="/static/images/mountain-img.jpg" class="img-idee"alt=""></a>
+                
+                <a href="{{url_for('getIdee', id_categoria='1')}}"><img src="/static/images/mountain-img.jpg" class="img-idee"alt=""></a>
                 <div class="card-desc">
-                    <a href="/categorie"><h3 class="card title">Montagna</h3></a>
+                    <a href="{{url_for('getIdee', id_categoria='1')}}"><h3 class="card title" name="categorie" value="categorie">Montagna</h3></a>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod <br>
                         tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim <br>
                         veniam, quis nostrum exercitationem ullam
@@ -52,9 +54,9 @@
             </div>
 
             <div class="idee">
-                <a href="/categorie"><img src="/static/images/sea-img.jpeg" class="img-idee" alt=""></a>
+                <a href="{{url_for('getIdee', id_categoria='2')}}"><img src="/static/images/sea-img.jpeg" class="img-idee" alt=""></a>
                 <div class="card-desc">
-                    <a href="/categorie"><h3 class="card title">Mare</h3></a>
+                    <a href="{{url_for('getIdee', id_categoria='2')}}"><h3 class="card title" name="categorie" value="categorie">Mare</h3></a>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod <br>
                         tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim <br>
                         veniam, quis nostrum exercitationem ullam
@@ -63,9 +65,9 @@
             </div>
 
             <div class="idee">
-                <a href="/categorie"><img src="/static/images/city-img.jpg" class="img-idee"alt=""></a>
+                <a href="{{url_for('getIdee', id_categoria='3')}}"><img src="/static/images/city-img.jpg" class="img-idee"alt=""></a>
                 <div class="card-desc">
-                    <a href="/categorie"><h3 class="card title">Città</h3></a>
+                    <a href="{{url_for('getIdee', id_categoria='3')}}"><h3 class="card title" name="categorie" value="categorie">Città</h3></a>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod <br>
                         tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim <br>
                         veniam, quis nostrum exercitationem ullam
@@ -74,7 +76,7 @@
             </div>
         </div>  
     </div>
-   
+    
     
 </body>
 </html>

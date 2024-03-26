@@ -47,28 +47,42 @@ def main():
     return render_template('home.html')
 
 
-@appWebApi.route("/categorie")
-def getIdee():
+@appWebApi.route("/categorie/<int:id_categoria>", methods=['GET'])
+def getIdee(id_categoria):
     cursor = db.cursor()
     sql = "SELECT i.nome AS nome_itinerario, c.nome AS nome_categoria \
             FROM itinerari i \
-            JOIN attivita_itinerari ai ON i.ID = ai.id_itinerario\
-            JOIN attivita_luoghi al ON ai.id_attivita = al.id_attivita\
-            JOIN luoghi l ON al.id_luogo = l.ID\
-            JOIN luoghi_categorie lc ON l.ID = lc.id_luogo\
-            JOIN categorie c ON lc.id_categoria = c.ID\
-            Where c.ID = 1;"
+            JOIN attivita_itinerari ai ON i.ID = ai.id_itinerario \
+            JOIN attivita_luoghi al ON ai.id_attivita = al.id_attivita \
+            JOIN luoghi l ON al.id_luogo = l.ID \
+            JOIN luoghi_categorie lc ON l.ID = lc.id_luogo \
+            JOIN categorie c ON lc.id_categoria = c.ID \
+            WHERE c.ID = %s AND sysDefault = '1' \
+            GROUP BY i.nome;"
     try:
-        cursor.execute(sql)
+        cursor.execute(sql,(id_categoria))   
         results = cursor.fetchall()
         listaItinerariXCategoria = []
         for row in results:
             nome_itinerario = row[0]
             nome_categoria = row[1]
             listaItinerariXCategoria.append(Categoria(nome_itinerario, nome_categoria))
+        
+            if id_categoria == 1:
+                return render_template("categorie/id_categoria.html", categoria=nome_categoria, lista=listaItinerariXCategoria)
+                
+            elif id_categoria == 2:
+                return render_template("categorie/id_categoria.html", categoria=nome_categoria, lista=listaItinerariXCategoria)
+                
+            elif id_categoria == 3:
+                return render_template("categorie/id_categoria.html", categoria=nome_categoria, lista=listaItinerariXCategoria)
+            else:
+                raise ValueError("Invalid category ID")
+
     except:
-        print ("Error: cannot fetch data")
-    return render_template("categorie.html", categoria = nome_categoria, lista = listaItinerariXCategoria)
+       return print ("Error: cannot fetch data")
+
+
 
 
 """@appWebApi.route("/ideemare")

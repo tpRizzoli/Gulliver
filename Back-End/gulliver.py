@@ -341,14 +341,13 @@ def getUser():
     
     sql= "select * from utenti where username = '%s' and pwd = '%s';" % (args.get('utente'), args.get('password'))
     
+    output = []
+
     try:
         cursor.execute(sql)
-        results = cursor.fetchall()
+        res = cursor.fetchone()
         
-        output = []
-        for row in results:
-            utente = Utente(row[0], row[1], row[2], row[3])
-            output.append(utente.__dict__)
+        output = Utente(res[0], res[1], res[2], res[3]).__dict__
     except:
         print("Error: unable to fetch data")
 

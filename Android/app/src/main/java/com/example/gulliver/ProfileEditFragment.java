@@ -2,7 +2,7 @@
 
 package com.example.gulliver;
 
-import static com.example.gulliver.LoginActivity.MY_PREFERENCES;
+import static com.example.gulliver.LoginActivity.*;
 import static com.example.gulliver.MyApiEndpointInterface.urlServer;
 
 import android.content.Context;
@@ -19,8 +19,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,6 +32,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileEditFragment extends Fragment {
+
+
 
     public static final String BASE_URL = urlServer;
     Retrofit retrofit = new Retrofit.Builder()
@@ -43,6 +49,11 @@ public class ProfileEditFragment extends Fragment {
         EditText inputDataEmail = view.findViewById(R.id.cEmail);
         EditText inputDataPassword = view.findViewById(R.id.cPassword);
         Button btnSalvaModifiche = view.findViewById(R.id.btnSalvaModfiche);
+
+        SharedPreferences sp = getActivity().getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
+        inputDataUsername.setText(sp.getString(LoginActivity.USERNAME, null));
+        inputDataEmail.setText(sp.getString(LoginActivity.EMAIL, null));
+        inputDataPassword.setText(sp.getString(LoginActivity.PASSWORD, null));
 
         btnSalvaModifiche.setOnClickListener(v -> {;
             ProfileShowFragment profileShowFragment = new ProfileShowFragment();
@@ -81,23 +92,45 @@ public class ProfileEditFragment extends Fragment {
     }
 
     private void updateUserInfo(String new_username, String new_email, String new_pwd) {
+        SharedPreferences sp = getActivity().getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
+
         MyApiEndpointInterface apiService = retrofit.create(MyApiEndpointInterface.class);
 
-       Integer idUtente = 1; // Integer.parseInt(getUserIdFromSharedPreferences()); // Prende l'id dalla SharedPreferences salvata
+       Integer idUtente = sp.getInt(LoginActivity.ID, -1); // Integer.parseInt(getUserIdFromSharedPreferences()); // Prende l'id dalla SharedPreferences salvata
 
-        Call<Void> call = apiService.modificaUsername(idUtente, new_username, new_email, new_pwd);
-        call.enqueue(new Callback<Void>() {
+        Call<ResponseBody> call = apiService.modificaUsername(idUtente, new_username, new_email, new_pwd);
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(getActivity(), "Username aggiornato con successo", Toast.LENGTH_SHORT).show();
+                    ResponseBody body = response.body();
+
+                    try {
+                        String jsonString = body.string();
+                        if (!jsonString.equals("[]")) {
+                            Gson gson = new Gson();
+
+                            User utenteCreato = gson.fromJson(jsonString, User.class);
+
+                            savePreferencesData(utenteCreato);
+
+                            Intent activity = new Intent(getActivity(), MainActivity.class);
+                            startActivity(activity);
+                            Toast.makeText(getActivity(), "Username aggiornato con successo", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), "Errore durante l'aggiornamento dell'username", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 } else {
-                    Toast.makeText(getActivity(), "Errore durante l'aggiornamento dell'username", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Errore di rete", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call < ResponseBody > call, Throwable t){
                 Toast.makeText(getActivity(), "Errore di rete", Toast.LENGTH_SHORT).show();
             }
         });
@@ -106,5 +139,19 @@ public class ProfileEditFragment extends Fragment {
     private String getUserIdFromSharedPreferences() {
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
         return prefs.getString("userId", ""); // Ritorna un valore di default
+    }
+
+    public void savePreferencesData(User utente) {
+        SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        if(utente != null){
+            editor.putInt(ID, utente.id);
+            editor.putString(USERNAME, utente.username);
+            editor.putString(EMAIL, utente.email);
+            editor.putString(PASSWORD, utente.password); // Valutare di non salvare la password quì
+
+            editor.apply();
+        }
     }
 }

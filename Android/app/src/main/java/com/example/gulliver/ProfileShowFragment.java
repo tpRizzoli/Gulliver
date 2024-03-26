@@ -27,6 +27,8 @@ public class ProfileShowFragment extends Fragment {
         ctx = context;
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profiloutente, container, false);

@@ -2,16 +2,21 @@
 
 package com.example.gulliver;
 
+import com.google.gson.annotations.SerializedName;
+
 public class UserUpdateRequest {
-    private String userName;
-    private String userEmail;
-    private String userPassword;
 
-    public UserUpdateRequest(String userName, String userEmail, String userPassword) {
-        this.userName = userName;
-        this.userEmail = userEmail;
-        this.userPassword = userPassword;
+    @SerializedName("username")
+    public String new_username;
+    @SerializedName("email")
+    public String new_email;
+
+    @SerializedName("password")
+    public String new_pwd;
+
+    public UserUpdateRequest(String new_username, String  new_email, String  new_pwd) {
+        this.new_username = new_username;
+        this.new_email = new_email;
+        this.new_pwd = new_pwd;
     }
-
-    // Aggiungi getter e setter se necessario
 }

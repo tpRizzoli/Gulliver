@@ -11,12 +11,14 @@ import java.util.ArrayList;
 
 public interface MyApiEndpointInterface {
 
+    String urlServer = "http://192.168.0.103:5000";
+
     // GET http://api.myservice.com/users/francesca
     @GET("/getUser")
     Call<ArrayList<User>> getUser(@Query("utente") String username, @Query("password") String password);
 
     @PUT("/modificaProfilo/{id}")
-    Call<Void> modificaUsername(@Path("id") int idUtente, @Body UserUpdateRequest userUpdateRequest);
+    Call<Void> modificaUsername(@Path("id")Integer id, @Query("username") String username, @Query("email") String email, @Query("password") String pwd);
 
     @GET("/allusers")
     Call<ArrayList<User>> getAllUsers();

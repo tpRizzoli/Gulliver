@@ -1,5 +1,7 @@
 package com.example.gulliver;
 
+import static com.example.gulliver.MyApiEndpointInterface.urlServer;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     protected final static String USERNAME_DATA_KEY = "usernameData";
     protected final static String PASSWORD_DATA_KEY = "passwordData";
 
-    public static final String BASE_URL = "http://192.168.0.111:5000 ";
+    public static final String BASE_URL = urlServer;
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())

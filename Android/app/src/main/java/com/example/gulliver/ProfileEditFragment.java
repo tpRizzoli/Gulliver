@@ -2,6 +2,9 @@
 
 package com.example.gulliver;
 
+import static com.example.gulliver.LoginActivity.MY_PREFERENCES;
+import static com.example.gulliver.MyApiEndpointInterface.urlServer;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileEditFragment extends Fragment {
 
-    public static final String BASE_URL = "http://192.168.0.110:5000";
+    public static final String BASE_URL = urlServer;
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -31,24 +34,27 @@ public class ProfileEditFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_modificaprofilo, container, false);
 
         EditText inputDataUsername = view.findViewById(R.id.cUsername);
+        EditText inputDataEmail = view.findViewById(R.id.cEmail);
+        EditText inputDataPassword = view.findViewById(R.id.cPassword);
         Button btnSalvaModifiche = view.findViewById(R.id.btnSalvaModfiche);
 
-        btnSalvaModifiche.setOnClickListener(v -> {
-            String newUsername = inputDataUsername.getText().toString();
-            updateUsername(newUsername);
+        btnSalvaModifiche.setOnClickListener(v -> {;
+            String new_username = inputDataUsername.getText().toString();
+            String new_email = inputDataEmail.getText().toString();
+            String new_pwd = inputDataPassword.getText().toString();
+
+            updateUserInfo(new_username, new_email, new_pwd);
         });
 
         return view;
     }
 
-    private void updateUsername(String newUsername) {
+    private void updateUserInfo(String new_username, String new_email, String new_pwd) {
         MyApiEndpointInterface apiService = retrofit.create(MyApiEndpointInterface.class);
 
-        String idUtente = "1"; //getUserIdFromSharedPreferences(); // Prende l'id dalla SharedPreferences salvata
+       Integer idUtente = 1; // Integer.parseInt(getUserIdFromSharedPreferences()); // Prende l'id dalla SharedPreferences salvata
 
-        UserUpdateRequest userUpdateRequest = new UserUpdateRequest(newUsername, null, null);
-
-        Call<Void> call = apiService.modificaUsername(Integer.parseInt(idUtente), userUpdateRequest);
+        Call<Void> call = apiService.modificaUsername(idUtente, new_username, new_email, new_pwd);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -67,7 +73,7 @@ public class ProfileEditFragment extends Fragment {
     }
 
     private String getUserIdFromSharedPreferences() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("Autenticazione", Context.MODE_PRIVATE);
+        SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
         return prefs.getString("userId", ""); // Ritorna un valore di default
     }
 }

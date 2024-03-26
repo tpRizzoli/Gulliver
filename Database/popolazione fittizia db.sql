@@ -13,16 +13,16 @@ INSERT INTO utenti (username, email, pwd) VALUES
 ('isabella', 'isabella@example.com', 'isabella456');
 
 -- Inserimento degli itinerari
-INSERT INTO itinerari (nome) VALUES 
-('Esplorando le Alpi'),
-('Città d\'Arte Italiane'),
-('Spiagge e Relax'),
-('Scoprendo la Toscana'),
-('Tesori del Sud'),
-('Camminando per la Costa Amalfitana'),
-('Viaggio tra i Borghi Medievali'),
-('Tour Enogastronomico nel Piemonte'),
-('Navigando tra le Isole Greche');
+INSERT INTO itinerari (nome, sysDefault) VALUES 
+('Esplorando le Alpi', 1),
+('Città d\'Arte Italiane', 0),
+('Spiagge e Relax', 1),
+('Scoprendo la Toscana', 1),
+('Tesori del Sud', 0),
+('Camminando per la Costa Amalfitana', 0),
+('Viaggio tra i Borghi Medievali', 0),
+('Tour Enogastronomico nel Piemonte', 0),
+('Navigando tra le Isole Greche', 0);
 
 -- Inserimento delle tipologie di attività
 INSERT INTO tipologie (nome) VALUES

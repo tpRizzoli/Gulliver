@@ -1,6 +1,6 @@
 # Gulliver Back-End
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
 import pymysql
 import json
 
@@ -67,17 +67,16 @@ def fetchTipologieByLuogo():
     args = request.args
 
     sql = """select t.*
-                from tipologie as t 
-                join attivita as a on a.id_tipologia = t.id
-                join attivita_luoghi as al on al.id_attivita = a.id
-                join luoghi as l on l.id = al.id_luogo
-                where l.nome = '%s'
-                group by t.id;""" 
+             from tipologie as t 
+             join attivita as a on a.id_tipologia = t.id
+             join attivita_luoghi as al on al.id_attivita = a.id
+             join luoghi as l on l.id = al.id_luogo
+             where l.nome = '%s'
+             group by t.id;""" % (args.get('nomeLuogo'))
     
     
     try:
-        test = sql % (args.get('nomeLuogo'))
-        cursor.execute(sql % (args.get('nomeLuogo')))
+        cursor.execute(sql)
         results = cursor.fetchall()
         
         output = []
@@ -108,11 +107,11 @@ def findAttivitaTipologie():
             JOIN tipologie AS t ON t.id = a.id_tipologia
             JOIN attivita_luoghi AS al ON al.id_attivita = a.id
             JOIN luoghi AS l ON l.id = al.id_luogo
-            WHERE l.id = %d AND t.id IN (%s);"""
+            WHERE l.id = %d AND t.id IN (%s);""" % (idLuogo, listaId)
    
     
     try:
-        cursor.execute(sql % (idLuogo, listaId))
+        cursor.execute(sql)
         results = cursor.fetchall()
         
         output = []
@@ -133,14 +132,6 @@ def createItinerario():
 
     args = request.args
 
-    cercaItinerarioNome = """SELECT * FROM itinerari WHERE nome = '%s';"""
-    cercaItinerarioId = """SELECT * FROM itinerari WHERE id = '%d';"""
-    controllaRelazioneUtenteItinerario = """SELECT * FROM utenti_itinerari WHERE id_utente = %d AND id_itinerario = %d;"""
-
-    creazioneItinerario = """INSERT INTO itinerari (nome) VALUES ('%s');"""
-    creazioneRelazioniAttivitaItinerario = """INSERT INTO attivita_itinerari (id_attivita, id_itinerario) VALUES (%d, %d);"""
-    creazioneRelazioneUtenteItinerario = """INSERT INTO utenti_itinerari (id_utente, id_itinerario) VALUES (%d, %d);"""
-
     idUtente = int(args.get('idUtente'))
 
     try:
@@ -158,7 +149,14 @@ def createItinerario():
     except:
         listaAttivita = None
 
-  
+        
+    cercaItinerarioNome = """SELECT * FROM itinerari WHERE nome = '%s';"""
+    cercaItinerarioId = """SELECT * FROM itinerari WHERE id = %d;"""
+    controllaRelazioneUtenteItinerario = """SELECT * FROM utenti_itinerari WHERE id_utente = %d AND id_itinerario = %d;"""
+
+    creazioneItinerario = """INSERT INTO itinerari (nome) VALUES ('%s');"""
+    creazioneRelazioniAttivitaItinerario = """INSERT INTO attivita_itinerari (id_attivita, id_itinerario) VALUES (%d, %d);"""
+    creazioneRelazioneUtenteItinerario = """INSERT INTO utenti_itinerari (id_utente, id_itinerario) VALUES (%d, %d);"""
 
     if idItinerario != None and nomeItinerario != None:
         print('REQUEST_ERROR : Non posso ricevere sia idItinerario e nomeItinerario')
@@ -259,10 +257,10 @@ def findItinerariUtente():
     args = request.args
 
     
-    sql= 'SELECT i.* FROM itinerari i JOIN utenti_itinerari ui ON i.id = ui.id_itinerario WHERE ui.id_itinerario = %s;'
+    sql= 'SELECT i.* FROM itinerari i JOIN utenti_itinerari ui ON i.id = ui.id_itinerario WHERE ui.id_itinerario = %s;' % (int(args.get('idUtente')))
     
     try:
-        cursor.execute(sql % (int(args.get('idUtente'))))
+        cursor.execute(sql)
         results = cursor.fetchall()
         
         output = []
@@ -281,30 +279,21 @@ def getDettagliItinerari():
 
     args = request.args
 
+    idItinerario = int(args.get('idItinerario'))    
     
     sql = '''SELECT a.id, a.nome, a.descrizione, t.nome, a.difficolta
             FROM attivita a
             JOIN tipologie t ON a.id_tipologia = t.id
             JOIN attivita_itinerari ai ON a.id = ai.id_attivita
-            WHERE ai.id_itinerario = %d;'''
+            WHERE ai.id_itinerario = %d;''' % (idItinerario)
 
-
-    idItinerario = int(args.get('idItinerario'))    
-    
     try:
-        cursor.execute(sql % (idItinerario))
+        cursor.execute(sql)
         results = cursor.fetchall()
 
         output = []
         for row in results:
-            attivita = {
-                'id' : row[0],
-                'nome' : row[1],
-                'descrizione' : row[2],
-                'tipologia' : row[3],
-                'difficolta' : row[4]
-            }
-            output.append(attivita)
+            output.append(Attivita(row[0], row[1], row[2], row[3], row[4]).__dict__)
             
     except:
         print('Error: unable to fetch data')
@@ -323,11 +312,10 @@ def createUser():
     email = args.get("email")
     pwd = args.get("password")
     
-    query = "INSERT INTO utenti (username, email, pwd) VALUES ('%s', '%s', '%s');"
+    query = "INSERT INTO utenti (username, email, pwd) VALUES ('%s', '%s', '%s');"  % (username, email, pwd)
 
     try:
-        test = query % (username, email, pwd)
-        cursor.execute(query % (username, email, pwd))
+        cursor.execute(query)
         db.commit()
 
         try:
@@ -366,44 +354,54 @@ def getUser():
 
     return json.dumps(output, indent=4)
 
+
 #modifica del profilo utente
 @app.route("/modificaProfilo/<id>", methods = ['PUT'])
 def modificaProfilo(id):
-    try:
-        #id = request.args.get('id')
-        new_username = request.args.get("username")
-        new_email = request.args.get("email")
-        new_pwd = request.args.get("password")
-
-        print("modificaProfilo ->", id, new_username, new_email, new_pwd)
-        with db.cursor() as cursor:
-            sql= "update utenti set username = '%s', email = '%s', pwd = '%s' where id = %s" % (new_username, new_email, new_pwd, id)
-            print("modificaProfilo sql=", sql)
-            cursor.execute(sql)
-            db.commit()
-
-            u = {
-                'id' : id,
-                'username' : new_username,
-                'email' : new_email,
-                'password': new_pwd 
-            }
-
-            return json.dumps(u)
-    except Exception as e:
-        db.rollback()
-        return json.dumps({"Message":"Impossibile modificare l'utente"})
-        
-# Elimina un itinerario   
-@app.route('/eliminaItinerario/<id>', methods = ['DELETE'])
-def deleteItinerario(id):
     cursor = db.cursor()
+    args = request.args
+
+    username = args.get("username")
+    email = args.get("email")
+    password = args.get("password")
+
+    sql= "UPDATE utenti SET username = '%s', email = '%s', pwd = '%s' WHERE id = %d" % (username, email, password, id)
+
     try:
-        cursor.execute("DELETE FROM attivita_itinerari WHERE id_itinerario = %s;" % (id))
-        cursor.execute("DELETE FROM utenti_itinerari WHERE id_itinerario = %s;" % (id))
-        cursor.execute("DELETE FROM itinerari WHERE id = %s;" % (id))
+        cursor.execute(sql)
+        db.commit()
+
+        output = Utente(id, username, email, password)
+
+    except:
+        print('Query error')
+        return 'Errore'
+        
+    return json.dumps(output, indent=4)
+
+
+# Elimina un itinerario   
+@app.route('/eliminaItinerario', methods = ['DELETE'])
+def deleteItinerario():
+    cursor = db.cursor()
+    args = request.args
+
+    idItinerario = int(args.get('idItinerario'))
+    idUtente = int(args.get('idUtente'))
+
+    try:
+        cursor.execute("DELETE FROM utenti_itinerari WHERE id_itinerario = %d AND id_utente = %d;" % (idItinerario, idUtente))
+
+        cursor.execute("SELECT i.sysDefault FROM itinerari i WHERE id = %d;" % (idItinerario))
+        itinerario = cursor.fetchone()
+
+        if itinerario[0] == 0:        
+            cursor.execute("DELETE FROM attivita_itinerari WHERE id_itinerario = %d;" % (idItinerario))
+            cursor.execute("DELETE FROM itinerari WHERE id = %d;" % (idItinerario))
+
         db.commit()
     except:
+        connection.rollback()
         print('Query Error')
         return 'Errore'
 
@@ -414,24 +412,17 @@ def deleteItinerario(id):
 @app.route("/findItinerariSuggeriti", methods=['GET'])
 def findItinerariSuggeriti():
     
-    categoria_nome = request.args.get('categoria_nome')
+    nomeCategoria = request.args.get('categoria')
     cursor=db.cursor()  
-    sql="""SELECT
-                c.ID AS categoria_ID,
-                c.nome AS categoria_nome,
-                i.ID AS itinerario_ID,
-                i.nome AS itinerario_nome,
-                i.sysDefault AS itinerario_sysDefault,
-                l.ID AS luogo_ID,
-                l.nome AS luogo_nome
-                FROM categorie c
-                JOIN luoghi_categorie lc ON c.ID = lc.id_categoria
-                JOIN luoghi l ON lc.id_luogo = l.ID
-                JOIN attivita_luoghi al ON l.ID = al.id_luogo
-                JOIN attivita a ON al.id_attivita = a.ID
-                JOIN attivita_itinerari ai ON a.ID = ai.id_attivita
-                JOIN itinerari i ON ai.id_itinerario = i.ID
-                WHERE c.nome ='""" +categoria_nome+ """' AND i.sysDefault = '1' ;"""
+    sql="""SELECT i.*
+            FROM itinerari i 
+            JOIN attivita_itinerari ai ON i.ID = ai.id_itinerario
+            JOIN attivita_luoghi al ON ai.id_attivita = al.id_attivita
+            JOIN luoghi l ON al.id_luogo = l.ID
+            JOIN luoghi_categorie lc ON l.ID = lc.id_luogo
+            JOIN categorie c ON lc.id_categoria = c.ID
+            WHERE c.nome = '%s' AND i.sysDefault = 1
+            GROUP BY i.id;""" % (nomeCategoria)
     try:
         cursor.execute(sql)
         result=cursor.fetchall()
@@ -439,18 +430,11 @@ def findItinerariSuggeriti():
         output=[]
 
         for row in result:
-                u= {
-                    "itinerario_id": row[2],
-                    "itinerario_nome": row[3],
-                    "luogo_id": row[5],
-                    "luogo_nome": row[6]
-                    }
-                output.append(u)
+                output.append(Itinerario(row[0], row[1], row[2]).__dict__)
             
         return json.dumps(output, indent=4) 
                    
     except:
-        
         return json.dumps({"message": "Error fetching itinerari"}, indent=4)
         
 @app.route("/logout")

@@ -13,14 +13,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     BottomNavigationView bottomNavigationView;
     HomePageFragment homePageFragment = new HomePageFragment();
-    ItinerariFragment itinerariFragment = new ItinerariFragment();
     ProfileShowFragment profileShowFragment = new ProfileShowFragment();
     ProfileShowFragment profileEditFragment = new ProfileShowFragment();
     ItinerariUtenteFragment itinerariUtenteFragment = new ItinerariUtenteFragment();
     ItMareFragment itMareFragment = new ItMareFragment();
     ItMontagnaFragment itMontagnaFragment = new ItMontagnaFragment();
     ItCittaFragment itCittaFragment = new ItCittaFragment();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

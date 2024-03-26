@@ -6,15 +6,21 @@ import static com.example.gulliver.LoginActivity.MY_PREFERENCES;
 import static com.example.gulliver.MyApiEndpointInterface.urlServer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,11 +45,36 @@ public class ProfileEditFragment extends Fragment {
         Button btnSalvaModifiche = view.findViewById(R.id.btnSalvaModfiche);
 
         btnSalvaModifiche.setOnClickListener(v -> {;
+            ProfileShowFragment profileShowFragment = new ProfileShowFragment();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+
             String new_username = inputDataUsername.getText().toString();
             String new_email = inputDataEmail.getText().toString();
             String new_pwd = inputDataPassword.getText().toString();
 
             updateUserInfo(new_username, new_email, new_pwd);
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.flFragment, profileShowFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        // -------------------------- \\
+
+        Button btnAnnullaModifiche = view.findViewById(R.id.btnAnnullaModifiche);
+        btnAnnullaModifiche.setOnClickListener(v -> {
+            // Creare l'istanza del fragment ProfileShowFragment
+            ProfileShowFragment profileShowFragment = new ProfileShowFragment();
+
+            // Ottenere il FragmentManager
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+
+            // Iniziare una transazione per sostituire il fragment corrente con il ProfileShowFragment
+            fragmentManager.beginTransaction()
+                    .replace(R.id.flFragment, profileShowFragment) // R.id.fragment_container è l'ID del contenitore dei frammenti nell'activity
+                    .addToBackStack(null) // Aggiungi questa transazione allo stack indietro, in modo che l'utente possa tornare al fragment precedente premendo il pulsante indietro
+                    .commit();
         });
 
         return view;

@@ -131,7 +131,7 @@
             android:text="Salva" />
 
         <Button
-            android:id="@+id/btnAnnullaModfiche"
+            android:id="@+id/btnAnnullaModifiche"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_marginStart="20dp"

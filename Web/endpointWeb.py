@@ -47,8 +47,8 @@ def main():
     return render_template('home.html')
 
 
-@appWebApi.route("/ideemontagna")
-def getIdeeMontagnaByDB():
+@appWebApi.route("/categorie")
+def getIdee():
     cursor = db.cursor()
     sql = "SELECT i.nome AS nome_itinerario, c.nome AS nome_categoria \
             FROM itinerari i \
@@ -68,10 +68,10 @@ def getIdeeMontagnaByDB():
             listaItinerariXCategoria.append(Categoria(nome_itinerario, nome_categoria))
     except:
         print ("Error: cannot fetch data")
-    return render_template("idee_montagna.html", categoria = nome_categoria, lista = listaItinerariXCategoria)
+    return render_template("categorie.html", categoria = nome_categoria, lista = listaItinerariXCategoria)
 
 
-@appWebApi.route("/ideemare")
+"""@appWebApi.route("/ideemare")
 def getIdeeMareByDB():
     cursor = db.cursor()
     sql = "SELECT i.nome AS nome_itinerario, c.nome AS nome_categoria \
@@ -119,7 +119,7 @@ def getIdeeCittaByDB():
     except:
         print ("Error: cannot fetch data")
     return render_template('idee_citta.html',  categoria = nome_categoria, lista = listaItinerariXCategoria)
-
+"""
 
 #GET http://localhost:5000/?destinazione=
 @appWebApi.route("/destinazione") 

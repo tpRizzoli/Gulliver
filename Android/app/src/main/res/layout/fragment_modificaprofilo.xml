@@ -53,7 +53,7 @@
             android:id="@+id/cUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mario Rossi"
+            android:text=""
             android:textColor="@color/black"
             android:layout_gravity="center_horizontal"/>
 
@@ -80,7 +80,7 @@
             android:id="@+id/cEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="mario.rossi@gmail.com"
+            android:text=""
             android:textColor="@color/black"
             android:layout_gravity="center_horizontal"/>
 
@@ -107,7 +107,7 @@
             android:id="@+id/cPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="password123"
+            android:text=""
             android:textColor="@color/black"
             android:layout_gravity="center_horizontal"/>
 

@@ -20,6 +20,9 @@ public interface MyApiEndpointInterface {
     @PUT("/modificaProfilo/{id}")
     Call<User> modificaProfilo(@Path("id")Integer id, @Query("username") String username, @Query("email") String email, @Query("password") String pwd);
 
+    @POST("/createUser")
+    Call<User> createUser(@Query("username") String username, @Query("email") String email, @Query("password") String password);
+
     @GET("/allusers")
     Call<ArrayList<User>> getAllUsers();
 

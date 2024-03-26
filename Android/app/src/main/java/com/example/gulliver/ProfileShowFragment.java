@@ -50,6 +50,24 @@ public class ProfileShowFragment extends Fragment {
             }
         });
 
+        Button btnLogout = view.findViewById(R.id.btnLogout);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Crea un Intent per avviare l'Activity LoginActivity
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+
+                // Imposta i flag per terminare tutte le altre attività
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+
+                // Avvia l'Activity utilizzando l'Intent
+                startActivity(intent);
+            }
+        });
+
+
+
         return view;
     }
 }

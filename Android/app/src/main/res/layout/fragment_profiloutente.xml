@@ -122,17 +122,38 @@
             android:layout_gravity="center_horizontal"/>
     </LinearLayout> -->
 
-    <Button
-        android:id="@+id/btnModificaProfilo"
-        android:layout_width="170dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/custom_style_button"
-        android:backgroundTint="@color/azzurro"
-        android:text="Modifica Profilo"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        />
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/btnModificaProfilo"
+
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_style_button"
+            android:backgroundTint="@color/azzurro"
+
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="Modifica" />
+
+        <Button
+            android:id="@+id/btnLogout"
+
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_style_button"
+            android:backgroundTint="@color/rosso"
+
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="Log-Out" />
+
+    </LinearLayout>
 
     </LinearLayout>

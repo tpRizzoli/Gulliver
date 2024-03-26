@@ -43,8 +43,8 @@ public class HomePageFragment extends Fragment {
                     Toast.makeText(getActivity(), "Inserisci il nome, non i numeri", Toast.LENGTH_SHORT).show();
                 } else {
                     // Il campo non contiene numeri, puoi procedere con il cambio del fragment
-                    ItinerariFragment itinerariFragment = new ItinerariFragment();
-                    ((MainActivity) ctx).changeFragment(itinerariFragment);
+                    TipologieFragment tipologieFragment = new TipologieFragment();
+                    ((MainActivity) ctx).changeFragment(tipologieFragment);
                 }
             }
         });

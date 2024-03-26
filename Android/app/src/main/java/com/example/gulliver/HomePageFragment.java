@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -27,14 +29,27 @@ public class HomePageFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_homepage, container, false);
 
+        EditText nomePosto = view.findViewById(R.id.cNomeItinerario);
         Button btnCercaItinerario = view.findViewById(R.id.btnCercaItinerario);
+
         btnCercaItinerario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ItinerariFragment itinerariFragment = new ItinerariFragment();
-                ((MainActivity) ctx).changeFragment(itinerariFragment);
+                String nomePostoText = nomePosto.getText().toString().trim();
+                if (nomePostoText.isEmpty()) {
+                    Toast.makeText(getActivity(), "Devi inserire il nome del posto", Toast.LENGTH_SHORT).show();
+                } else if (nomePostoText.matches(".*\\d+.*")) {
+                    // Il campo contiene numeri, mostra un messaggio di errore
+                    Toast.makeText(getActivity(), "Inserisci il nome, non i numeri", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Il campo non contiene numeri, puoi procedere con il cambio del fragment
+                    ItinerariFragment itinerariFragment = new ItinerariFragment();
+                    ((MainActivity) ctx).changeFragment(itinerariFragment);
+                }
             }
         });
+
+
 
         Button btnmare = view.findViewById(R.id.imageMare);
         btnmare.setOnClickListener(new View.OnClickListener() {

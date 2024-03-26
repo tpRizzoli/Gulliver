@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:layout_gravity="center_horizontal">
 
         <TextView
@@ -54,7 +54,6 @@
             android:layout_height="wrap_content"
             android:text=""
             android:textSize="20dp"
-
             android:textColor="@color/black"
             android:layout_gravity="center_horizontal"/>
 
@@ -65,7 +64,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:layout_gravity="center_horizontal">
 
         <TextView
@@ -88,7 +87,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <!-- <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -113,18 +112,18 @@
             android:textSize="20dp"
             android:textColor="@color/black"
             android:layout_gravity="center_horizontal"/>
+    </LinearLayout> -->
 
-    </LinearLayout>
-        <Button
-            android:id="@+id/btnModificaProfilo"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="Modifica Profilo"
-            android:backgroundTint="@color/azzurro"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            />
+    <Button
+        android:id="@+id/btnModificaProfilo"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="Modifica Profilo"
+        android:backgroundTint="@color/azzurro"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        />
 
     </LinearLayout>

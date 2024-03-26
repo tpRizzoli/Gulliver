@@ -1,5 +1,10 @@
     package com.example.gulliver;
 
+    import static com.example.gulliver.LoginActivity.EMAIL;
+    import static com.example.gulliver.LoginActivity.ID;
+    import static com.example.gulliver.LoginActivity.PASSWORD;
+    import static com.example.gulliver.LoginActivity.USERNAME;
+
     import android.content.Context;
     import android.content.Intent;
     import android.content.SharedPreferences;
@@ -30,6 +35,6 @@
 
             private boolean isUserLoggedIn() {
                 SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFERENCES, Context.MODE_PRIVATE);
-                return prefs.contains(LoginActivity.USERNAME_DATA_KEY) && prefs.contains(LoginActivity.PASSWORD_DATA_KEY);
+                return prefs.contains(ID) && prefs.contains(USERNAME) && prefs.contains(EMAIL) && prefs.contains(PASSWORD);
             }
         }

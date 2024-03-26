@@ -6,24 +6,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import java.util.ArrayList;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import com.google.gson.Gson;
 
 public class LoginActivity extends AppCompatActivity {
 
-    protected final static String MY_PREFERENCES = "Autenticazione";
-    protected final static String USERNAME_DATA_KEY = "usernameData";
-    protected final static String PASSWORD_DATA_KEY = "passwordData";
+    protected final static String MY_PREFERENCES = "loginUtente";
+    protected final static String ID = "idData";
+    protected final static String USERNAME = "usernameData";
+    protected final static String EMAIL = "emailData";
+    protected final static String PASSWORD = "passwordData";
 
     public static final String BASE_URL = urlServer;
     Retrofit retrofit = new Retrofit.Builder()
@@ -51,21 +55,31 @@ public class LoginActivity extends AppCompatActivity {
             String username = outputViewUsername.getText().toString();
             String password = outputViewPassword.getText().toString();
 
-            Call<ArrayList<User>> call = apiService.getUser(username, password);
-            call.enqueue(new Callback<ArrayList<User>>() {
+            Call<ResponseBody> call = apiService.getUser(username, password);
+            call.enqueue(new Callback<ResponseBody>() {
                 @Override
-                public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response) {
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
                     if (response.isSuccessful()) {
-                        User user = ((ArrayList<User>) response.body()).get(0);
-                        if (user != null && user.password.equals(password)) {
-                            savePreferencesData();
+                        ResponseBody body = response.body();
+                        try {
+                            String jsonString = body.string();
+                            if(!jsonString.equals("[]")) {
+                                Gson gson = new Gson();
 
-                            Intent activity = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(activity);
-                            Toast.makeText(LoginActivity.this, "Accesso eseguito con successo!", Toast.LENGTH_SHORT).show();
+                                User utenteCreato = gson.fromJson(jsonString, User.class);
 
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Credenziali errate", Toast.LENGTH_SHORT).show();
+                                savePreferencesData(utenteCreato);
+
+                                Intent activity = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(activity);
+                                Toast.makeText(LoginActivity.this, "Accesso eseguito con successo!", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(LoginActivity.this, "Credenziali errate", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     } else {
                         Toast.makeText(LoginActivity.this, "Errore di rete", Toast.LENGTH_SHORT).show();
@@ -74,11 +88,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 private boolean isUserLoggedIn() {
                     SharedPreferences prefs = getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
-                    return prefs.contains(USERNAME_DATA_KEY) && prefs.contains(PASSWORD_DATA_KEY);
+                    return prefs.contains(ID) && prefs.contains(USERNAME) && prefs.contains(EMAIL) && prefs.contains(PASSWORD);
                 }
 
-                @Override
-                public void onFailure(Call<ArrayList<User>> call, Throwable t) {
+
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
                     Toast.makeText(LoginActivity.this, "Errore di rete", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -87,20 +101,17 @@ public class LoginActivity extends AppCompatActivity {
         // updatePreferencesData();
     }
 
-    public void savePreferencesData() {
+    public void savePreferencesData(User utente) {
         SharedPreferences prefs = getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
-        EditText outputViewUsername = findViewById(R.id.inputDataUsername);
-        EditText outputViewPassword = findViewById(R.id.inputDataPassword);
-        CharSequence textDataUsername = outputViewUsername.getText();
-        CharSequence textDataPassword = outputViewPassword.getText();
+        if(utente != null){
+            editor.putInt(ID, utente.id);
+            editor.putString(USERNAME, utente.username);
+            editor.putString(EMAIL, utente.username);
+            editor.putString(PASSWORD, utente.username); // Valutare di non salvare la password quì
 
-        if (textDataUsername != null && textDataPassword != null) {
-            editor.putString(USERNAME_DATA_KEY, textDataUsername.toString());
-            editor.putString(PASSWORD_DATA_KEY, textDataPassword.toString());
             editor.apply();
         }
-        //updatePreferencesData();
     }
 }

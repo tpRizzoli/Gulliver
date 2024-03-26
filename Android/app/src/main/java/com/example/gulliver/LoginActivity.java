@@ -62,9 +62,9 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Call<User> call, Response<User> response) {
 
                     if (response.isSuccessful()) {
-                        User utenteCreato = response.body();
+                        User utenteLoggato = response.body();
 
-                        savePreferencesData(utenteCreato);
+                        savePreferencesData(utenteLoggato);
 
                         Intent activity = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(activity);

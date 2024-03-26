@@ -42,6 +42,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:text="Username"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -50,9 +51,12 @@
 
         <TextView
             android:id="@+id/cUsername"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
+            android:singleLine="true"
             android:layout_height="wrap_content"
             android:text=""
+            android:textColorHint="@color/black"
+            android:background="@drawable/custom_input"
             android:textSize="20dp"
             android:textColor="@color/black"
             android:layout_gravity="center_horizontal"/>
@@ -78,9 +82,12 @@
 
         <TextView
             android:id="@+id/cEmail"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
+            android:singleLine="true"
             android:layout_height="wrap_content"
             android:text=""
+            android:textColorHint="@color/black"
+            android:background="@drawable/custom_input"
             android:textSize="20dp"
             android:textColor="@color/black"
             android:layout_gravity="center_horizontal"/>
@@ -109,6 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
+            android:background="@drawable/custom_view_content"
             android:textSize="20dp"
             android:textColor="@color/black"
             android:layout_gravity="center_horizontal"/>
@@ -116,10 +124,11 @@
 
     <Button
         android:id="@+id/btnModificaProfilo"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="Modifica Profilo"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_style_button"
         android:backgroundTint="@color/azzurro"
+        android:text="Modifica Profilo"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
         android:layout_marginStart="20dp"

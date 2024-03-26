@@ -47,8 +47,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Inserisci il tuo username"
+
         android:textColorHint="@color/black"
         android:textColor="#000000"
+        android:background="@drawable/custom_input"
+        android:layout_marginTop="5dp"
+
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"/>
 
@@ -67,8 +71,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Inserisci la tua email"
+
         android:textColorHint="@color/black"
         android:textColor="#000000"
+        android:background="@drawable/custom_input"
+        android:layout_marginTop="5dp"
+
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"/>
 
@@ -85,11 +93,15 @@
 
     <EditText
         android:id="@+id/cPassword"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Inserisci la password"
+
         android:textColorHint="@color/black"
         android:textColor="#000000"
+        android:background="@drawable/custom_input"
+        android:layout_marginTop="5dp"
+
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"/>
 
@@ -105,22 +117,29 @@
 
     <EditText
         android:id="@+id/cConfermaPassword"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Inserisci nuovamente la password"
+
         android:textColorHint="@color/black"
         android:textColor="#000000"
+        android:background="@drawable/custom_input"
+        android:layout_marginTop="5dp"
+
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"/>
 
     <Button
         android:id="@+id/btnRegistrazione"
+
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_style_button"
+        android:backgroundTint="@color/azzurro"
+
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
-        android:backgroundTint="@color/azzurro"
-        android:text="Crea account" />
+        android:text="Crea account"/>
 
 </LinearLayout>

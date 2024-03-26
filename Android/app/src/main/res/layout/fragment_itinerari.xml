@@ -171,15 +171,16 @@
         </LinearLayout>
 
         <Button
+
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Avanti"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:textColor="@color/white"
+            android:background="@drawable/custom_style_button"
             android:backgroundTint="@color/azzurro"
+
+            android:text="Avanti"
+            android:textColor="@color/white"
             android:layout_gravity="center_horizontal"
-            />
+            android:layout_marginBottom="50dp"/>
 
     </LinearLayout>
 </ScrollView>

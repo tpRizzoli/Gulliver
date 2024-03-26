@@ -108,8 +108,8 @@ public class LoginActivity extends AppCompatActivity {
         if(utente != null){
             editor.putInt(ID, utente.id);
             editor.putString(USERNAME, utente.username);
-            editor.putString(EMAIL, utente.username);
-            editor.putString(PASSWORD, utente.username); // Valutare di non salvare la password quì
+            editor.putString(EMAIL, utente.email);
+            editor.putString(PASSWORD, utente.password); // Valutare di non salvare la password quì
 
             editor.apply();
         }

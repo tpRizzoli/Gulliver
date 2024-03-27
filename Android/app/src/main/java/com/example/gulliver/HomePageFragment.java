@@ -7,13 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+
 public class HomePageFragment extends Fragment {
 
     Context ctx = null;
+    GridView grigliaTipologie = null;
+    TipologieGridAdapter tga = null;
+
+    ArrayList<Tipologia> listaTipologie = new ArrayList<>();
+
 
     public HomePageFragment() {
     }
@@ -43,8 +51,11 @@ public class HomePageFragment extends Fragment {
                     Toast.makeText(getActivity(), "Inserisci il nome, non i numeri", Toast.LENGTH_SHORT).show();
                 } else {
                     // Il campo non contiene numeri, puoi procedere con il cambio del fragment
+                    Bundle extra = new Bundle();
+                    extra.putString("nomeLuogo", nomePosto.getText().toString());
+
                     TipologieFragment tipologieFragment = new TipologieFragment();
-                    ((MainActivity) ctx).changeFragment(tipologieFragment);
+                    ((MainActivity) ctx).changeFragment(tipologieFragment, extra);
                 }
             }
         });

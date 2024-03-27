@@ -1,44 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
-
-    <LinearLayout
-        android:id="@+id/main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white"
-        tools:context=".MainActivity">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".MainActivity"
+    android:layout_gravity="center_horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/logoApp"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/logoapp"
-                android:layout_marginEnd="20dp"/>
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/logoapp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gulliver"
                 android:layout_gravity="center_vertical"
+                android:text="Gulliver"
                 android:textColor="@color/black"
                 android:textSize="50sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -63,127 +59,20 @@
             android:text="Scegli le tipologie di attività che ti piacciono"/>
 
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:weightSum="3">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
-                android:background="@color/azzurro" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
-                android:background="@color/azzurro" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
-                android:background="@color/azzurro" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
-            android:weightSum="3">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
-                android:background="@color/azzurro" />
-
-
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
-                android:background="@color/azzurro" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:weightSum="3">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
-                android:background="@color/azzurro" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
-                android:background="@color/azzurro" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
-                android:background="@color/azzurro" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
-            android:weightSum="3">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
-                android:background="@color/azzurro" />
-
-
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
-                android:background="@color/azzurro" />
-        </LinearLayout>
+    <GridView
+        android:id="@+id/tabellaTipologie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/white"
+        android:numColumns="2" />
 
 
         <Button
+            android:id="@+id/confermaTipologie"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_style_button"
@@ -191,7 +80,8 @@
             android:text="Avanti"
             android:textColor="@color/white"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="50dp"/>
+            android:layout_marginBottom="50dp"
+            android:layout_marginTop="50dp" />
 
 
 
@@ -309,4 +199,3 @@
 
 
     </LinearLayout>
-</ScrollView>

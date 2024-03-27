@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public interface MyApiEndpointInterface {
 
-    String urlServer = "http://192.168.0.114:5000";
+    String urlServer = "http://192.168.0.129:5000";
 
     // GET http://api.myservice.com/users/francesca
     @GET("/getUser")
@@ -23,13 +23,6 @@ public interface MyApiEndpointInterface {
     @POST("/createUser")
     Call<User> createUser(@Query("username") String username, @Query("email") String email, @Query("password") String password);
 
-    @GET("/allusers")
-    Call<ArrayList<User>> getAllUsers();
-
-    // GET http://www.sito.it/group/103/users?sort=asc
-    @GET("/group/{id}/users")
-    Call<ArrayList<User>> groupList(@Path("id") int groupId, @Query("sort") String sort);
-
-    @POST("/users/new")
-    Call<User> createUser(@Body User user);
+    @GET("/findTipologie")
+    Call<ArrayList<Tipologia>> findTipologie(@Query("nomeLuogo") String nomeLuogo);
 }

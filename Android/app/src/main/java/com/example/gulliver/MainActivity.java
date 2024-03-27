@@ -72,6 +72,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 .commit();
     }
 
+    public void changeFragment(Fragment frag, Bundle extra) {
+        if(frag != null)
+            frag.setArguments(extra);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.flFragment, frag)
+                .addToBackStack("windows") // Aggiungi il fragment allo stack all'interno del back stack
+                .commit();
+    }
+
     // Sovrascrivi il metodo onBackPressed per gestire correttamente la gesture "indietro"
     @Override
     public void onBackPressed() {

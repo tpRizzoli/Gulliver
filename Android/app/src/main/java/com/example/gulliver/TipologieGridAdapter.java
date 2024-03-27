@@ -1,55 +1,56 @@
 package com.example.gulliver;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
-public class TipologieGridAdapter extends RecyclerView.Adapter<TipologieGridAdapter.TipologieViewHolder> {
+public class TipologieGridAdapter extends ArrayAdapter<Tipologia> {
 
-    private ArrayList<Tipologia> listaTipologie;
+    Context context;
+    int resource;
 
-    public TipologieGridAdapter(ArrayList<Tipologia> listaTipologie) {
-        this.listaTipologie = listaTipologie;
+    public TipologieGridAdapter(@NonNull Context context, int resource, ArrayList<Tipologia> lista) {
+        super(context, resource, lista);
+        this.context = context;
+        this.resource = resource;
     }
 
-    public class TipologieViewHolder extends RecyclerView.ViewHolder{
 
-        private CheckBox checkBox;
-        private TextView testoCheckbox;
-        public TipologieViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            checkBox = itemView.findViewById(R.id.checkboxTipologia);
-            testoCheckbox = itemView.findViewById(R.id.checkboxTipologia);
-        }
+    static class TipologiaGridViewHolder {
+        CheckBox checkBox;
     }
 
     @NonNull
     @Override
-    public TipologieGridAdapter.TipologieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        View viewContent = convertView;
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.tipologie_grid_item, parent, false);
-        return new TipologieViewHolder(itemView);
+        if(convertView == null){
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+            viewContent = inflater.inflate(resource, null);
+
+            TipologiaGridViewHolder holder = new TipologiaGridViewHolder();
+            holder.checkBox = viewContent.findViewById(R.id.checkboxTipologia);
+
+            viewContent.setTag(holder);
+        }
+
+        TipologiaGridViewHolder holder = (TipologiaGridViewHolder) viewContent.getTag();
+        Tipologia item = getItem(position);
+
+
+        holder.checkBox.setText(String.valueOf(item.nome));
+
+        return viewContent;
     }
-
-    @Override
-    public void onBindViewHolder(@NonNull TipologieGridAdapter.TipologieViewHolder holder, int position) {
-
-        String nome = listaTipologie.get(position).nome;
-        holder.testoCheckbox.setText(nome);
-    }
-
-    @Override
-    public int getItemCount() {
-        return listaTipologie.size();
-    }
-
-
 }

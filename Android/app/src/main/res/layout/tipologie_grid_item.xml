@@ -4,15 +4,13 @@
     android:layout_width="100dp" >
 
     <CheckBox
-    android:id="@+id/checkboxTipologia"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:checked="false" />
+        android:id="@+id/checkboxTipologia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/black"
+        android:text="Ciao"
+        android:textColor="@color/black"
+        android:checked="false" />
 
-    <TextView
-    android:id="@+id/checkboxText"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_toRightOf="@+id/checkboxTipologia" />
 
 </RelativeLayout>

@@ -77,7 +77,7 @@ VALUES
 ('Kenya', 'Kenya', 0.0236, 37.9062), -- Luogo di mare
 ('Maldive', 'Maldive', 3.2028, 73.2207), -- Luogo di mare
 ('Cannes', 'Francia', 43.5528, 7.0174), -- Luogo di città
-('Yosemite National Park', 'Stati Uniti', 37.8651, -119.5383); -- Luogo di montagna
+('posto', 'Stati Uniti', 37.8651, -119.5383); -- Luogo di montagna
 
 -- Inserimento delle associazioni utenti-itinerari
 INSERT INTO utenti_itinerari (id_utente, id_itinerario) VALUES

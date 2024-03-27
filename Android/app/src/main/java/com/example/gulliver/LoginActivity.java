@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLoginButton.setOnClickListener(v -> {
             EditText outputViewUsername = findViewById(R.id.inputDataUsername);
             EditText outputViewPassword = findViewById(R.id.inputDataPassword);
+            //CheckBox salvaCred = findViewById(R.id.salvaCredenziali);
             String username = outputViewUsername.getText().toString();
             String password = outputViewPassword.getText().toString();
 
@@ -62,14 +64,14 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Call<User> call, Response<User> response) {
 
                     if (response.isSuccessful()) {
-                        User utenteLoggato = response.body();
+                        //if(salvaCred.isChecked()) {
+                            User utenteLoggato = response.body();
 
-                        savePreferencesData(utenteLoggato);
-
+                            savePreferencesData(utenteLoggato);
+                        //}
                         Intent activity = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(activity);
                         Toast.makeText(LoginActivity.this, "Accesso eseguito con successo!", Toast.LENGTH_SHORT).show();
-
                     } else {
                         Toast.makeText(LoginActivity.this, "Credenziali errate", Toast.LENGTH_SHORT).show();
                     }

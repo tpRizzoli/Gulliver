@@ -81,8 +81,9 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"/>
 
+    <!--
     <CheckBox
-        android:id="@+id/saveCredenziali"
+        android:id="@+id/salvaCredenziali"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ricorda credenziali"
@@ -91,6 +92,7 @@
         android:buttonTint="@color/black"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp" />
+    -->
 
     <Button
         android:id="@+id/loginButton"

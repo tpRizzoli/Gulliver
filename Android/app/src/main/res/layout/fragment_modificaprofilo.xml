@@ -1,158 +1,155 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/main_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/white"
-    android:orientation="vertical">
-
-
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/imgprofile"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Profilo Utente"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"/>
+    android:background="@color/white">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal">
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/imgprofile"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Username"
+            android:text="Profilo Utente"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_gravity="center_horizontal" />
-
-        <EditText
-            android:id="@+id/cUsername"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColorHint="@color/black"
-            android:textColor="#000000"
-            android:background="@drawable/custom_input"
             android:layout_gravity="center_horizontal"
-            android:singleLine="true"/>
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal">
-
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Email"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal">
 
-        <EditText
-            android:id="@+id/cEmail"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColorHint="@color/black"
-            android:textColor="#000000"
-            android:background="@drawable/custom_input"
-            android:layout_gravity="center_horizontal"
-            android:singleLine="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Username"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal" />
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/cUsername"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColorHint="@color/black"
+                android:textColor="#000000"
+                android:background="@drawable/custom_input"
+                android:layout_gravity="center_horizontal"
+                android:singleLine="true"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal">
+        </LinearLayout>
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Password"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"/>
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal">
 
-        <EditText
-            android:id="@+id/cPassword"
-            android:layout_width="300dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Email"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/cEmail"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColorHint="@color/black"
+                android:textColor="#000000"
+                android:background="@drawable/custom_input"
+                android:layout_gravity="center_horizontal"
+                android:singleLine="true"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textColorHint="@color/black"
-            android:textColor="#000000"
-            android:background="@drawable/custom_input"
-            android:layout_gravity="center_horizontal"
-            android:singleLine="true"/>
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Password"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"/>
+
+            <EditText
+                android:id="@+id/cPassword"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColorHint="@color/black"
+                android:textColor="#000000"
+                android:background="@drawable/custom_input"
+                android:layout_gravity="center_horizontal"
+                android:singleLine="true"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/btnSalvaModfiche"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_style_button"
+                android:backgroundTint="@color/verde"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Salva" />
+
+            <Button
+                android:id="@+id/btnAnnullaModifiche"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_style_button"
+                android:backgroundTint="@color/rosso"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Annulla" />
+
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal">
-
-        <Button
-            android:id="@+id/btnSalvaModfiche"
-
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custom_style_button"
-            android:backgroundTint="@color/verde"
-
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="Salva" />
-
-        <Button
-            android:id="@+id/btnAnnullaModifiche"
-
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custom_style_button"
-            android:backgroundTint="@color/rosso"
-
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="Annulla" />
-
-    </LinearLayout>
-</LinearLayout>
+</ScrollView>

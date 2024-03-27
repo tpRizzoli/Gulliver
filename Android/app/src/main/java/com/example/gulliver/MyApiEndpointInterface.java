@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public interface MyApiEndpointInterface {
 
-    String urlServer = "http://192.168.0.129:5000";
+    String urlServer = "http://192.168.0.114:5000";
 
     // GET http://api.myservice.com/users/francesca
     @GET("/getUser")
@@ -25,4 +25,7 @@ public interface MyApiEndpointInterface {
 
     @GET("/findTipologie")
     Call<ArrayList<Tipologia>> findTipologie(@Query("nomeLuogo") String nomeLuogo);
+
+    @GET("/findItinerariUtente")
+    Call<ArrayList<Itinerario>> findItinerariUtente(@Query("idUtente") Integer id);
 }

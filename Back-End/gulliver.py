@@ -257,7 +257,7 @@ def findItinerariUtente():
     args = request.args
 
     
-    sql= 'SELECT i.* FROM itinerari i JOIN utenti_itinerari ui ON i.id = ui.id_itinerario WHERE ui.id_itinerario = %s;' % (int(args.get('idUtente')))
+    sql= 'SELECT i.* FROM itinerari i JOIN utenti_itinerari ui ON i.id = ui.id_itinerario WHERE ui.id_utente = %s;' % (int(args.get('idUtente')))
     
     try:
         cursor.execute(sql)

@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,11 +25,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ItinerariUtenteFragment extends Fragment {
 
+    Context context;
+
     protected final static String MY_PREFERENCES = "loginUtente";
     protected final static String ID = "idData";
     Retrofit retrofit;
-    RecyclerView recyclerView;
+    ListView listView;
     ItinerarioAdapter adapter;
+
+    ArrayList<Itinerario> listaItinerari = new ArrayList<>();
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -42,8 +54,10 @@ public class ItinerariUtenteFragment extends Fragment {
 
         MyApiEndpointInterface apiService = retrofit.create(MyApiEndpointInterface.class);
 
-        recyclerView = view.findViewById(R.id.container_itinerari);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        listView = view.findViewById(R.id.listaItinerari);
+        adapter = new ItinerarioAdapter(context, R.layout.lista_itinerari, listaItinerari);
+        listView.setAdapter(adapter);
+
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
         Integer id = sharedPreferences.getInt(ID, -1);
@@ -54,9 +68,16 @@ public class ItinerariUtenteFragment extends Fragment {
             @Override
             public void onResponse(Call<ArrayList<Itinerario>> call, Response<ArrayList<Itinerario>> response) {
                 if (response.isSuccessful()) {
-                    ArrayList<Itinerario> itinerari = response.body();
-                    adapter = new ItinerarioAdapter(itinerari, getContext());
-                    recyclerView.setAdapter(adapter);
+                    listaItinerari.clear();
+                    listaItinerari = response.body();
+
+                    adapter.notifyDataSetChanged();
+                    listView.invalidate();
+
+                    //codice per visualizzare le info dell'itinerario cliccato
+
+
+
                 } else {
                     Toast.makeText(getActivity(), "Impossibile vedere", Toast.LENGTH_SHORT).show();
                 }

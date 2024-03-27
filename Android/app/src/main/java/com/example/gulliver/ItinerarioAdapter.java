@@ -4,47 +4,53 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
-public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.ItinerarioViewHolder> {
+public class ItinerarioAdapter extends ArrayAdapter<Itinerario> {
 
-    private ArrayList<Itinerario> itinerariList;
-    private Context context;
+    Context context;
+    int resource;
 
-    public ItinerarioAdapter(ArrayList<Itinerario> itinerariList, Context context) {
-        this.itinerariList = itinerariList;
+    public ItinerarioAdapter(@NonNull Context context, int resource, ArrayList<Itinerario> lista) {
+        super(context, resource, lista);
         this.context = context;
+        this.resource = resource;
+    }
+
+
+    static class ItinerarioGridViewHolder {
+        TextView textView;
     }
 
     @NonNull
     @Override
-    public ItinerarioViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_itinerari, parent, false);
-        return new ItinerarioViewHolder(view);
-    }
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        View viewContent = convertView;
 
-    @Override
-    public void onBindViewHolder(@NonNull ItinerarioViewHolder holder, int position) {
-        Itinerario itinerario = itinerariList.get(position);
-        holder.nomeTextView.setText(itinerario.getNome());
-    }
+        if(convertView == null){
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+            viewContent = inflater.inflate(resource, null);
 
-    @Override
-    public int getItemCount() {
-        return itinerariList.size();
-    }
+            ItinerarioGridViewHolder holder = new ItinerarioGridViewHolder();
+            holder.textView = viewContent.findViewById(R.id.nomeTextView);
 
-    public static class ItinerarioViewHolder extends RecyclerView.ViewHolder {
-        TextView nomeTextView;
-
-        public ItinerarioViewHolder(@NonNull View itemView) {
-            super(itemView);
-            nomeTextView = itemView.findViewById(R.id.nomeTextView);
+            viewContent.setTag(holder);
         }
+
+        ItinerarioGridViewHolder holder = (ItinerarioGridViewHolder) viewContent.getTag();
+        Itinerario item = getItem(position);
+
+
+        holder.textView.setText(String.valueOf(item.nome));
+
+        return viewContent;
     }
 }

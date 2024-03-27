@@ -65,9 +65,6 @@ public class ProfileShowFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
-
-
         return view;
     }
 }

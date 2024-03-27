@@ -60,6 +60,8 @@ public class ProfileShowFragment extends Fragment {
                 // Imposta i flag per terminare tutte le altre attività
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
+                SharedPreferences settings = requireContext().getSharedPreferences("loginUtente", Context.MODE_PRIVATE);
+                settings.edit().clear().commit();
 
                 // Avvia l'Activity utilizzando l'Intent
                 startActivity(intent);

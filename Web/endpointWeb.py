@@ -44,7 +44,7 @@ class Attivita:
 def main():
     return render_template('home.html')
 
-@appWebApi.route("/ideeCategorie")
+@appWebApi.route("/idee")
 def getCategorie():
     categoriaPassata = request.args.get('categoria')
 
@@ -71,98 +71,8 @@ def getCategorie():
             listaItinerariXCategoria.append(Categoria(nome_itinerario, nome_categoria))
     except:
         print ("Error: cannot fetch data")
-    return render_template('ideeUnicoProva.html',  categoria = categoriaPassata, lista = listaItinerariXCategoria)
+    return render_template('idee.html',  categoria = categoriaPassata, lista = listaItinerariXCategoria)
 
-@appWebApi.route("/ideemontagna")
-def getIdeeMontagnaByDB():
-    cursor = db.cursor()
-    sql = "SELECT i.nome AS nome_itinerario, c.nome AS nome_categoria \
-            FROM itinerari i \
-            JOIN attivita_itinerari ai ON i.ID = ai.id_itinerario \
-            JOIN attivita_luoghi al ON ai.id_attivita = al.id_attivita \
-            JOIN luoghi l ON al.id_luogo = l.ID \
-            JOIN luoghi_categorie lc ON l.ID = lc.id_luogo \
-            JOIN categorie c ON lc.id_categoria = c.ID \
-            WHERE c.ID = %s AND sysDefault = '1' \
-            GROUP BY i.nome\
-            GROUP BY i.nome;"
-    try:
-        cursor.execute(sql,(id_categoria))   
-        results = cursor.fetchall()
-        listaItinerariXCategoria = []
-        for row in results:
-            nome_itinerario = row[0]
-            nome_categoria = row[1]
-            listaItinerariXCategoria.append(Categoria(nome_itinerario, nome_categoria))
-        
-            if id_categoria == 1:
-                return render_template("categorie/id_categoria.html", categoria=nome_categoria, lista=listaItinerariXCategoria)
-                
-            elif id_categoria == 2:
-                return render_template("categorie/id_categoria.html", categoria=nome_categoria, lista=listaItinerariXCategoria)
-                
-            elif id_categoria == 3:
-                return render_template("categorie/id_categoria.html", categoria=nome_categoria, lista=listaItinerariXCategoria)
-            else:
-                raise ValueError("Invalid category ID")
-
-    except:
-       return print ("Error: cannot fetch data")
-
-
-
-
-"""@appWebApi.route("/ideemare")
-def getIdeeMareByDB():
-    cursor = db.cursor()
-    sql = "SELECT i.nome AS nome_itinerario, c.nome AS nome_categoria \
-            FROM itinerari i \
-            JOIN attivita_itinerari ai ON i.ID = ai.id_itinerario\
-            JOIN attivita_luoghi al ON ai.id_attivita = al.id_attivita\
-            JOIN luoghi l ON al.id_luogo = l.ID\
-            JOIN luoghi_categorie lc ON l.ID = lc.id_luogo\
-            JOIN categorie c ON lc.id_categoria = c.ID\
-            Where c.ID = 2\
-            GROUP BY i.nome;"
-    try:
-        cursor.execute(sql)
-        results = cursor.fetchall()
-        listaItinerariXCategoria = []
-        for row in results:
-            nome_itinerario = row[0]
-            nome_categoria = row[1]
-            listaItinerariXCategoria.append(Categoria(nome_itinerario, nome_categoria))
-    except:
-        print ("Error: cannot fetch data")
-    return render_template('idee_mare.html',  categoria = nome_categoria, lista = listaItinerariXCategoria)
-
-
-@appWebApi.route("/ideecitta")
-def getIdeeCittaByDB():
-    cursor = db.cursor()
-    sql = "SELECT i.nome AS nome_itinerario, c.nome AS nome_categoria \
-            FROM itinerari i \
-            JOIN attivita_itinerari ai ON i.ID = ai.id_itinerario\
-            JOIN attivita_luoghi al ON ai.id_attivita = al.id_attivita\
-            JOIN luoghi l ON al.id_luogo = l.ID\
-            JOIN luoghi_categorie lc ON l.ID = lc.id_luogo\
-            JOIN categorie c ON lc.id_categoria = c.ID\
-            Where c.ID = 3\
-            GROUP BY i.nome;"
-    try:
-        cursor.execute(sql)
-        results = cursor.fetchall()
-        listaItinerariXCategoria = []
-        for row in results:
-            nome_itinerario = row[0]
-            nome_categoria = row[1]
-            listaItinerariXCategoria.append(Categoria(nome_itinerario, nome_categoria))
-            #print ("nome_itinerario=%s, nome_categoria=%s" % \
-            #       (nome_itinerario, nome_categoria))
-    except:
-        print ("Error: cannot fetch data")
-    return render_template('idee_citta.html',  categoria = nome_categoria, lista = listaItinerariXCategoria)
-"""
 
 #GET http://localhost:5000/?destinazione=
 @appWebApi.route("/destinazione") 
@@ -227,8 +137,6 @@ def getAttivita():
         try:
             cursor.execute(sql)
             results = cursor.fetchall()
-
-
             print(results)
             for row in results:
                 nome_attivita = row[0]
@@ -242,8 +150,50 @@ def getAttivita():
     return render_template('sceltaAttivita.html', destinazione = nomeLuogo, lista = dizionarioAttivita)
 
 
+@appWebApi.route("/Sommario", methods=['POST'])
+def createSommario():
+    nomeLuogo = request.form.get('destinazione')
+    listaAttivitaSelezionate = request.form.getlist('opzioneDinamica')
+    print("Destinazione: ", nomeLuogo)
+    print("Tipologie selezionate:", listaAttivitaSelezionate)
 
+    sommarioAttivita=[]
+    cursor=db.cursor()
+
+    for i in range(len(listaAttivitaSelezionate)):
+        sql = "SELECT a.nome, a.difficolta, a.descrizione FROM attivita as a\
+            JOIN attivita_luoghi al ON a.ID = al.id_attivita\
+            JOIN luoghi l ON al.id_luogo = l.ID\
+            WHERE a.nome = '"+(listaAttivitaSelezionate[i])+"'\
+            AND l.nome = '"+nomeLuogo+"';"
+        
+        print(sql)
+        try:
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            print(results)
+            for row in results:
+                nome_attivita = row[0]
+                difficolta = row[1]
+                descrizione_attivita = row[2]
+                sommarioAttivita.append(Attivita(nome_attivita, difficolta, descrizione_attivita))
+
+        except:
+            print ("Error: cannot fetch data")
+            
+    return render_template('sommario.html', destinazione=nomeLuogo, sommario = sommarioAttivita)
     
+@appWebApi.route("/ItinerarioSalvato", methods=["POST"])
+def salvaItinerario():
+    return render_template("profilo.html")
+
+
+# @appWebApi.route("SommarioIdee")
+# def getSommarioIdee():
+
+
+
+
 
 
 

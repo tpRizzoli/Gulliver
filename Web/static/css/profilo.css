@@ -1,0 +1,146 @@
+body{
+    background-color: white;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin-top: 110px;
+}
+
+.dash{
+    height: 70px;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: #176B87 solid;
+    background-color: rgb(196, 221, 244);
+    z-index: 1000; /* Ensure it's above other content */
+    position: fixed;
+}
+
+.logo{
+    position: relative;
+    height: 50%;
+    padding: 7px 10px;
+    border-radius: 7px;
+    margin-left: 7px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-icon{
+    margin-left: 20px;
+    margin-bottom: -5px;
+}
+
+.login-icon{
+    margin-right: 20px;
+    margin-bottom: -5px;
+}
+
+/* custom scroll-bar */
+::-webkit-scrollbar{
+    width: 15px;
+  }
+  
+  ::-webkit-scrollbar-track{
+    background: #176B87;
+  }
+  
+  ::-webkit-scrollbar-thumb{
+    background: linear-gradient(red,yellow);
+  }
+
+.main{
+    width: 90%;
+    height: 500px;
+    margin: auto;
+    background-color: rgb(150, 143, 143);
+    display: block;
+}
+
+.container-profilo{
+    width: 90%;
+    margin: auto;
+    height: 350px;
+    background-color: aqua;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+
+}
+
+.img-profilo{
+    height: 350px;
+}
+
+.dati-profilo{
+    width: 100%;
+    margin-left: 50px;
+    margin-bottom: 10px;
+    
+}
+
+h1, h2{
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.modifica{
+    float: right;
+}
+
+.container-itinerari{
+    margin-top: 50px;
+    background-color: blueviolet;
+    
+}
+
+.container-itinerari>h2{
+    padding-left: 15px;
+}
+
+.main-card{
+    margin-top: 5px;
+    margin: auto;
+    text-align: center;
+    padding-bottom: 150px;
+    border-top: #c8f402 solid;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.elemlist{
+    width: 25%;
+    margin: auto;
+    display: inline-block;
+    padding-bottom: 40px;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    background: #a21111;
+    box-shadow:  5px 5px 9px #8a0e0e,
+                -5px -5px 9px #ba1414;
+    }
+
+.card-body>img{
+    height: 200px;
+}
+
+.card-body{
+    margin-top: 30px;
+}
+
+.card.title{
+    display: flex;
+    width:fit-content;
+}
+
+
+
+

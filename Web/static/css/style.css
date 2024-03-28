@@ -129,3 +129,16 @@ input{
 .card-body>img{
     height: 200px;
 }
+
+/* custom scroll-bar */
+::-webkit-scrollbar{
+    width: 15px;
+  }
+  
+  ::-webkit-scrollbar-track{
+    background: #176B87;
+  }
+  
+  ::-webkit-scrollbar-thumb{
+    background: linear-gradient(red,yellow);
+  }

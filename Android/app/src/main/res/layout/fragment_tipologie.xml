@@ -34,7 +34,6 @@
 
         </LinearLayout>
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,7 +67,6 @@
         android:layout_marginRight="20dp"
         android:numColumns="2" />
 
-
         <Button
             android:id="@+id/confermaTipologie"
             android:layout_width="150dp"
@@ -80,9 +78,6 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="50dp"
             android:layout_marginTop="50dp" />
-
-
-
 
         <!--
         <LinearLayout
@@ -100,7 +95,6 @@
                 android:drawableTop="@drawable/citta"
                 android:padding="15dp" />
 
-
             <Button
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -109,7 +103,6 @@
                 android:background="@color/azzurro"
                 android:drawableTop="@drawable/citta"
                 android:padding="15dp" />
-
 
             <Button
                 android:layout_weight="1"
@@ -136,7 +129,6 @@
                 android:drawableTop="@drawable/citta"
                 android:padding="15dp" />
 
-
             <Button
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -145,7 +137,6 @@
                 android:background="@color/azzurro"
                 android:drawableTop="@drawable/citta"
                 android:padding="15dp" />
-
 
             <Button
                 android:layout_weight="1"

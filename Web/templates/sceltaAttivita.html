@@ -40,23 +40,25 @@
 
 
                 <div class="wrapper">
-                    {% for elem in lista %}
-                    <div class="collapsible">
-                        <input type="checkbox" id="collapsible-head{{ loop.index }}">
-                        <label for="collapsible-head{{ loop.index }}">{{elem}}</label>
-                        <div class="collapsible-text">
-                            <h2>//nome attivita</h2>
-                            <p>//descrizione attivita
-                                Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod
-                                tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                veniam, quis nostrum exercitationem ullam corporis
-                                suscipit laboriosam,
-                                nisi ut ali
-                            </p>
+                    <form action="/Sommario" method="POST">
+                        <input type="hidden" name="destinazione" value="{{destinazione}}"/>
+                        {% for elem in lista.keys() %}
+                        <div class="collapsible">
+                            <input type="checkbox" class="tohide"id="collapsible-head{{ loop.index }}">
+                            <label for="collapsible-head{{ loop.index }}">{{elem}}</label>
+                            <div class="collapsible-text">
+                                {% for act in lista[elem] %}
+                                <h2 id="collapsible-h2{{ loop.index }}">{{act.nome_attivita}}</h2>
+                                <h3 id="collapsible-h3{{ loop.index }}">difficoltà: {{act.difficolta}}</h3>
+                                <p id="collapsible-p{{ loop.index }}">{{act.descrizione_attivita}}</p>
+                                <input type="checkbox" id="collapsible-checkbox{{ loop.index }}" name="opzioneDinamica" value="{{act.nome_attivita}}">
+                                {%  endfor %} 
+                            </div>
                         </div>
-                    </div>
-                    {% endfor %}
-                    <button>Avanti</button>
+                        {% endfor %}
+                        <button>Avanti</button>
+                    </form>
+                    
                 </div>
 
                 

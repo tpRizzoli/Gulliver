@@ -54,6 +54,14 @@ class Attivita:
         self.difficolta = difficolta
         self.descrizione_attivita = descrizione
 
+class Itinerario:
+    id_itinerario = None
+    nome_itinerario = None
+    default_itinerario = None
+    def __init__(self, id, nome, default):
+        self.id_itinerario = id
+        self.nome_itinerario = nome
+        self.default_itinerario = default
 
 @appWebApi.route("/profilo")
 def getProfilo():
@@ -63,12 +71,12 @@ def getProfilo():
     utente = session.get("username")
     cursor = db.cursor()
     sql = "SELECT username, email FROM utenti WHERE username ='"+utente+"';"
-    print(sql)
+    #print(sql)
 
     try:
         cursor.execute(sql)
         results = cursor.fetchone()
-        print(results)
+        #print(results)
         username_utente = results[0]
         email_utente = results[1]
     except:
@@ -93,6 +101,7 @@ def login():
             # Se l'utente esiste nel database, registra il nome utente nella sessione
             session['username'] = user[0]
             return redirect('/profilo')
+            # return redirect(next or ('/profilo'))
         else:
             print("Errore: credenziali errate")
             return render_template('krissloginprova.html')
@@ -176,17 +185,8 @@ def getAttivita():
     
    
     dizionarioAttivita = {}
-    # whereClause = "AND t.nome IN ('" + listaTipologieSelezionate[0]+"',"
-    # for i in range(1,len(listaTipologieSelezionate)):
-    #     whereClause += "'"+listaTipologieSelezionate[i] + "' "
-    #     whereClause += ");"
     
     cursor = db.cursor()
-    # sql = "SELECT a.nome, a.difficolta, a.descrizione FROM attivita as a\
-    #         JOIN tipologie t ON a.id_tipologia = t.ID\
-    #         JOIN attivita_luoghi al ON a.ID = al.id_attivita\
-    #         JOIN luoghi l ON al.id_luogo = l.ID\
-    #         WHERE l.nome = '"+nomeLuogo+"' "+whereClause
     
     for i in range(len(listaTipologieSelezionate)): 
         sql = "SELECT a.nome, a.difficolta, a.descrizione FROM attivita as a\
@@ -251,9 +251,31 @@ def createSommario():
 def salvaItinerario():
     if not session.get("username"):
         return redirect("/login")
-    # completa -- 
-    
-    #---
+     
+    # nuovoItinerario = request.form.get('nuovoItinerario')
+    # print(nuovoItinerario)
+
+    # cursor = db.cursor()
+    # listaItinerariUtente=[]
+    # sql = "SELECT i.nome\
+    #     FROM itinerari i\
+    #     JOIN utenti_itinerari ui ON i.ID = ui.id_itinerario\
+    #     JOIN utenti u ON ui.id_utente = u.ID\
+    #     WHERE u.username ='"+nuovoItinerario+"';"
+
+
+    # print(sql)
+    # try:
+    #     cursor.execute(sql)
+    #     results = cursor.fetchall()
+    #     print(results)
+    #     for row in results:
+    #         nome_itinerario = row[0]
+    #         listaItinerariUtente.append(Itinerario(nome_itinerario))
+
+    # except:
+    #     print ("Error: cannot fetch data")
+    # return redirect("/profilo", lista = listaItinerariUtente)
     return redirect("/profilo")
 
 
@@ -348,6 +370,7 @@ def registrazione():
 
     return render_template('getUser.html')
 """
+
 #modifica del profilo utente
 @appWebApi.route("/modificaProfilo/<int:id>", methods = ['PUT'])
 def modificaProfilo(id):
@@ -397,18 +420,8 @@ def modificaProfilo(id):
 # Classi database
 
 
-class Utente:
-     def __init__(self, id, username, email, password):
-         self.id = id
-         self.username = username
-         self.email = email
-         self.password = password
 
-# class Itinerario:
-#     def __init__(self, id, nome, default):
-#         self.id = id
-#         self.nome = nome
-#         self.default = default
+
 
 # class Luogo:
 #     def __init__(self, id, nome, stato, latitudine, longitudine):

@@ -277,10 +277,10 @@ def registrazione():
             nuovo_utente = Utente(new_username=username, new_email=email, new_password=pwd)
             db.session.add(nuovo_utente)
             db.session.commit()
-            if Utente == nuovo_utente:
-                return render_template('registrazioneProva.html', error = 'Username o email già esistenti')
+            # if Utente == nuovo_utente:
+            #     return render_template('registrazioneProva.html', error = 'Username o email già esistenti')
 
-            return redirect('/login')
+            return redirect('/profilo')
             
         except Exception as e :
             print("Errore durante la creazione dell'utente: {e}")

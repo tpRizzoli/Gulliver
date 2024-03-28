@@ -20,7 +20,16 @@ MYSQL_DB = 'gulliver'
 # Connessione al DB
 db = pymysql.connect(host = MYSQL_HOST, user = MYSQL_USER, password = MYSQL_PASSWORD, db = MYSQL_DB)
 
-
+class Utente:
+    id_utente = None
+    username_utente = None
+    email_utente = None
+    password_utente = None
+    def __init__(self, id, username, email, password):
+        self.id_utente = id
+        self.username_utente = username
+        self.email_utente = email
+        self.password_utente = password
 
 class Categoria:
     nome_itinerario = None
@@ -45,24 +54,31 @@ class Attivita:
         self.difficolta = difficolta
         self.descrizione_attivita = descrizione
 
-# def verifica_autenticazione():
-#     if not session.get("username"):
-#         return redirect("/login")
 
 @appWebApi.route("/profilo")
 def getProfilo():
-    # verifica_autenticazione()
     if not session.get("username"):
         return redirect("/login")
-    return render_template("profilo.html")
+    
+    utente = session.get("username")
+    cursor = db.cursor()
+    sql = "SELECT username, email FROM utenti WHERE username ='"+utente+"';"
+    print(sql)
+
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchone()
+        print(results)
+        username_utente = results[0]
+        email_utente = results[1]
+    except:
+        print ("Error: cannot fetch data")
+    
+    return render_template("profilo.html", user = username_utente, email = email_utente)
 
     
-@appWebApi.route("/login")
+@appWebApi.route("/login", methods=["POST", "GET"])
 def login():
-    return render_template("krissloginprova.html")
-
-@appWebApi.route("/confirmLogin", methods=["POST", "GET"])
-def confirmlogin():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -76,10 +92,11 @@ def confirmlogin():
         if user:
             # Se l'utente esiste nel database, registra il nome utente nella sessione
             session['username'] = user[0]
-            return redirect('/')
+            return redirect('/profilo')
         else:
             print("Errore: credenziali errate")
             return render_template('krissloginprova.html')
+    return render_template('krissloginprova.html')
 
 
 @appWebApi.route("/logout")

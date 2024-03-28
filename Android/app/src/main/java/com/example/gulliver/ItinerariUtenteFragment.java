@@ -62,7 +62,7 @@ public class ItinerariUtenteFragment extends Fragment {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
         Integer id = sharedPreferences.getInt(ID, -1);
 
-        Call<ArrayList<Itinerario>> call = apiService.findItinerariUtente(id);
+/*        Call<ArrayList<Itinerario>> call = apiService.findItinerariUtente(id);
 
         call.enqueue(new Callback<ArrayList<Itinerario>>() {
             @Override
@@ -87,7 +87,7 @@ public class ItinerariUtenteFragment extends Fragment {
                 // Gestisci eventuali errori di comunicazione qui
                 Toast.makeText(getActivity(), "errore...", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
         return view;
     }
 }

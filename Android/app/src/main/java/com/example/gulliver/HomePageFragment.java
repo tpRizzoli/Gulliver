@@ -18,7 +18,7 @@ public class HomePageFragment extends Fragment {
 
     Context ctx = null;
     GridView grigliaTipologie = null;
-    TipologieGridAdapter tga = null;
+    TipologieAdapter tga = null;
 
     ArrayList<Tipologia> listaTipologie = new ArrayList<>();
 

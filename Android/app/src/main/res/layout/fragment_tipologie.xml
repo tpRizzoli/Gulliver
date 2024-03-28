@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/white"
     tools:context=".MainActivity"
     android:layout_gravity="center_horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -67,7 +66,6 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@color/white"
         android:numColumns="2" />
 
 
@@ -195,7 +193,4 @@
                 android:padding="15dp" />
         </LinearLayout>
         -->
-
-
-
-    </LinearLayout>
+</LinearLayout>

@@ -34,7 +34,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        
         android:orientation="vertical"
         android:layout_marginTop="50dp"
         android:layout_gravity="center_horizontal">
@@ -66,7 +66,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        
         android:orientation="vertical"
         android:layout_marginTop="50dp"
         android:layout_gravity="center_horizontal">
@@ -97,7 +97,7 @@
     <!-- <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        
         android:orientation="vertical"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal">
@@ -126,7 +126,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@color/white"
+        
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal">
 
@@ -140,7 +140,8 @@
 
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:text="Modifica" />
+            android:text="Modifica"
+            android:textStyle="bold"/>
 
         <Button
             android:id="@+id/btnLogout"
@@ -152,7 +153,8 @@
 
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:text="Log-Out" />
+            android:text="Log-Out"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 

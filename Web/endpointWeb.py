@@ -46,11 +46,47 @@ class Attivita:
         self.descrizione_attivita = descrizione
 
 def verifica_autenticazione():
-    # check if the users exist or not
     if not session.get("username"):
-        # if not there in the session then redirect to the login page
         return redirect("/login")
-    return render_template('index.html')
+
+@appWebApi.route("/profilo")
+def getProfilo():
+    verifica_autenticazione()
+    return render_template("profilo.html")
+
+#session["username"] = None
+    
+@appWebApi.route("/login")
+def login():
+    return render_template("krissloginprova.html")
+
+@appWebApi.route("/confirmLogin", methods=["POST", "GET"])
+def confirmlogin():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        # Query per verificare le credenziali nel database
+        sql = "SELECT username FROM utenti WHERE username = %s AND pwd = %s"
+        cursor = db.cursor()
+        cursor.execute(sql, (username, password))
+        user = cursor.fetchone()
+
+        if user:
+            # Se l'utente esiste nel database, registra il nome utente nella sessione
+            session['username'] = user[0]
+            return redirect('/')
+        else:
+            return render_template('krissloginprova.html', error='Credenziali non valide')
+
+    return render_template('home.html')
+
+@appWebApi.route("/logout")
+def logout():
+    session['username'] = None
+    return redirect("/")
+
+
 
 @appWebApi.route("/")
 def main():
@@ -195,33 +231,9 @@ def createSommario():
     
 @appWebApi.route("/ItinerarioSalvato", methods=["POST"])
 def salvaItinerario():
-    #da completare
+    # completa
     return render_template("profilo.html")
 
-@appWebApi.route("/login")
-def login():
-    return render_template("krissloginprova.html")
-
-@appWebApi.route("/confirmLogin", methods=["POST", "GET"])
-def confirmlogin():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-
-        # Query per verificare le credenziali nel database
-        sql = "SELECT username FROM utenti WHERE username = %s AND pwd = %s"
-        cursor = db.cursor()
-        cursor.execute(sql, (username, password))
-        user = cursor.fetchone()
-
-        if user:
-            # Se l'utente esiste nel database, registra il nome utente nella sessione
-            session['username'] = user[0]
-            return redirect('/')
-        else:
-            return render_template('krissloginprova.html', error='Credenziali non valide')
-
-    return render_template('home.html')
 
 
 

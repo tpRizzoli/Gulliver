@@ -1,18 +1,19 @@
-package com.example.gulliver;
+package com.example.gulliver.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.gulliver.ClassiModello.Itinerario;
+import com.example.gulliver.R;
+
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 public class ItinerarioAdapter extends ArrayAdapter<Itinerario> {
 

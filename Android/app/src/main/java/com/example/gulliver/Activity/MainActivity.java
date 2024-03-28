@@ -1,4 +1,4 @@
-package com.example.gulliver;
+package com.example.gulliver.Activity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -7,6 +7,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.gulliver.Fragment.HomePageFragment;
+import com.example.gulliver.Fragment.ItCittaFragment;
+import com.example.gulliver.Fragment.ItMareFragment;
+import com.example.gulliver.Fragment.ItMontagnaFragment;
+import com.example.gulliver.Fragment.ItinerariUtenteFragment;
+import com.example.gulliver.Fragment.ProfileShowFragment;
+import com.example.gulliver.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {

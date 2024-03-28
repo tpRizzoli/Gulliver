@@ -1,18 +1,18 @@
-package com.example.gulliver;
+package com.example.gulliver.Fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.content.*;
-
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
+import com.example.gulliver.Activity.LoginActivity;
+import com.example.gulliver.Activity.MainActivity;
+import com.example.gulliver.R;
 
 public class ProfileShowFragment extends Fragment {
 
@@ -26,8 +26,6 @@ public class ProfileShowFragment extends Fragment {
         super.onAttach(context);
         ctx = context;
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

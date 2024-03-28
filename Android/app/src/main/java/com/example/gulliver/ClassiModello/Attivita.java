@@ -1,4 +1,4 @@
-package com.example.gulliver;
+package com.example.gulliver.ClassiModello;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,4 +1,4 @@
-package com.example.gulliver;
+package com.example.gulliver.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,8 +12,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.gulliver.ClassiModello.Itinerario;
+import com.example.gulliver.Adapter.ItinerarioAdapter;
+import com.example.gulliver.MyApiEndpointInterface;
+import com.example.gulliver.R;
 
 import java.util.ArrayList;
 
@@ -84,7 +87,7 @@ public class ItinerariUtenteFragment extends Fragment {
 
             public void onFailure(Call<ArrayList<Itinerario>> call, Throwable t) {
                 // Gestisci eventuali errori di comunicazione qui
-                Toast.makeText(getActivity(), "errore...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "error...", Toast.LENGTH_SHORT).show();
             }
         });
         return view;

@@ -1,4 +1,4 @@
-package com.example.gulliver;
+package com.example.gulliver.Activity;
 
 import static com.example.gulliver.MyApiEndpointInterface.urlServer;
 
@@ -11,6 +11,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.gulliver.MyApiEndpointInterface;
+import com.example.gulliver.R;
+import com.example.gulliver.ClassiModello.User;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,11 +23,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
-    protected final static String MY_PREFERENCES = "loginUtente";
-    protected final static String ID = "idData";
-    protected final static String USERNAME = "usernameData";
-    protected final static String EMAIL = "emailData";
-    protected final static String PASSWORD = "passwordData";
+    public final static String MY_PREFERENCES = "loginUtente";
+    public final static String ID = "idData";
+    public final static String USERNAME = "usernameData";
+    public final static String EMAIL = "emailData";
+    public final static String PASSWORD = "passwordData";
 
     public static final String BASE_URL = urlServer;
     Retrofit retrofit = new Retrofit.Builder()

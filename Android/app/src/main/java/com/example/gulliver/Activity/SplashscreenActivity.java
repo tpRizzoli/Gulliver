@@ -1,9 +1,9 @@
-    package com.example.gulliver;
+    package com.example.gulliver.Activity;
 
-    import static com.example.gulliver.LoginActivity.EMAIL;
-    import static com.example.gulliver.LoginActivity.ID;
-    import static com.example.gulliver.LoginActivity.PASSWORD;
-    import static com.example.gulliver.LoginActivity.USERNAME;
+    import static com.example.gulliver.Activity.LoginActivity.EMAIL;
+    import static com.example.gulliver.Activity.LoginActivity.ID;
+    import static com.example.gulliver.Activity.LoginActivity.PASSWORD;
+    import static com.example.gulliver.Activity.LoginActivity.USERNAME;
 
     import android.content.Context;
     import android.content.Intent;
@@ -12,7 +12,10 @@
     import android.os.Handler;
     import android.view.WindowManager;
     import androidx.appcompat.app.AppCompatActivity;
-    public class Splash_screen extends AppCompatActivity {
+
+    import com.example.gulliver.R;
+
+    public class SplashscreenActivity extends AppCompatActivity {
             private static final int SPLASH_DELAY = 2000; // Delay in milliseconds
 
             @Override
@@ -24,9 +27,9 @@
                 new Handler().postDelayed(() -> {
                     Intent intent;
                     if (isUserLoggedIn()) {
-                        intent = new Intent(Splash_screen.this, MainActivity.class);
+                        intent = new Intent(SplashscreenActivity.this, MainActivity.class);
                     } else {
-                        intent = new Intent(Splash_screen.this, LoginActivity.class);
+                        intent = new Intent(SplashscreenActivity.this, LoginActivity.class);
                     }
                     startActivity(intent);
                     finish();

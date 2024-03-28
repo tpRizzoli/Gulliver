@@ -1,7 +1,10 @@
 package com.example.gulliver;
 
+import com.example.gulliver.ClassiModello.Itinerario;
+import com.example.gulliver.ClassiModello.Tipologia;
+import com.example.gulliver.ClassiModello.User;
+
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -11,7 +14,7 @@ import java.util.ArrayList;
 
 public interface MyApiEndpointInterface {
 
-    String urlServer = "http://192.168.0.129:5000";
+    String urlServer = "http://192.168.0.114:5000";
 
     // GET http://api.myservice.com/users/francesca
     @GET("/getUser")

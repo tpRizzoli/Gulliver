@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_scroll_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/main"
@@ -35,7 +34,6 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:orientation="vertical"
             android:layout_marginTop="20dp"
             android:layout_gravity="center_horizontal">
@@ -65,7 +63,6 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:orientation="vertical"
             android:layout_marginTop="20dp"
             android:layout_gravity="center_horizontal">
@@ -95,7 +92,6 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:orientation="vertical"
             android:layout_marginTop="20dp"
             android:layout_gravity="center_horizontal">
@@ -126,7 +122,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@color/white"
             android:orientation="horizontal"
             android:layout_gravity="center_horizontal">
 
@@ -138,7 +133,8 @@
                 android:backgroundTint="@color/verde"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:text="Salva" />
+                android:text="Salva"
+                android:textStyle="bold"/>
 
             <Button
                 android:id="@+id/btnAnnullaModifiche"
@@ -148,7 +144,8 @@
                 android:backgroundTint="@color/rosso"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:text="Annulla" />
+                android:text="Annulla"
+                android:textStyle="bold"/>
 
         </LinearLayout>
     </LinearLayout>

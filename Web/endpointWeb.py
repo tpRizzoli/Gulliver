@@ -1,8 +1,13 @@
-from flask import Flask, request, render_template
+from flask import Flask, session, request, redirect, render_template 
+from flask_session import Session
 import pymysql
-import json
+
 
 appWebApi = Flask(__name__)
+appWebApi.config["SESSION_PERMANENT"] = False
+appWebApi.config['SECRET_KEY'] = 'chiave_secreta'
+appWebApi.config['SESSION_TYPE'] = 'filesystem'
+Session(appWebApi)
 
 # Configurazione connessione DB MySQL
 MYSQL_HOST = 'localhost'
@@ -40,6 +45,49 @@ class Attivita:
         self.difficolta = difficolta
         self.descrizione_attivita = descrizione
 
+def verifica_autenticazione():
+    if not session.get("username"):
+        return redirect("/login")
+
+@appWebApi.route("/profilo")
+def getProfilo():
+    verifica_autenticazione()
+    return render_template("profilo.html")
+
+#session["username"] = None
+    
+@appWebApi.route("/login")
+def login():
+    return render_template("krissloginprova.html")
+
+@appWebApi.route("/confirmLogin", methods=["POST", "GET"])
+def confirmlogin():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        # Query per verificare le credenziali nel database
+        sql = "SELECT username FROM utenti WHERE username = %s AND pwd = %s"
+        cursor = db.cursor()
+        cursor.execute(sql, (username, password))
+        user = cursor.fetchone()
+
+        if user:
+            # Se l'utente esiste nel database, registra il nome utente nella sessione
+            session['username'] = user[0]
+            return redirect('/')
+        else:
+            return render_template('krissloginprova.html', error='Credenziali non valide')
+
+    return render_template('home.html')
+
+@appWebApi.route("/logout")
+def logout():
+    session['username'] = None
+    return redirect("/")
+
+
+
 @appWebApi.route("/")
 def main():
     return render_template('home.html')
@@ -73,8 +121,6 @@ def getCategorie():
         print ("Error: cannot fetch data")
     return render_template('idee.html',  categoria = categoriaPassata, lista = listaItinerariXCategoria)
 
-
-#GET http://localhost:5000/?destinazione=
 @appWebApi.route("/destinazione") 
 def getTipologieAttivita():
     nomeLuogo = str(request.args.get('destinazione'))
@@ -185,66 +231,91 @@ def createSommario():
     
 @appWebApi.route("/ItinerarioSalvato", methods=["POST"])
 def salvaItinerario():
+    # completa
     return render_template("profilo.html")
 
 
-# @appWebApi.route("SommarioIdee")
-# def getSommarioIdee():
 
 
-
-
-
-
-
-
-
-
-
-
-
-@appWebApi.route('/createUser', methods=['POST'])
-def createUser():
-    cursor = db.cursor()
-    args = request.args
-
-    username = args.get("username")
-    email = args.get("email")
-    pwd = args.get("password")
-    
-    query = "INSERT INTO utenti (username, email, pwd) VALUES ('%s', '%s', '%s');"
-
-    try:
-        
-        cursor.execute(query % (username, email, pwd))
-        db.commit()
+@appWebApi.route('/registrazione', methods=['GET','POST'])
+def registrazione():
+    if request.method == 'POST': 
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
 
         try:
-            cursor.execute('SELECT * FROM utenti WHERE id = LAST_INSERT_ID();')
-            res = cursor.fetchone()
-            output = Utente(res[0], res[1], res[2], res[3]).__dict__
-        except:
-            print('QUERY_ERROR : Get Utente appena registrato')
-            return "Errore"
+            utente_esistente = Utente.query.filter(
+                (Utente.username == username) | (Utente.email == email)
+            ).first()
+            if utente_esistente:
+                return render_template('registrazioneProva.html', error = 'Username o email già esistenti')
+            
+            nuovo_utente = Utente(username=username, email=email, password=password)
+            db.session.add(nuovo_utente)
+            db.session.commit()
 
-        return render_template('createUser.html')
-    
-    except:
-        print('Error: unable to fetch data')
-        return 'Errore'
-    
-#login utente
-@appWebApi.route('/getUser', methods=['GET'])
-def getUser():
-    cursor = db.cursor()
+            return redirect(('krissloginprova.html'))
+        
+        except Exception as e :
+            print("Errore durante la creazione dell'utente: {e}")
+            return render_template('registrazioneProva.html', error = 'Registrazione fallita')
+        
+    else:
+        return render_template('registrazioneProva.html')
 
-    args = request.args
+
+
+
+
+
+
+
+
+
+# @appWebApi.route('/createUser', methods=['POST'])
+# def createUser():
+#     cursor = db.cursor()
+#     args = request.args
+
+#     username = args.get("username")
+#     email = args.get("email")
+#     pwd = args.get("password")
     
-    sql= "select * from utenti where username = '%s' and pwd = '%s';" % (args.get('utente'), args.get('password'))
+#     query = "INSERT INTO utenti (username, email, pwd) VALUES ('%s', '%s', '%s');"
+
+#     try:
+        
+#         cursor.execute(query % (username, email, pwd))
+#         db.commit()
+
+#         try:
+#             cursor.execute('SELECT * FROM utenti WHERE id = LAST_INSERT_ID();')
+#             res = cursor.fetchone()
+#             output = Utente(res[0], res[1], res[2], res[3]).__dict__
+#         except:
+#             print('QUERY_ERROR : Get Utente appena registrato')
+#             return "Errore"
+
+#         return render_template('createUser.html')
     
+#     except:
+#         print('Error: unable to fetch data')
+#         return 'Errore'
+
+
+
+
+
+    
+    
+    
+    
+    
+    """
     try:
         cursor.execute(sql)
-        results = cursor.fetchall()
+        results = cursor.fetchone()
         
         output = []
         for row in results:
@@ -254,7 +325,7 @@ def getUser():
         print("Error: unable to fetch data")
 
     return render_template('getUser.html')
-
+"""
 #modifica del profilo utente
 @appWebApi.route("/modificaProfilo/<int:id>", methods = ['PUT'])
 def modificaProfilo(id):
@@ -274,6 +345,10 @@ def modificaProfilo(id):
     except Exception as e:
         db.rollback()
         return render_template("Impossibile modificare l'utente")
+    
+
+
+
 
 
 

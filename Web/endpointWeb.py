@@ -1,8 +1,13 @@
-from flask import Flask, request, render_template
+from flask import Flask, session, request, redirect, render_template 
+from flask_session import Session
 import pymysql
-import json
+
 
 appWebApi = Flask(__name__)
+appWebApi.config["SESSION_PERMANENT"] = False
+appWebApi.config['SECRET_KEY'] = 'chiave_secreta'
+appWebApi.config['SESSION_TYPE'] = 'filesystem'
+Session(appWebApi)
 
 # Configurazione connessione DB MySQL
 MYSQL_HOST = 'localhost'
@@ -40,6 +45,13 @@ class Attivita:
         self.difficolta = difficolta
         self.descrizione_attivita = descrizione
 
+def verifica_autenticazione():
+    # check if the users exist or not
+    if not session.get("username"):
+        # if not there in the session then redirect to the login page
+        return redirect("/login")
+    return render_template('index.html')
+
 @appWebApi.route("/")
 def main():
     return render_template('home.html')
@@ -73,8 +85,6 @@ def getCategorie():
         print ("Error: cannot fetch data")
     return render_template('idee.html',  categoria = categoriaPassata, lista = listaItinerariXCategoria)
 
-
-#GET http://localhost:5000/?destinazione=
 @appWebApi.route("/destinazione") 
 def getTipologieAttivita():
     nomeLuogo = str(request.args.get('destinazione'))
@@ -185,11 +195,33 @@ def createSommario():
     
 @appWebApi.route("/ItinerarioSalvato", methods=["POST"])
 def salvaItinerario():
+    #da completare
     return render_template("profilo.html")
 
+@appWebApi.route("/login")
+def login():
+    return render_template("krissloginprova.html")
 
-# @appWebApi.route("SommarioIdee")
-# def getSommarioIdee():
+@appWebApi.route("/confirmLogin", methods=["POST", "GET"])
+def confirmlogin():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        # Query per verificare le credenziali nel database
+        sql = "SELECT username FROM utenti WHERE username = %s AND pwd = %s"
+        cursor = db.cursor()
+        cursor.execute(sql, (username, password))
+        user = cursor.fetchone()
+
+        if user:
+            # Se l'utente esiste nel database, registra il nome utente nella sessione
+            session['username'] = user[0]
+            return redirect('/')
+        else:
+            return render_template('krissloginprova.html', error='Credenziali non valide')
+
+    return render_template('home.html')
 
 
 

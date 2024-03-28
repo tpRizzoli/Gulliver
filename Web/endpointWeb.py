@@ -239,30 +239,33 @@ def salvaItinerario():
 
 
 
-@appWebApi.route('/registrazione', methods=['GET','POST'])
+@appWebApi.route('/registrazione', methods=['POST','GET'])
 def registrazione():
     if request.method == 'POST': 
+
+        cursor = db.cursor()
         username = request.form['username']
         email = request.form['email']
-        password = request.form['password']
+        pwd = request.form['password']
 
         try:
-            utente_esistente = Utente.query.filter(
-                (Utente.username == username) | (Utente.email == email)
-            ).first()
-            if utente_esistente:
-                return render_template('registrazioneProva.html', error = 'Username o email già esistenti')
             
-            nuovo_utente = Utente(username=username, email=email, password=password)
+            sql=("INSERT INTO utenti (username, email, pwd) VALUES ('%s', '%s', '%s');"  % (username, email, pwd))
+            cursor.execute(sql)
+            db.commit()
+            
+            nuovo_utente = Utente(new_username=username, new_email=email, new_password=pwd)
             db.session.add(nuovo_utente)
             db.session.commit()
+            if Utente == nuovo_utente:
+                return render_template('registrazioneProva.html', error = 'Username o email già esistenti')
 
-            return redirect(('krissloginprova.html'))
-        
+            return redirect('/login')
+            
         except Exception as e :
             print("Errore durante la creazione dell'utente: {e}")
             return render_template('registrazioneProva.html', error = 'Registrazione fallita')
-        
+         
     else:
         return render_template('registrazioneProva.html')
 
@@ -327,7 +330,7 @@ def registrazione():
         print("Error: unable to fetch data")
 
     return render_template('getUser.html')
-"""
+    """
 #modifica del profilo utente
 @appWebApi.route("/modificaProfilo/<int:id>", methods = ['PUT'])
 def modificaProfilo(id):

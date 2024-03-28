@@ -1,4 +1,4 @@
-package com.example.gulliver;
+package com.example.gulliver.Fragment;
 
 import android.os.Bundle;
 
@@ -8,14 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ItMontagnaFragment extends Fragment {
+import com.example.gulliver.R;
 
-    public ItMontagnaFragment() {
+public class ItMareFragment extends Fragment {
+
+    public ItMareFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_it_montagna, container, false);
+        return inflater.inflate(R.layout.fragment_it_mare, container, false);
     }
 }

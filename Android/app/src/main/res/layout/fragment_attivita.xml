@@ -1,14 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AttivitaFragment">
+    tools:context=".Fragment.AttivitaFragment"
+    android:orientation="vertical" >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="horizontal">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/logoApp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/logoapp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Attività"
+            android:textColor="@color/black"
+            android:textSize="50sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="Scegli le attività che ti interessano"/>
+
+
+    <ListView
+        android:id="@+id/listaAttivita"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+
+
+    <Button
+        android:id="@+id/confermaAttivita"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_style_button"
+        android:backgroundTint="@color/azzurro"
+        android:text="Avanti"
+        android:textColor="@color/white"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="50dp" />
+
+
+</LinearLayout>

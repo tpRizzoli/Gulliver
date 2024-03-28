@@ -1,16 +1,15 @@
 // ProfileEditFragment.java
 
-package com.example.gulliver;
+package com.example.gulliver.Fragment;
 
-import static com.example.gulliver.LoginActivity.EMAIL;
-import static com.example.gulliver.LoginActivity.ID;
-import static com.example.gulliver.LoginActivity.MY_PREFERENCES;
-import static com.example.gulliver.LoginActivity.PASSWORD;
-import static com.example.gulliver.LoginActivity.USERNAME;
+import static com.example.gulliver.Activity.LoginActivity.EMAIL;
+import static com.example.gulliver.Activity.LoginActivity.ID;
+import static com.example.gulliver.Activity.LoginActivity.MY_PREFERENCES;
+import static com.example.gulliver.Activity.LoginActivity.PASSWORD;
+import static com.example.gulliver.Activity.LoginActivity.USERNAME;
 import static com.example.gulliver.MyApiEndpointInterface.urlServer;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -22,6 +21,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.gulliver.Activity.LoginActivity;
+import com.example.gulliver.MyApiEndpointInterface;
+import com.example.gulliver.R;
+import com.example.gulliver.ClassiModello.User;
 
 import retrofit2.Call;
 import retrofit2.Callback;

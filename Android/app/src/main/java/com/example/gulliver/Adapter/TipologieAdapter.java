@@ -1,4 +1,4 @@
-package com.example.gulliver;
+package com.example.gulliver.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,9 @@ import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.gulliver.ClassiModello.Tipologia;
+import com.example.gulliver.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

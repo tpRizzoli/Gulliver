@@ -1,4 +1,4 @@
-package com.example.gulliver;
+package com.example.gulliver.Fragment;
 
 import static com.example.gulliver.MyApiEndpointInterface.urlServer;
 
@@ -13,6 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
+
+import com.example.gulliver.Activity.MainActivity;
+import com.example.gulliver.MyApiEndpointInterface;
+import com.example.gulliver.R;
+import com.example.gulliver.ClassiModello.Tipologia;
+import com.example.gulliver.Adapter.TipologieAdapter;
 
 import java.util.ArrayList;
 

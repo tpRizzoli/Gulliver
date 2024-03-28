@@ -14,10 +14,10 @@
 
     <nav class="dash">
         <div class="logo-icon">
-            <img src="/static/images/planet-icon.png"  alt="">
+            <a href="/"><img src="/static/images/planet-icon.png"  alt=""></a>
         </div>
         <div class="login-icon">
-            <img src="/static/images/user-icon.png" alt="">
+            <a href="/profilo"><img src="/static/images/user-icon.png" alt=""></a>
         </div>
     </nav>
 
@@ -26,8 +26,8 @@
         <div class="container-profilo">
             <img src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/corporate-user-icon.png" alt="" class="img-profilo">
             <div class="dati-profilo">
-                <h1>Bentornato, $NOME $COGNOME</h1>
-                <h2>nome.cognome@gulliver.it</h2>
+                <h1>{{user}}</h1>
+                <h2>{{email}}</h2>
                 <button class="modifica">modificaprofilo</button>
                 <a href="/logout"><button class="logout">logout</button></a>
             </div>

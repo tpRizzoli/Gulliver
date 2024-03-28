@@ -13,15 +13,15 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".MainActivity" />
+        <activity android:name=".Activity.MainActivity" />
 
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".Activity.LoginActivity" />
 
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".Activity.RegisterActivity" />
 
 
         <activity
-            android:name=".Splash_screen"
+            android:name=".Activity.SplashscreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

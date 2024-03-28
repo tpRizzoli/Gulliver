@@ -1,9 +1,9 @@
-package com.example.gulliver;
-import static com.example.gulliver.LoginActivity.EMAIL;
-import static com.example.gulliver.LoginActivity.ID;
-import static com.example.gulliver.LoginActivity.MY_PREFERENCES;
-import static com.example.gulliver.LoginActivity.PASSWORD;
-import static com.example.gulliver.LoginActivity.USERNAME;
+package com.example.gulliver.Activity;
+import static com.example.gulliver.Activity.LoginActivity.EMAIL;
+import static com.example.gulliver.Activity.LoginActivity.ID;
+import static com.example.gulliver.Activity.LoginActivity.MY_PREFERENCES;
+import static com.example.gulliver.Activity.LoginActivity.PASSWORD;
+import static com.example.gulliver.Activity.LoginActivity.USERNAME;
 import static com.example.gulliver.MyApiEndpointInterface.urlServer;
 
 import android.content.Context;
@@ -16,13 +16,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.gulliver.MyApiEndpointInterface;
+import com.example.gulliver.R;
+import com.example.gulliver.ClassiModello.User;
+
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Call;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterActivity extends AppCompatActivity {
     @Override

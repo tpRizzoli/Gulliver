@@ -1,4 +1,4 @@
-package com.example.gulliver;
+package com.example.gulliver.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +11,11 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+
+import com.example.gulliver.Activity.MainActivity;
+import com.example.gulliver.R;
+import com.example.gulliver.ClassiModello.Tipologia;
+import com.example.gulliver.Adapter.TipologieAdapter;
 
 import java.util.ArrayList;
 

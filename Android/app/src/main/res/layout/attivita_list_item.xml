@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_background"
+    android:id="@+id/corniceLayout">
+
+    <ImageView
+        android:id="@+id/logoApp"
+        android:layout_width="135dp"
+        android:layout_height="135dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/logoapp" />
+
+    <TextView
+        android:id="@+id/nomeAttivita"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/logoApp"
+        android:text="NomeAttivita"
+        android:textColor="@color/black"
+        android:layout_gravity="top"
+        android:layout_marginTop="7.5dp"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/descrizioneAttivita"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_below="@id/nomeAttivita"
+        android:layout_toRightOf="@id/logoApp"
+        android:text="Nel mezzo del cammin di nostra vita mi ritrovai in una selva oscura che la diritta via era smarrita."
+        android:textColor="@color/black"
+        android:layout_gravity="top"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/difficoltaTesto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/logoApp"
+        android:layout_below="@id/descrizioneAttivita"
+        android:text="Difficoltà: "
+        android:textColor="@color/black"
+        android:layout_gravity="top"
+        android:layout_marginTop="10dp"
+        android:textSize="15dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/difficoltaValore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/difficoltaTesto"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/descrizioneAttivita"
+        android:text="0"
+        android:textColor="@color/black"
+        android:layout_gravity="top"
+        android:layout_marginTop="10dp"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/luogoTesto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/descrizioneAttivita"
+        android:layout_toRightOf="@id/difficoltaTesto"
+        android:layout_marginLeft="35dp"
+        android:text="Luogo: "
+        android:textColor="@color/black"
+        android:layout_gravity="top"
+        android:layout_marginTop="10dp"
+        android:textSize="15dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/luogoValore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/luogoTesto"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/descrizioneAttivita"
+        android:text="Posto"
+        android:textColor="@color/black"
+        android:layout_gravity="top"
+        android:layout_marginTop="10dp"
+        android:textSize="15dp" />
+
+
+</RelativeLayout>

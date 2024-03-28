@@ -249,9 +249,12 @@ def createSommario():
     
 @appWebApi.route("/ItinerarioSalvato", methods=["POST"])
 def salvaItinerario():
-    verifica_autenticazione()
-    # completa
-    return render_template("profilo.html")
+    if not session.get("username"):
+        return redirect("/login")
+    # completa -- 
+    
+    #---
+    return redirect("/profilo")
 
 
 

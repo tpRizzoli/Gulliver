@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, session
 import pymysql
 import json
 
@@ -232,19 +232,39 @@ def createUser():
     except:
         print('Error: unable to fetch data')
         return 'Errore'
-    
+
+
+
+
+
 #login utente
-@appWebApi.route('/getUser', methods=['GET'])
-def getUser():
+@appWebApi.route('/login', methods=['POST'])
+def postLogin():
     cursor = db.cursor()
 
-    args = request.args
+    form = request.form
+    username = request.form["username"]
+    password = request.form["password"]
     
-    sql= "select * from utenti where username = '%s' and pwd = '%s';" % (args.get('utente'), args.get('password'))
+    cursor.execute( "select * from utenti where username = '%s' and pwd = '%s';" % (form.get('username'), form.get('password')))
+    utente = cursor.fetchone()
+
+    if utente is None:
+        return "Utente non trovato"
+    if password != utente[password]:
+        "Password sbagliata"
+
+    session["username"] = username
+    return "Login riuscito"
     
+    
+    
+    
+    
+    """
     try:
         cursor.execute(sql)
-        results = cursor.fetchall()
+        results = cursor.fetchone()
         
         output = []
         for row in results:
@@ -254,7 +274,7 @@ def getUser():
         print("Error: unable to fetch data")
 
     return render_template('getUser.html')
-
+"""
 #modifica del profilo utente
 @appWebApi.route("/modificaProfilo/<int:id>", methods = ['PUT'])
 def modificaProfilo(id):
@@ -274,6 +294,10 @@ def modificaProfilo(id):
     except Exception as e:
         db.rollback()
         return render_template("Impossibile modificare l'utente")
+    
+
+
+
 
 
 

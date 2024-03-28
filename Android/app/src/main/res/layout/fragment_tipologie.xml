@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/white"
     tools:context=".MainActivity"
     android:layout_gravity="center_horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,7 +33,6 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -67,9 +65,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@color/white"
         android:numColumns="2" />
-
 
         <Button
             android:id="@+id/confermaTipologie"
@@ -82,9 +78,6 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="50dp"
             android:layout_marginTop="50dp" />
-
-
-
 
         <!--
         <LinearLayout
@@ -102,7 +95,6 @@
                 android:drawableTop="@drawable/citta"
                 android:padding="15dp" />
 
-
             <Button
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -111,7 +103,6 @@
                 android:background="@color/azzurro"
                 android:drawableTop="@drawable/citta"
                 android:padding="15dp" />
-
 
             <Button
                 android:layout_weight="1"
@@ -138,7 +129,6 @@
                 android:drawableTop="@drawable/citta"
                 android:padding="15dp" />
 
-
             <Button
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -147,7 +137,6 @@
                 android:background="@color/azzurro"
                 android:drawableTop="@drawable/citta"
                 android:padding="15dp" />
-
 
             <Button
                 android:layout_weight="1"
@@ -195,7 +184,4 @@
                 android:padding="15dp" />
         </LinearLayout>
         -->
-
-
-
-    </LinearLayout>
+</LinearLayout>

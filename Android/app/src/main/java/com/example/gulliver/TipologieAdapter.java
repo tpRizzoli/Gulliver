@@ -6,28 +6,49 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.TextView;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
+import java.util.Collections;
 
-public class TipologieGridAdapter extends ArrayAdapter<Tipologia> {
+public class TipologieAdapter extends ArrayAdapter<Tipologia> {
 
     Context context;
     int resource;
+    private ArrayList<Tipologia> lista;
+    private ArrayList<Boolean> checkedStates;
 
-    public TipologieGridAdapter(@NonNull Context context, int resource, ArrayList<Tipologia> lista) {
+
+    public TipologieAdapter(@NonNull Context context, int resource, ArrayList<Tipologia> lista) {
         super(context, resource, lista);
         this.context = context;
         this.resource = resource;
-    }
+        this.lista = lista;
 
+        checkedStates = new ArrayList<>(Collections.nCopies(lista.size(), false));
+    }
 
     static class TipologiaGridViewHolder {
         CheckBox checkBox;
+    }
+
+    public ArrayList<Tipologia> getAdapterList() {
+        return lista;
+    }
+
+    public ArrayList<Boolean> getCheckedStates() {
+        return checkedStates;
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+
+        checkedStates.clear();
+        checkedStates = new ArrayList<>(Collections.nCopies(lista.size(), false));
     }
 
     @NonNull
@@ -41,6 +62,13 @@ public class TipologieGridAdapter extends ArrayAdapter<Tipologia> {
 
             TipologiaGridViewHolder holder = new TipologiaGridViewHolder();
             holder.checkBox = viewContent.findViewById(R.id.checkboxTipologia);
+
+            holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    checkedStates.set(position, isChecked);
+                }
+            });
 
             viewContent.setTag(holder);
         }

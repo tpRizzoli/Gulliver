@@ -264,19 +264,20 @@ def createUser():
     except:
         print('Error: unable to fetch data')
         return 'Errore'
-    
-#login utente
-@appWebApi.route('/getUser', methods=['GET'])
-def getUser():
-    cursor = db.cursor()
 
-    args = request.args
+
+
+
+
     
-    sql= "select * from utenti where username = '%s' and pwd = '%s';" % (args.get('utente'), args.get('password'))
     
+    
+    
+    
+    """
     try:
         cursor.execute(sql)
-        results = cursor.fetchall()
+        results = cursor.fetchone()
         
         output = []
         for row in results:
@@ -286,7 +287,7 @@ def getUser():
         print("Error: unable to fetch data")
 
     return render_template('getUser.html')
-
+"""
 #modifica del profilo utente
 @appWebApi.route("/modificaProfilo/<int:id>", methods = ['PUT'])
 def modificaProfilo(id):
@@ -306,6 +307,10 @@ def modificaProfilo(id):
     except Exception as e:
         db.rollback()
         return render_template("Impossibile modificare l'utente")
+    
+
+
+
 
 
 

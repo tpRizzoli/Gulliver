@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
 
     <LinearLayout
@@ -65,13 +64,12 @@
 
         <Button
             android:id="@+id/btnCercaItinerario"
-
             android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_style_button"
             android:backgroundTint="@color/azzurro"
-
             android:text="Cerca itinerario"
+            android:textStyle="bold"
             android:layout_marginTop="30dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
@@ -94,7 +92,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="15dp"
-
             android:weightSum="3">
 
             <Button

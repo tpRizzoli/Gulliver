@@ -49,7 +49,7 @@
             android:layout_marginBottom="20dp"
             android:src="@drawable/logoapp" />
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_background"
@@ -78,16 +78,17 @@
 
             <TextView
                 android:id="@+id/descrizioneAttivita"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
+                android:layout_width="356dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/nomeAttivita"
+                android:layout_gravity="top"
                 android:layout_toRightOf="@id/logoItinerario"
                 android:text="Nel mezzo del cammin di nostra vita mi ritrovai in una selva oscura che la diritta via era smarrita."
                 android:textColor="@color/black"
-                android:layout_gravity="top"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="5dp"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:layout_marginRight="20dp"/>
+                <!--android:justificationMode="inter_word"  (testo giustificato)  -->
+
 
             <TextView
                 android:id="@+id/difficoltaTesto"
@@ -107,7 +108,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/difficoltaTesto"
-                android:layout_marginLeft="10dp"
                 android:layout_below="@id/descrizioneAttivita"
                 android:text="0"
                 android:textColor="@color/black"
@@ -120,8 +120,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/descrizioneAttivita"
-                android:layout_toRightOf="@id/difficoltaTesto"
-                android:layout_marginLeft="35dp"
+                android:layout_toRightOf="@id/difficoltaValore"
+                android:layout_marginLeft="15dp"
                 android:text="Luogo: "
                 android:textColor="@color/black"
                 android:layout_gravity="top"
@@ -134,7 +134,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/luogoTesto"
-                android:layout_marginLeft="10dp"
                 android:layout_below="@id/descrizioneAttivita"
                 android:text="Posto"
                 android:textColor="@color/black"

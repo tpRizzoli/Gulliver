@@ -239,45 +239,71 @@ def salvaItinerario():
 
 
 
-
-
-
-
-
-
-
-
-
-
-@appWebApi.route('/createUser', methods=['POST'])
-def createUser():
-    cursor = db.cursor()
-    args = request.args
-
-    username = args.get("username")
-    email = args.get("email")
-    pwd = args.get("password")
-    
-    query = "INSERT INTO utenti (username, email, pwd) VALUES ('%s', '%s', '%s');"
-
-    try:
-        
-        cursor.execute(query % (username, email, pwd))
-        db.commit()
+@appWebApi.route('/registrazione', methods=['GET','POST'])
+def registrazione():
+    if request.method == 'POST': 
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
 
         try:
-            cursor.execute('SELECT * FROM utenti WHERE id = LAST_INSERT_ID();')
-            res = cursor.fetchone()
-            output = Utente(res[0], res[1], res[2], res[3]).__dict__
-        except:
-            print('QUERY_ERROR : Get Utente appena registrato')
-            return "Errore"
+            utente_esistente = Utente.query.filter(
+                (Utente.username == username) | (Utente.email == email)
+            ).first()
+            if utente_esistente:
+                return render_template('registrazioneProva.html', error = 'Username o email già esistenti')
+            
+            nuovo_utente = Utente(username=username, email=email, password=password)
+            db.session.add(nuovo_utente)
+            db.session.commit()
 
-        return render_template('createUser.html')
+            return redirect(('krissloginprova.html'))
+        
+        except Exception as e :
+            print("Errore durante la creazione dell'utente: {e}")
+            return render_template('registrazioneProva.html', error = 'Registrazione fallita')
+        
+    else:
+        return render_template('registrazioneProva.html')
+
+
+
+
+
+
+
+
+
+
+# @appWebApi.route('/createUser', methods=['POST'])
+# def createUser():
+#     cursor = db.cursor()
+#     args = request.args
+
+#     username = args.get("username")
+#     email = args.get("email")
+#     pwd = args.get("password")
     
-    except:
-        print('Error: unable to fetch data')
-        return 'Errore'
+#     query = "INSERT INTO utenti (username, email, pwd) VALUES ('%s', '%s', '%s');"
+
+#     try:
+        
+#         cursor.execute(query % (username, email, pwd))
+#         db.commit()
+
+#         try:
+#             cursor.execute('SELECT * FROM utenti WHERE id = LAST_INSERT_ID();')
+#             res = cursor.fetchone()
+#             output = Utente(res[0], res[1], res[2], res[3]).__dict__
+#         except:
+#             print('QUERY_ERROR : Get Utente appena registrato')
+#             return "Errore"
+
+#         return render_template('createUser.html')
+    
+#     except:
+#         print('Error: unable to fetch data')
+#         return 'Errore'
 
 
 

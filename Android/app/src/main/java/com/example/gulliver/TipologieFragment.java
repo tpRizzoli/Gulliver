@@ -98,8 +98,6 @@ public class TipologieFragment extends Fragment {
             }
         });
 
-
-
         return view;
     }
 }

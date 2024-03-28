@@ -237,25 +237,6 @@ def createUser():
 
 
 
-#login utente
-@appWebApi.route('/login', methods=['POST'])
-def postLogin():
-    cursor = db.cursor()
-
-    form = request.form
-    username = request.form["username"]
-    password = request.form["password"]
-    
-    cursor.execute( "select * from utenti where username = '%s' and pwd = '%s';" % (form.get('username'), form.get('password')))
-    utente = cursor.fetchone()
-
-    if utente is None:
-        return "Utente non trovato"
-    if password != utente[password]:
-        "Password sbagliata"
-
-    session["username"] = username
-    return "Login riuscito"
     
     
     

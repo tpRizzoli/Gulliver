@@ -4,8 +4,8 @@ import pymysql
 
 
 appWebApi = Flask(__name__)
-appWebApi.config["SESSION_PERMANENT"] = False
-appWebApi.config['SECRET_KEY'] = 'chiave_secreta'
+# appWebApi.config["SESSION_PERMANENT"] = False
+# appWebApi.config['SECRET_KEY'] = 'chiave_secreta'
 appWebApi.config['SESSION_TYPE'] = 'filesystem'
 Session(appWebApi)
 
@@ -45,16 +45,17 @@ class Attivita:
         self.difficolta = difficolta
         self.descrizione_attivita = descrizione
 
-def verifica_autenticazione():
-    if not session.get("username"):
-        return redirect("/login")
+# def verifica_autenticazione():
+#     if not session.get("username"):
+#         return redirect("/login")
 
 @appWebApi.route("/profilo")
 def getProfilo():
-    verifica_autenticazione()
+    # verifica_autenticazione()
+    if not session.get("username"):
+        return redirect("/login")
     return render_template("profilo.html")
 
-#session["username"] = None
     
 @appWebApi.route("/login")
 def login():
@@ -77,9 +78,9 @@ def confirmlogin():
             session['username'] = user[0]
             return redirect('/')
         else:
-            return render_template('krissloginprova.html', error='Credenziali non valide')
+            print("Errore: credenziali errate")
+            return render_template('krissloginprova.html')
 
-    return render_template('home.html')
 
 @appWebApi.route("/logout")
 def logout():
@@ -231,6 +232,7 @@ def createSommario():
     
 @appWebApi.route("/ItinerarioSalvato", methods=["POST"])
 def salvaItinerario():
+    verifica_autenticazione()
     # completa
     return render_template("profilo.html")
 

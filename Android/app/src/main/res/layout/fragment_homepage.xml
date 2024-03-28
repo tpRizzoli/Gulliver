@@ -64,7 +64,6 @@
 
         <Button
             android:id="@+id/btnCercaItinerario"
-
             android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_style_button"
@@ -93,7 +92,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="15dp"
-
             android:weightSum="3">
 
             <Button

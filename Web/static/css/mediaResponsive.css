@@ -1,0 +1,91 @@
+/* responsive adj */
+@media (max-width: 1020px) {
+    html {
+        font-size: 85%;
+    }
+    section{
+        padding: 0 2rem;
+    }
+}
+
+@media (max-width: 910px) {
+    .home .home-box nav{
+        padding: 0 1rem;
+    }
+    .home .home-box nav .menu ul{
+        gap: 2rem;
+    }
+    .destinations .container .container-box{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 767px) {
+    .heading{
+        font-size: 2rem;
+    }
+
+    .home .home-box nav .menu{
+        display: none;
+    }
+    .home .home-box nav .logo .bar{
+        display: block;
+    }
+    .home .home-box nav .menu.active{
+        display: block;
+        position: absolute;
+        left: -1.5rem;
+        top: -1.5rem;
+        width:100vw;
+        height: 100vh;
+        background: rgb(0 0 0/90%);
+        display: flex;
+        align-items: center;
+        padding: 0 3rem;
+    }
+    .home .home-box nav .menu .close{
+        display: block;
+        position: absolute;
+        left: 3rem;
+        top: 3rem;
+        color: var(--white-color);
+        font-size: 2rem;
+        cursor: pointer;
+    }
+    .home .home-box nav .menu .close:hover{
+        color: rgb(255 255 255/40%);        
+    }
+    .home .home-box nav .menu ul{
+        flex-direction: column;
+        font-size: 2rem;
+        gap: 1rem;
+    }
+    .home .home-box nav .menu ul:hover li a{
+        color: rgb(255 255 255/40%); 
+    }
+    .home .home-box nav .menu ul li a:hover{
+        color: var(--white-color);
+    }
+    .home .home-box .content{
+        padding: 2rem;
+    }
+    .travel .container{
+        flex-direction: column;
+        padding: 4rem 0;
+        padding-top: 1.2rem;
+        gap: 4rem;
+    }
+    
+
+}
+
+@media (max-width: 607px) {
+    .home .home-box .content h1{
+        font-size: 3rem;  
+    }
+    .home .home-box .content p{
+        font-size: 1.2rem;
+    }
+}
+/* responsive adj */

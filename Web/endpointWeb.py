@@ -117,7 +117,7 @@ def logout():
 
 @appWebApi.route("/")
 def main():
-    return render_template('home.html')
+    return render_template('homepage.html')
 
 @appWebApi.route("/idee")
 def getCategorie():

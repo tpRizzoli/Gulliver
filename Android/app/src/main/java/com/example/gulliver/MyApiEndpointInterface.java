@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public interface MyApiEndpointInterface {
 
-    String urlServer = "http://192.168.0.114:5000";
+    String urlServer = "http://192.168.0.104:5000";
 
     // GET http://api.myservice.com/users/francesca
     @GET("/getUser")

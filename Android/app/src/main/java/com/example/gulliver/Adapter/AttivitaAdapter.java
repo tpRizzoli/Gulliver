@@ -1,5 +1,5 @@
 package com.example.gulliver.Adapter;
-
+/*
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,16 +45,16 @@ public class AttivitaAdapter extends ArrayAdapter<Attivita>{
 
         checkedStates.clear();
         checkedStates = new ArrayList<>(Collections.nCopies(lista.size(), false));
-    }*/
+    }
 
     public ArrayList<Tipologia> getAdapterList() {
         return lista;
     }
 
-    class AttivitaViewHolder extends RelativeLayout implements Checkable{
+    //class AttivitaViewHolder extends RelativeLayout implements Checkable{
 
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.attivita_list_item, this, true);
+        //LayoutInflater inflater = LayoutInflater.from(context);
+       // View v = inflater.inflate(R.layout.attivita_list_item, this, true);
 
         TextView nome;
         TextView descrizione;
@@ -112,10 +112,10 @@ public class AttivitaAdapter extends ArrayAdapter<Attivita>{
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
             viewContent = inflater.inflate(resource, null);
 
-            AttivitaAdapter.AttivitaViewHolder holder = new TipologieAdapter.TipologiaGridViewHolder();
+            //AttivitaAdapter.AttivitaViewHolder holder = new TipologieAdapter.TipologiaGridViewHolder();
 
 
-            holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            //holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     checkedStates.set(position, isChecked);
@@ -136,3 +136,4 @@ public class AttivitaAdapter extends ArrayAdapter<Attivita>{
 
 
 }
+*/

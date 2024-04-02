@@ -384,18 +384,16 @@ def registrazione():
 @appWebApi.route("/modificaProfilo/<int:id>", methods = ['PUT'])
 def modificaProfilo(id):
     try:
-        new_username = request.args.get("username")
-        new_email = request.args.get("email")
-        new_pwd = request.args.get("password")
+        new_username = request.form["username"]
+        new_email = request.form["email"]
+        new_pwd = request.form["password"]
 
         with db.cursor() as cursor:
             sql= "update utenti set username = %s, email = %s, pwd = %s where id = %s"
             cursor.execute(sql,(new_username, new_email, new_pwd, id))
             db.commit()
 
-            u = {'id' : id, 'username' : new_username, 'email' : new_email,'password': new_pwd}
-
-            return render_template(u)
+            return redirect("/login")
     except Exception as e:
         db.rollback()
         return render_template("Impossibile modificare l'utente")

@@ -63,6 +63,10 @@ class Itinerario:
         self.nome_itinerario = nome
         self.default_itinerario = default
 
+@appWebApi.route("/prova")
+def prova():
+    return render_template("sceltaTipologiaRES.html")
+
 @appWebApi.route("/profilo")
 def getProfilo():
     if not session.get("username"):
@@ -173,7 +177,7 @@ def getTipologieAttivita():
             listaTipologieXLuogo.append(Tipologia(id_tipologia, nome_tipologia))
     except:
         print ("Error: cannot fetch data")
-    return render_template('sceltaTipologia.html', destinazione = nomeLuogo, lista = listaTipologieXLuogo)
+    return render_template('sceltaTipologiaRES.html', destinazione = nomeLuogo, lista = listaTipologieXLuogo)
 
 
 @appWebApi.route("/Attivita", methods=["POST"]) 
@@ -211,7 +215,7 @@ def getAttivita():
         except:
             print ("Error: cannot fetch data")
 
-    return render_template('sceltaAttivita.html', destinazione = nomeLuogo, lista = dizionarioAttivita)
+    return render_template('sceltaAttivitaRES.html', destinazione = nomeLuogo, lista = dizionarioAttivita)
 
 
 @appWebApi.route("/Sommario", methods=['POST'])

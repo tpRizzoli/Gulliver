@@ -1,3 +1,4 @@
+import traceback
 from flask import Flask, session, request, redirect, render_template 
 from flask_session import Session
 import pymysql
@@ -268,22 +269,27 @@ def registrazione():
         email = request.form['email']
         pwd = request.form['password']
 
+        if Utente.query.filter_by(username=username).first():
+            return render_template('registrazioneProva.html', error='Username già esistente')
+
+        if Utente.query.filter_by(email=email).first():
+            return render_template('registrazioneProva.html', error='Email già esistente')
+
         try:
             
-            sql=("INSERT INTO utenti (username, email, pwd) VALUES ('%s', '%s', '%s');"  % (username, email, pwd))
-            cursor.execute(sql)
+            sql=("INSERT INTO utenti (username, email, pwd) VALUES ('%s', '%s', '%s');")
+            cursor.execute(sql,(username, email, pwd))
             db.commit()
             
-            nuovo_utente = Utente(new_username=username, new_email=email, new_password=pwd)
+            nuovo_utente = Utente(id=id, username=username, email=email, password=pwd)
             db.session.add(nuovo_utente)
             db.session.commit()
-            # if Utente == nuovo_utente:
-            #     return render_template('registrazioneProva.html', error = 'Username o email già esistenti')
 
-            return redirect('/profilo')
+            return redirect('/login')
             
         except Exception as e :
             print("Errore durante la creazione dell'utente: {e}")
+            traceback.print_exc()
             return render_template('registrazioneProva.html', error = 'Registrazione fallita')
          
     else:

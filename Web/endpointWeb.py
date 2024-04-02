@@ -104,8 +104,8 @@ def login():
             # return redirect(next or ('/profilo'))
         else:
             print("Errore: credenziali errate")
-            return render_template('krissloginprova.html')
-    return render_template('krissloginprova.html')
+            return render_template('loginPage.html')
+    return render_template('loginPage.html')
 
 
 @appWebApi.route("/logout")

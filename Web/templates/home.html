@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/style.css"> <!--con server ONLINE questo href non serve-->
+    <link rel="stylesheet" href="../static/css/style.css"> <!--con server ONLINE questo href non serve-->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
 
     <nav class="dash">
         <div class="logo-icon">
-            <a href="/"><img src="/static/images/planet-icon.png"  alt=""></a>
+            <a href="/"><img src="../static/images/planet-icon.png"  alt=""></a>
         </div>
         <div class="login-icon">
             <a href="/profilo"><img src="/static/images/user-icon.png" alt=""></a>
@@ -42,7 +42,7 @@
         <div class="card right">
             <h2>Lasciati ispirare. . .</h2>
             <div class="idee">
-                <a href="{{ url_for('getCategorie', categoria='Montagna')}}"><img src="/static/images/mountain-img.jpg" class="img-idee"alt=""></a>
+                <a href="{{ url_for('getCategorie', categoria='Montagna')}}"><img src="../static/images/mountain-img.jpg" class="img-idee"alt=""></a>
                 <div class="card-desc">
                     <a href="{{ url_for('getCategorie', categoria='Montagna')}}"><h3 class="card title">Montagna</h3></a>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod <br>
@@ -53,7 +53,7 @@
             </div>
 
             <div class="idee">
-                <a href="{{ url_for('getCategorie', categoria='Mare')}}"><img src="/static/images/sea-img.jpeg" class="img-idee" alt=""></a>
+                <a href="{{ url_for('getCategorie', categoria='Mare')}}"><img src="../static/images/sea-img.jpeg" class="img-idee" alt=""></a>
                 <div class="card-desc">
                     <a href="{{ url_for('getCategorie', categoria='Mare')}}"><h3 class="card title">Mare</h3></a>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod <br>

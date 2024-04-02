@@ -1,0 +1,75 @@
+
+footer {
+    padding: 1rem;
+    width: 100%;
+}
+
+.footer {
+    background: #112a34;
+    border-radius: .7rem;
+    padding: 1.5rem 7rem;
+    padding-bottom: 1rem;
+}
+
+.footer .container {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #004047;
+    gap: 2rem;
+}
+
+.footer .container .detail {
+    max-width: 32rem;
+}
+
+.footer .container .detail h3 {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.footer .container .detail p {
+    line-height: 1.6;
+    color: rgb(255 255 255/70%);
+    margin-bottom: 1.5rem;
+}
+
+.footer .container .detail h5 {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #fff;
+}
+
+.footer .container .detail a {
+    color: rgb(255 255 255/80%);
+    font-size: .9rem;
+    border-bottom: 2px solid #00cee4;
+    padding: 1px 0;
+    display: inline-block;
+}
+
+
+.login-btn {
+    display: inline-block;
+    padding: 0.8rem 5rem;
+    background-color: var(--green-color);
+    color: var(--white-color);
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.login-btn:hover {
+    background-color: #02636e;
+    transform: translateY(-2px);
+}
+
+.login-btn:active {
+    transform: translateY(1px);
+}

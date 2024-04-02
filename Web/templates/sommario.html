@@ -34,31 +34,31 @@
                 
                 <div class="summary">
                     <form action="/ItinerarioSalvato" method="POST">
-                    {% for elem in sommario %}
-                        <div class="activity {{ loop.index }}">
-                            <h2 class="activity-head{{ loop.index }}">{{elem.nome_attivita}}</h2>
-                            <h3 style="color:darkgrey" class="activity-difficulty{{ loop.index }}">difficoltà: {{elem.difficolta}}</h3>
-                            <p class="activity-text{{ loop.index }}">{{elem.descrizione_attivita}}</p>
-                        </div>
-                    {% endfor %}
-                    
-
-
-                    
-                    <div class="crea-wrapper">
-                        <div class="crea">
-                            <input type="checkbox" class="tohide" id="crea-head">
-                            <label for="crea-head">Crea Itinerario</label>
-                            <div class="crea-text">
-                                
-                                <div class="newIt-wrapper">
-                                    <input type="text" placeholder="Nome Itinerario..." name="NuovoItinerario" class="newIt" required>
-                                </div>
-                                <button class="add"type="submit">+</button>
-                                
-                        </div>
+                        {% for elem in sommario %}
+                            <div class="activity {{ loop.index }}">
+                                <h2 class="activity-head{{ loop.index }}">{{elem.nome_attivita}}</h2>
+                                <h3 style="color:darkgrey" class="activity-difficulty{{ loop.index }}">difficoltà: {{elem.difficolta}}</h3>
+                                <p class="activity-text{{ loop.index }}">{{elem.descrizione_attivita}}</p>
+                            </div>
+                        {% endfor %}
                         
-                    </div>
+
+
+                        
+                        <div class="crea-wrapper">
+                            <div class="crea">
+                                <input type="checkbox" class="tohide" id="crea-head">
+                                <label for="crea-head">Crea Itinerario</label>
+                                <div class="crea-text">
+                                    
+                                    <div class="newIt-wrapper">
+                                        <input type="text" placeholder="Nome Itinerario..." name="nuovoItinerario" class="newIt" required>
+                                    </div>
+                                    <button class="add"type="submit">+</button>
+                                    
+                            </div>
+                            
+                        </div>
                     </form>
                         
                     

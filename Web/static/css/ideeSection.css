@@ -1,0 +1,43 @@
+/*idee*/
+.travel{
+    /* margin-top: 2rem; */
+}
+
+.travel h2{
+    font-size: 2rem;
+    text-align: center;
+    padding-top: 2rem;
+}
+
+.travel .container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4rem;
+    padding: 3rem 0;
+    padding-top: 1.5rem;
+}
+
+.travel .container .box{
+    padding: 0 1rem;
+    text-align: center;
+    max-width: 30rem;
+}
+
+.travel .container .box img{
+    width:100%;     /*se uso icone height:10rem*/
+    border-radius: 1.5rem;
+    
+}
+
+.travel .container .box h4{
+    font-size: 1.2rem;
+    margin: 1rem 0;
+    margin-top: 2rem;
+    font-weight: 600;
+}
+
+.travel .container .box p{
+    color: #666;
+}

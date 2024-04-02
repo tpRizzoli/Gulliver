@@ -1,0 +1,81 @@
+.destinations{
+    width: 100%;
+    padding-top:4rem;
+    padding-bottom: 4rem;
+}
+
+.destinations .container {
+    width: 100%;
+}
+
+.destinations .container .container-box{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.destinations .container .container-box .heading{
+    max-width: 30rem;
+}
+
+.destinations .container .container-box .content{
+    max-width: 35rem;
+}
+
+.destinations .container .container-box .content p{
+    line-height: 1.7;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.destinations .container .container-box .content a{
+    color: var(--green-color);
+    font-weight: 600;
+}
+
+.destinations .container .container-box .content a i {
+    margin-left: .5rem;
+}
+
+.destinations .container .container-box .content a:hover i{
+    margin-left: .1rem;
+}
+
+.gallery{
+    margin-top: 4rem;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.gallery .box{
+    height: 23rem;
+    flex-grow: 1;
+    overflow: hidden;
+    border-radius: .8rem;
+    position: relative;
+}
+
+.gallery .box img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.gallery .box .text{
+    position: absolute;
+    bottom: 0;
+    padding: 1.5rem 2rem;
+    left: 0;
+    z-index: 1;
+}
+
+.gallery .box .text h2{
+    font-size: 1.4rem;
+    color: #fff;
+}
+

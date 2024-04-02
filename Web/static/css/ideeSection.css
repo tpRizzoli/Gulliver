@@ -1,11 +1,12 @@
 /*idee*/
 .travel{
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
 }
 
 .travel h2{
     font-size: 2rem;
     text-align: center;
+    padding-top: 2rem;
 }
 
 .travel .container{

@@ -1,5 +1,6 @@
 package com.example.gulliver;
 
+import com.example.gulliver.ClassiModello.Attivita;
 import com.example.gulliver.ClassiModello.Itinerario;
 import com.example.gulliver.ClassiModello.Tipologia;
 import com.example.gulliver.ClassiModello.User;
@@ -11,6 +12,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface MyApiEndpointInterface {
 
@@ -31,4 +33,7 @@ public interface MyApiEndpointInterface {
 
     @GET("/findItinerariUtente")
     Call<ArrayList<Itinerario>> findItinerariUtente(@Query("idUtente") Integer id);
+
+    @GET("/findAttivitaTipologie")
+    Call<ArrayList<Attivita>> findAttivitaFromTipologie(@Query("nomeLuogo") String nomeLuogo, @Query("idTipologia") List<Integer> idTipologia);
 }

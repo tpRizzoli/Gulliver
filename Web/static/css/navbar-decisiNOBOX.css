@@ -51,7 +51,7 @@ nav{
     align-items: center;
     padding: 0 4rem; 
     z-index: 10;
-    
+    position: relative;
 }
 
 nav .logo{
@@ -121,12 +121,4 @@ nav .signup-login a:last-child:hover{
     color: var(--white-color);
     background: var(--green-color)
 }
-
-
-
-
-
-
-
-
 

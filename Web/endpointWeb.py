@@ -64,22 +64,21 @@ class Itinerario:
         self.nome_itinerario = nome
         self.default_itinerario = default
 
-@appWebApi.route("/prova")
-def prova():
-    return render_template("provacss.html")
+#INIZIO GESTIONE ACCOUNT UTENTE -----------------------------------------------------------------------------------------------
 
+#visualizzazione del profilo utente
 @appWebApi.route("/profilo")
 def getProfilo():
-    if not session.get("username"):
+    if not session.get("id"):
         return redirect("/login")
     
-    utente = session.get("username")
+    utente = session.get("id")
     cursor = db.cursor()
-    sql = "SELECT username, email FROM utenti WHERE username ='"+utente+"';"
+    sql = "SELECT username, email FROM utenti WHERE id ='%s';"
     #print(sql)
 
     try:
-        cursor.execute(sql)
+        cursor.execute(sql,(utente))
         results = cursor.fetchone()
         #print(results)
         username_utente = results[0]
@@ -89,7 +88,7 @@ def getProfilo():
     
     return render_template("profiloRES.html", user = username_utente, email = email_utente)
 
-    
+#login utente e creazione della sessione utente
 @appWebApi.route("/login", methods=["POST", "GET"])
 def login():
     if request.method == 'POST':
@@ -97,26 +96,69 @@ def login():
         password = request.form.get('password')
 
         # Query per verificare le credenziali nel database
-        sql = "SELECT username FROM utenti WHERE username = %s AND pwd = %s"
+        sql = "SELECT ID FROM utenti WHERE username = %s AND pwd = %s"
         cursor = db.cursor()
         cursor.execute(sql, (username, password))
         user = cursor.fetchone()
 
         if user:
-            session['username'] = user[0]
+            session['id'] = user[0]
             return redirect('/profilo')
         else:
             print("Errore: credenziali errate")
             return render_template('loginPage.html')
     return render_template('loginPage.html')
 
+#registrazione utente e creazione della sessione utente
+@appWebApi.route('/registrazione', methods=['POST','GET'])
+def registrazione():
+    if request.method == 'POST': 
 
+        cursor = db.cursor()
+        username = request.form['username']
+        email = request.form['email']
+        pwd = request.form['password']
+
+        try:
+            sql = "INSERT INTO utenti (username, email, pwd) VALUES (%s, %s, %s)"
+            cursor.execute(sql, (username, email, pwd))
+            db.commit()
+            session['id'] = cursor.lastrowid
+
+            return redirect('/profilo')
+        except Exception:
+            print("Errore durante la creazione dell'utente")
+            traceback.print_exc()
+            return render_template('registrazione.html', error='Registrazione fallita')
+         
+    else:
+        return render_template('registrazione.html')
+
+#modifica del profilo utente
+@appWebApi.route("/modificaProfilo/<int:id>", methods = ['PUT'])
+def modificaProfilo(id):
+    try:
+        new_username = request.form["username"]
+        new_email = request.form["email"]
+        new_pwd = request.form["password"]
+
+        with db.cursor() as cursor:
+            sql= "update utenti set username = %s, email = %s, pwd = %s where id = %s"
+            cursor.execute(sql,(new_username, new_email, new_pwd, id))
+            db.commit()
+
+            return redirect("/profilo")
+    except:
+        db.rollback()
+        return render_template("Impossibile modificare l'utente")
+
+#logout utente chiusura della sessione dell'utente
 @appWebApi.route("/logout")
 def logout():
     session['username'] = None
     return redirect("/")
 
-
+#FINE GESTIONE ACCOUNT UTENTE ------------------------------------------------------------------------------------------
 
 @appWebApi.route("/")
 def main():
@@ -301,50 +343,7 @@ def salvaItinerario():
     return redirect("/profilo")
 
 
-@appWebApi.route('/registrazione', methods=['POST','GET'])
-def registrazione():
-    if request.method == 'POST': 
 
-        cursor = db.cursor()
-        username = request.form['username']
-        email = request.form['email']
-        pwd = request.form['password']
-
-        try:
-            sql = "INSERT INTO utenti (username, email, pwd) VALUES (%s, %s, %s)"
-            cursor.execute(sql, (username, email, pwd))
-            db.commit()
-            session['username'] = username
-
-            return redirect('/profilo')
-        except Exception:
-            print("Errore durante la creazione dell'utente")
-            traceback.print_exc()
-            return render_template('registrazione.html', error='Registrazione fallita')
-         
-    else:
-        return render_template('registrazione.html')
-
-
-
-
-#modifica del profilo utente
-@appWebApi.route("/modificaProfilo/<int:id>", methods = ['PUT'])
-def modificaProfilo(id):
-    try:
-        new_username = request.form["username"]
-        new_email = request.form["email"]
-        new_pwd = request.form["password"]
-
-        with db.cursor() as cursor:
-            sql= "update utenti set username = %s, email = %s, pwd = %s where id = %s"
-            cursor.execute(sql,(new_username, new_email, new_pwd, id))
-            db.commit()
-
-            return redirect("/login")
-    except Exception as e:
-        db.rollback()
-        return render_template("Impossibile modificare l'utente")
 
 
 #--------------------------------------------------------------------------------------------------------------------------------

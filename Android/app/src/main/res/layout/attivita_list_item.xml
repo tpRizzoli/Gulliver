@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/logoItinerario"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:layout_width="135dp"
+        android:layout_height="135dp"
         android:layout_margin="10dp"
         android:src="@drawable/logoapp" />
 
@@ -33,7 +33,7 @@
         android:layout_toRightOf="@id/logoItinerario"
         android:text="Nel mezzo del cammin di nostra vita mi ritrovai in una selva oscura che la diritta via era smarrita."
         android:textColor="@color/black"
-        android:textSize="13sp"
+        android:textSize="10sp"
         android:layout_marginRight="20dp"/>
 
     <TextView
@@ -92,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/descrizioneAttivita"
         android:layout_toRightOf="@id/difficoltaValore"
-        android:layout_marginLeft="75dp"
+        android:layout_marginLeft="60dp"
         android:layout_marginTop="20dp"/>
 
 

@@ -87,7 +87,7 @@ def getProfilo():
     except:
         print ("Error: cannot fetch data")
     
-    return render_template("profilo.html", user = username_utente, email = email_utente)
+    return render_template("profiloRES.html", user = username_utente, email = email_utente)
 
     
 @appWebApi.route("/login", methods=["POST", "GET"])

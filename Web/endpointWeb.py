@@ -120,7 +120,7 @@ def logout():
 
 
 
-@appWebApi.route("/")
+@appWebApi.route("/", methods=['POST', 'GET'])
 def main():
     return render_template('homepage.html')
 
@@ -290,32 +290,28 @@ def salvaItinerario():
 def registrazione():
     if request.method == 'POST': 
 
-        cursor = db.cursor()
+        cursor=db.cursor()
         username = request.form['username']
         email = request.form['email']
         pwd = request.form['password']
 
-        if Utente.query.filter_by(username=username):
-             return render_template('registrazione.html', error='Username già esistente')
-
-        if Utente.query.filter_by(email=email):
-             return render_template('registrazione.html', error='Email già esistente')
-
+        
+        
         try:
-            
-            sql="INSERT INTO utenti (username, email, pwd) VALUES ('%s', '%s', '%s');"
+            sql=("INSERT INTO utenti (username, email, pwd) VALUES ('%s', '%s', '%s');")
             cursor.execute(sql,(username, email, pwd))
-            cursor.lastrowid
-            db.commit()
-            
-            nuovo_utente = Utente(id=id, username=username, email=email, password=pwd)
-            db.session.add(nuovo_utente)
-            db.session.commit()
-
+            cursor.commit()
+            try:
+                cursor.execute('SELECT * FROM utenti WHERE id = LAST_INSERT_ID()')
+                res = cursor.fetchone()
+                user = Utente(res[0], res[1], res[2], res[3])
+                db.session.add(user)
+                db.session.commit()
+            except:
+                return "errore"
             return redirect('/login')
-            
-        except Exception as e :
-            print("Errore durante la creazione dell'utente: {e}")
+        except Exception  :
+            print("Errore durante la creazione dell'utente")
             traceback.print_exc()
             return render_template('registrazione.html', error = 'Registrazione fallita')
          
@@ -370,20 +366,20 @@ def registrazione():
     
     
     
-    """
-    try:
-        cursor.execute(sql)
-        results = cursor.fetchone()
+#     """
+#     try:
+#         cursor.execute(sql)
+#         results = cursor.fetchone()
         
-        output = []
-        for row in results:
-            utente = Utente(row[0], row[1], row[2], row[3])
-            output.append(utente.__dict__)
-    except:
-        print("Error: unable to fetch data")
+#         output = []
+#         for row in results:
+#             utente = Utente(row[0], row[1], row[2], row[3])
+#             output.append(utente.__dict__)
+#     except:
+#         print("Error: unable to fetch data")
 
-    return render_template('getUser.html')
-"""
+#     return render_template('getUser.html')
+# """
 
 #modifica del profilo utente
 @appWebApi.route("/modificaProfilo/<int:id>", methods = ['PUT'])

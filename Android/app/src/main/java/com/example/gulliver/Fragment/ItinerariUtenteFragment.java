@@ -65,18 +65,21 @@ public class ItinerariUtenteFragment extends Fragment {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
         Integer id = sharedPreferences.getInt(ID, -1);
 
-        Call<ArrayList<Itinerario>> call = apiService.findItinerariUtente(id);
+/*        Call<ArrayList<Itinerario>> call = apiService.findItinerariUtente(id);
 
         call.enqueue(new Callback<ArrayList<Itinerario>>() {
             @Override
             public void onResponse(Call<ArrayList<Itinerario>> call, Response<ArrayList<Itinerario>> response) {
                 if (response.isSuccessful()) {
                     listaItinerari.clear();
-                    listaItinerari.addAll(response.body()); // Aggiungi gli itinerari alla lista esistente
+                    listaItinerari = response.body();
+
                     adapter.notifyDataSetChanged();
                     listView.invalidate();
 
                     //codice per visualizzare le info dell'itinerario cliccato
+
+
 
                 } else {
                     Toast.makeText(getActivity(), "Impossibile vedere", Toast.LENGTH_SHORT).show();
@@ -87,7 +90,7 @@ public class ItinerariUtenteFragment extends Fragment {
                 // Gestisci eventuali errori di comunicazione qui
                 Toast.makeText(getActivity(), "error...", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
         return view;
     }
 }

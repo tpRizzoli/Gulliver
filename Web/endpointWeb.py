@@ -66,7 +66,7 @@ class Itinerario:
 
 @appWebApi.route("/prova")
 def prova():
-    return render_template("provacss.html")
+    return render_template("sceltaTipologiaRES.html")
 
 @appWebApi.route("/profilo")
 def getProfilo():
@@ -250,7 +250,7 @@ def createSommario():
         except:
             print ("Error: cannot fetch data")
             
-    return render_template('sommarioRES.html', destinazione=nomeLuogo, sommario = sommarioAttivita)
+    return render_template('sommario.html', destinazione=nomeLuogo, sommario = sommarioAttivita)
     
 @appWebApi.route("/ItinerarioSalvato", methods=["POST"])
 def salvaItinerario():
@@ -313,10 +313,10 @@ def registrazione():
         except Exception  :
             print("Errore durante la creazione dell'utente")
             traceback.print_exc()
-            return render_template('registrazioneProva.html', error = 'Registrazione fallita')
+            return render_template('registrazione.html', error = 'Registrazione fallita')
          
     else:
-        return render_template('registrazioneProva.html')
+        return render_template('registrazione.html')
 
 
 

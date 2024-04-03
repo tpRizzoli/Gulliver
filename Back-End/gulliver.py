@@ -19,10 +19,10 @@ db = pymysql.connect(host = MYSQL_HOST, user = MYSQL_USER, password = MYSQL_PASS
 
 # Classi database
 class Attivita:
-    def __init__(self, id, nome, luogo, difficolta, descrizione):
+    def __init__(self, id, nome, tipologia, difficolta, descrizione):
         self.id = id
         self.nome = nome
-        self.luogo = luogo
+        self.tipologia = tipologia
         self.difficolta = difficolta
         self.descrizione = descrizione
 
@@ -98,16 +98,16 @@ def findAttivitaTipologie():
 
     args = request.args
 
-    nomeLuogo = args.get('nomeLuogo')
+    idLuogo = int(args.get('idLuogo'))
     idTipolgie = args.getlist('idTipologia')
     listaId = ', '.join(idTipolgie)
    
-    sql= """SELECT a.id, a.nome, l.nome, a.difficolta, a.descrizione
+    sql= """SELECT a.* 
             FROM attivita AS a
             JOIN tipologie AS t ON t.id = a.id_tipologia
             JOIN attivita_luoghi AS al ON al.id_attivita = a.id
             JOIN luoghi AS l ON l.id = al.id_luogo
-            WHERE l.nome = '%s' AND t.id IN (%s);""" % (nomeLuogo, listaId)
+            WHERE l.id = %d AND t.id IN (%s);""" % (idLuogo, listaId)
    
     
     try:
@@ -117,7 +117,7 @@ def findAttivitaTipologie():
         output = []
 
         for row in results:
-            utente = Attivita(row[0], row[1], row[2], row[3], row[4])
+            utente = Utente(row[0], row[1], row[2], row[3])
             output.append(utente.__dict__)
     except:
         print("Error: unable to fetch data")
@@ -257,7 +257,7 @@ def findItinerariUtente():
     args = request.args
 
     
-    sql= 'SELECT i.* FROM itinerari i JOIN utenti_itinerari ui ON i.id = ui.id_itinerario WHERE ui.id_utente = %d;' % (int(args.get('idUtente')))
+    sql= 'SELECT i.* FROM itinerari i JOIN utenti_itinerari ui ON i.id = ui.id_itinerario WHERE ui.id_utente = %s;' % (int(args.get('idUtente')))
     
     try:
         cursor.execute(sql)

@@ -23,13 +23,16 @@
 html, body{
     height: 100%;
     width: 100%;
-    padding: 10px;
 }
 
 /* html {
     font-size: 90%;
 } */
 
+section{
+    padding: 0 8rem;  /*se non voglio cornice img principale devo togliere questa riga*/
+    width: 100%;
+}
 
 .label{
     font-size: 1.1rem;
@@ -39,90 +42,197 @@ html, body{
     font-weight: 500;
 }
 
-nav{
+.heading{
+    font-size: 3rem;
+    margin-top: 1rem;
+}
+
+section.home{
+    padding: 1rem; /*se non voglio cornice img principale devo togliere questa riga*/
     width: 100%;
-    height: 67px;
+    height: 100vh;
+}
+
+.home .home-box{
+    width: 100%;
+    height: 100%;
+    /* background: linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,.1)),url("/static/images/home-background.jpg"); */
+    background: #fff;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding: .5rem;             /*se non voglio cornice img principale devo togliere questa riga*/
+    border-radius: .5rem;       /*se non voglio cornice img principale devo togliere questa riga*/
+}
+
+.home .home-box nav{
+    width: 100%;
+    height: 65px;
     /* background: linear-gradient(rgb(255,255,255,0.2), rgb(255,255,255,.2)); */
     background: #112a34;
     backdrop-filter: blur(1px);
-    border-radius: .7rem; /*se non voglio cornice img principale devo togliere questa riga */
+    border-radius: .7rem; /*se non voglio cornice img principale devo togliere questa riga*/
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 4rem; 
     z-index: 10;
-    
+    position: relative;
 }
 
-nav .logo{
+.home .home-box nav .logo{
     display: flex;
     align-items: center;
     gap: 1rem;
 }
 
-nav .logo .bar {
+.home .home-box nav .logo .bar {
     font-size: 1.35rem;
     color: var(--white-color);
     cursor: pointer;
     display: none;
 }
 
-nav .logo .bar:hover{
+.home .home-box nav .logo .bar:hover{
     color: var(--green-color);
 }
 
-nav .logo h3 {
+.home .home-box nav .logo h3 {
     color: var(--white-color);
     font-weight: 400;
 } 
 
-nav .menu .close{
+.home .home-box nav .menu .close{
     display: none;
 }
 
-nav .menu ul{
+.home .home-box nav .menu ul{
     display: flex;
     gap: 3rem;
     list-style: none;
 }
 
-nav .menu ul li a{
+.home .home-box nav .menu ul li a{
     color: var(--white-color);
     font-weight: 400;
 }
 
-nav .menu ul li a:hover{
+.home .home-box nav .menu ul li a:hover{
     color: rgb(255 255 255/55%);
 }
 
-nav .signup-login{
+.home .home-box nav .signup-login{
     display: flex;
     align-items: center;
     gap: .5rem;
 }
 
-nav .signup-login a{
+.home .home-box nav .signup-login a{
     color: var(--white-color);
     padding: .3rem 1rem;
     border-radius: 2rem;
 }
 
-nav .signup-login a:last-child{
+.home .home-box nav .signup-login a:last-child{
     background: #02636e;
     padding: .3rem 1rem;
     border-radius: 2rem;
 }
 
-nav .signup-login a:hover{
+.home .home-box nav .signup-login a:hover{
     color: rgb(255 255 255/55%);
 }
 
-nav .signup-login a:last-child:hover{
+.home .home-box nav .signup-login a:last-child:hover{
     color: var(--white-color);
     background: var(--green-color)
 }
 
+.home .home-box .content{
+    width: 100%;
+    height: calc(100% - 65px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transform: translate(0, -65px);
+}
 
+.home .home-box .content h5{
+    text-transform: uppercase;
+    color: var(--white-color);
+    font-size: .9rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+
+}
+
+.home .home-box .content h1{
+    font-size: 4rem;
+    max-width: 50rem;
+    color: var(--white-color);
+    text-align: center;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.home .home-box .content p{
+    color: #eee;
+    font-weight: 300;
+    max-width: 40rem;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.search-form{
+    width: 100%;
+    max-width: 38rem;
+    display:flex ;
+    align-items: center;
+}
+
+.home .home-box .content .search{
+    width: 100%;
+    max-width: 38rem;
+    height: 50px;
+    background: var(--white-color);
+    border-radius: 3rem;
+    display:flex ;
+    align-items: center;
+    padding: .3rem;
+}
+
+.home .home-box .content .search i{
+    color: rgba(0,0,0.5);
+    margin: 0 .6rem;
+}
+
+.home .home-box .content .search input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-weight: 400;
+}
+
+.home .home-box .content .search button{
+    height: 100%;
+    padding: 0 1rem;
+    border-radius: inherit;
+    background: var(--green-color);
+    border: none;
+    outline: none;
+    color: var(--white-color);
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.home .home-box .content .search button:hover{
+    background: #02636e;  
+}
 
 
 

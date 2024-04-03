@@ -10,9 +10,99 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mediaResponsive.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Scegli Tipologia</title>
- 
+    <style>
+        .wrapper{
+  width: 100%;
+  padding-top: 50px;
+  justify-content: center;
+  margin: auto;
+  padding-bottom: 250px;
+  
+}
+
+.collapsible{
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  font-weight: 500;
+}
+
+.tohide{
+  display: none;
+}
+
+.collapsible label{
+  position: relative;
+  font-weight: 600;
+  background: #dfd9d9;
+  color:#176B87;
+  display:block;
+  margin-bottom: 10px;
+  cursor: pointer;
+  padding: 15px;
+  z-index: 1;
+  border-top-left-radius:10px ;
+  border-top-right-radius: 10px;
+}
+
+.collapsible label:after{
+  content: "";
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  width: 18px;
+  transition: all 0.3s ease;
+}
+
+.collapsible label::before{
+  display: none;
+}
+
+.collapsible-text{
+  overflow: hidden;
+  border-radius: 4px;
+  position: relative;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  /* top: -100%;
+  opacity: 0.5;
+  transition: all 0.3s ease; */
+
+
+}
+.collapsible input:checked ~ .collapsible-text{
+  max-height: 500px;
+  padding-bottom: 25px;
+  background: #fff;
+  /* box-shadow: 0 5px 11px 0 #fff, 0 4px 11px 0 aqua; */
+  opacity: 1;
+  /* top: 0; */
+}
+
+.collapsible-text h2{
+  margin-bottom: 0;
+  padding: 0 15px;
+  color: #176B87;
+}
+
+.collapsible-text h3{
+  margin-top: 0;
+  padding: 0 15px;
+  color: #176B87;
+}
+
+.collapsible-text p{
+  padding-left: 15px;
+  padding-right: 15px;
+}
+    </style>
 </head>
 <body>
+
+    <!--home-->
+    <section class="home">
+    <div class="home-box">
         <nav>
             <div class="logo bars">
                 <div class="bar">
@@ -42,7 +132,7 @@
             </div>
             <div class="right">
                 <div class="right-content">
-                    <h1 style="font-size: 2rem;">Attività da fare a <span>{{destinazione}}</span></h1>
+                    <h1>Attività da fare a <span>{{destinazione}}</span></h1>
                     <p>Seleziona le attività desiderate</p>
     
                         <!-- {% for elem in lista %}
@@ -82,10 +172,15 @@
                 </div>
             </div>
         </div>
+        
+       
+    </div>
+    </section>
+
 
 
     <!-- footer -->
-    <!-- <footer>
+    <footer>
         <div class="footer">
             <div class="container">
                 <div class="detail">
@@ -97,7 +192,7 @@
                 </div>
             </div>
         </div>
-    </footer> -->
+    </footer>
 
 
 

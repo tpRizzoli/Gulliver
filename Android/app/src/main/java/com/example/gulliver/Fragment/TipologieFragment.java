@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.example.gulliver.Activity.MainActivity;
 import com.example.gulliver.MyApiEndpointInterface;
@@ -96,13 +97,13 @@ public class TipologieFragment extends Fragment {
                     gridView.invalidate();
 
                 }else{
-                    //DA FINIRE INSERIRE ERRORI
+                    Toast.makeText(context, "Query Error", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<Tipologia>> call, Throwable t) {
-                // DA FINIRE INSERIRE ERRORI
+                Toast.makeText(context, "Errore di rete", Toast.LENGTH_SHORT).show();
             }
         });
 

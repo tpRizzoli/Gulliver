@@ -48,6 +48,7 @@
                         <form action="/ItinerarioSalvato" method="POST">
                             {% for elem in sommario %}
                                 <div class="activity {{ loop.index }}">
+                                    <input type="hidden" name="nomeAttivita" value="{{elem.nome_attivita}}"/>   <!--con questa riga mi passo le attività selezionate-->
                                     <h2 class="activity-head{{ loop.index }}">{{elem.nome_attivita}}</h2>
                                     <h3 style="color:darkgrey; font-weight: 300;" class="activity-difficulty{{ loop.index }}">difficoltà: {{elem.difficolta}}</h3>
                                     <p class="activity-text{{ loop.index }}">{{elem.descrizione_attivita}}</p>

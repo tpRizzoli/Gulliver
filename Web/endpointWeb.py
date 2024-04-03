@@ -250,10 +250,25 @@ def createSommario():
             
     return render_template('sommarioRES.html', destinazione=nomeLuogo, sommario = sommarioAttivita)
     
+
+
+
 @appWebApi.route("/ItinerarioSalvato", methods=["POST"])
 def salvaItinerario():
     if not session.get("username"):
         return redirect("/login")
+
+    nomeAttivita = request.form.getlist('nomeAttivita')
+    nuovoItinerario = request.form.get('nuovoItinerario')
+    print("NOME ITINERARIO: ", nuovoItinerario)
+    print("ATTIVITA SELEZIONATE:", nomeAttivita)
+
+
+
+
+
+
+
 
     return redirect("/profilo")
 

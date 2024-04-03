@@ -59,6 +59,8 @@ public class TipologieFragment extends Fragment {
 
         Button pulsanteAvanti = view.findViewById(R.id.confermaTipologie);
 
+        String nomeLuogo = getArguments().getString("nomeLuogo");
+
         pulsanteAvanti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,13 +77,13 @@ public class TipologieFragment extends Fragment {
                 }
 
                 tipSelezionate.putIntegerArrayList("idTipologie", idTipologieSelezionate);
+                tipSelezionate.putString("nomeLuogo", nomeLuogo);
 
                 AttivitaFragment attivitaFragment = new AttivitaFragment();
                 ((MainActivity) context).changeFragment(attivitaFragment, tipSelezionate);
             }
         });
 
-        String nomeLuogo = getArguments().getString("nomeLuogo");
 
         Call<ArrayList<Tipologia>> call = apiService.findTipologie(nomeLuogo);
         call.enqueue(new Callback<ArrayList<Tipologia>>(){
@@ -93,14 +95,14 @@ public class TipologieFragment extends Fragment {
                     tAdapter.notifyDataSetChanged();
                     gridView.invalidate();
 
-                    }else{
-
+                }else{
+                    //DA FINIRE INSERIRE ERRORI
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<Tipologia>> call, Throwable t) {
-
+                // DA FINIRE INSERIRE ERRORI
             }
         });
 

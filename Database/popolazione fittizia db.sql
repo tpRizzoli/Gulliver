@@ -94,7 +94,7 @@ VALUES
 ('Kenya', 'Kenya', 0.0236, 37.9062), -- Luogo di mare
 ('Maldive', 'Maldive', 3.2028, 73.2207), -- Luogo di mare
 ('Cannes', 'Francia', 43.5528, 7.0174), -- Luogo di città
-('Yosemite National Park', 'Stati Uniti', 37.8651, -119.5383), -- Luogo di montagna
+('posto', 'Stati Uniti', 37.8651, -119.5383), -- Luogo di montagna
 ('Roma', 'Italia', 41.8933203, 12.4829321), -- Luogo di città
 ('Firenze', 'Italia', 43.7698712, 11.2555757), -- Luogo di città
 ('Amalfio', 'Italia', 40.63367, 14.6026095), -- Luogo di mare

@@ -19,10 +19,10 @@ db = pymysql.connect(host = MYSQL_HOST, user = MYSQL_USER, password = MYSQL_PASS
 
 # Classi database
 class Attivita:
-    def __init__(self, id, nome, tipologia, difficolta, descrizione):
+    def __init__(self, id, nome, luogo, difficolta, descrizione):
         self.id = id
         self.nome = nome
-        self.tipologia = tipologia
+        self.luogo = luogo
         self.difficolta = difficolta
         self.descrizione = descrizione
 
@@ -127,6 +127,7 @@ def findAttivitaTipologie():
 
 
 @app.route('/createItinerario', methods=['POST']) #mi serve un idItinerario
+
 def createItinerario():
 
     args = request.args

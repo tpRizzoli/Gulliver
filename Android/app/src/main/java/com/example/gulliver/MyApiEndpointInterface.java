@@ -1,6 +1,7 @@
 package com.example.gulliver;
 
 import com.example.gulliver.ClassiModello.Attivita;
+import com.example.gulliver.ClassiModello.AttivitaConLuogo;
 import com.example.gulliver.ClassiModello.Itinerario;
 import com.example.gulliver.ClassiModello.Tipologia;
 import com.example.gulliver.ClassiModello.User;
@@ -36,4 +37,11 @@ public interface MyApiEndpointInterface {
 
     @GET("/findAttivitaTipologie")
     Call<ArrayList<Attivita>> findAttivitaFromTipologie(@Query("nomeLuogo") String nomeLuogo, @Query("idTipologia") List<Integer> idTipologia);
+
+    @GET("/getDettagliAttivita")
+    Call<ArrayList<AttivitaConLuogo>> findDettagliAttivita(@Query("idAttivita") ArrayList<Integer> idAttivita);
+
+    @GET("/getDettagliItinerario")
+    Call<ArrayList<AttivitaConLuogo>> findDettagliItinerario(@Query("idItinerario") Integer idItinerario);
+
 }

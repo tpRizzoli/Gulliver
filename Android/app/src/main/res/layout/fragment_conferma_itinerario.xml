@@ -20,10 +20,10 @@
         android:text="Quale nome vuoi dare all'itinerario? "/>
 
     <EditText
-        android:id="@+id/inputDataPassword"
+        android:id="@+id/inserimentoNomeItinerario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Inserisci qui il nome..."
+        android:hint="Dai un nome al tuo itinerario..."
         android:layout_marginTop="5dp"
         android:textColorHint="@color/black"
         android:textColor="#000000"
@@ -33,7 +33,7 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="300dp"
+        android:layout_height="200dp"
         android:src="@drawable/logoapp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
@@ -42,52 +42,15 @@
 
     <!-- passare le attività che ha scelto l'utente -->
 
-    <RelativeLayout
+    <ListView
+        android:id="@+id/listaAttivita"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/shape_background">
-
-        <ImageView
-            android:id="@+id/img1"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:paddingStart="15dp"
-            android:src="@drawable/citta"
-            tools:ignore="RtlSymmetry" />
-
-        <TextView
-            android:id="@+id/t1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/img1"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
-            android:text="Attività"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="5dp"/>
-
-        <TextView
-            android:id="@+id/t2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/t1"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="0dp"
-            android:layout_toEndOf="@id/img1"
-            android:text="Secondary Text"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
-    </RelativeLayout>
+        android:layout_height="284dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal">
 

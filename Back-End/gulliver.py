@@ -320,29 +320,34 @@ def getDettagliAttivita():
 
     args = request.args
 
-    idAttivita = int(args.get('idAttivita'))    
+    idAttivita = args.getlist('idAttivita')
+    listaId = ', '.join(idAttivita)    
     
     sql = '''SELECT a.id, a.nome, a.descrizione, a.difficolta, l.id, l.nome, l.stato, l.longitudine, l.latitudine
             FROM attivita a
             JOIN attivita_luoghi al ON a.id = al.id_attivita
             JOIN luoghi l ON l.id = al.id_luogo
-            WHERE a.id = %d;''' % (idAttivita)
+            WHERE a.id IN (%s);''' % (listaId)
 
     try:
         cursor.execute(sql)
-        row = cursor.fetchone()
+        response = cursor.fetchall()
 
-        output = {
-                'idAttivita' : row[0],
-                'nomeAttivita' : row[1],
-                'descrizioneAttivita' : row[2],
-                'difficoltaAttivita' : row[3],
-                'idLuogo' : row[4],
-                'nomeLuogo' : row[5],
-                'statoLuogo' : row[6],
-                'latitudine' : row[7],
-                'longitudine' : row[8]
-            }
+        output = []
+
+        for row in response:
+            d = {
+                    'idAttivita' : row[0],
+                    'nomeAttivita' : row[1],
+                    'descrizioneAttivita' : row[2],
+                    'difficoltaAttivita' : row[3],
+                    'idLuogo' : row[4],
+                    'nomeLuogo' : row[5],
+                    'statoLuogo' : row[6],
+                    'latitudine' : row[7],
+                    'longitudine' : row[8]
+                }
+            output.append(d)
         
     except:
         print('Error: unable to fetch data')

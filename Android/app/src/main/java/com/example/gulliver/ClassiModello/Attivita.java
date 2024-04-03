@@ -7,14 +7,15 @@ public class Attivita {
     public Integer id;
     @SerializedName("nome")
     public String nome;
-    @SerializedName("descrizione")
-    public String descrizione;
+    @SerializedName("luogo")
+    public String nomeLuogo;
     @SerializedName("difficolta")
     public Integer difficolta;
-    @SerializedName("nomeLuogo")
-    public String nomeLuogo;
+    @SerializedName("descrizione")
+    public String descrizione;
 
-    public Attivita(Integer id, String nome, String descrizione, Integer difficolta, String nomeLuogo) {
+
+    public Attivita(Integer id, String nome, String nomeLuogo, Integer difficolta, String descrizione) {
         this.id = id;
         this.nome = nome;
         this.descrizione = descrizione;

@@ -98,16 +98,16 @@ def findAttivitaTipologie():
 
     args = request.args
 
-    idLuogo = int(args.get('idLuogo'))
+    nomeLuogo = args.get('nomeLuogo')
     idTipolgie = args.getlist('idTipologia')
     listaId = ', '.join(idTipolgie)
    
-    sql= """SELECT a.* 
+    sql= """SELECT a.id, a.nome, l.nome, a.difficolta, a.descrizione
             FROM attivita AS a
             JOIN tipologie AS t ON t.id = a.id_tipologia
             JOIN attivita_luoghi AS al ON al.id_attivita = a.id
             JOIN luoghi AS l ON l.id = al.id_luogo
-            WHERE l.id = %d AND t.id IN (%s);""" % (idLuogo, listaId)
+            WHERE l.nome = '%s' AND t.id IN (%s);""" % (nomeLuogo, listaId)
    
     
     try:
@@ -117,7 +117,7 @@ def findAttivitaTipologie():
         output = []
 
         for row in results:
-            utente = Utente(row[0], row[1], row[2], row[3])
+            utente = Attivita(row[0], row[1], row[2], row[3], row[4])
             output.append(utente.__dict__)
     except:
         print("Error: unable to fetch data")
@@ -306,6 +306,43 @@ def getDettagliItinerari():
             }
             output.append(d)
             
+    except:
+        print('Error: unable to fetch data')
+        return 'Errore'
+    
+    return json.dumps(output, indent=4)
+
+
+@app.route('/getDettagliAttivita', methods=['GET'])
+def getDettagliAttivita():
+    cursor = db.cursor()
+
+    args = request.args
+
+    idAttivita = int(args.get('idAttivita'))    
+    
+    sql = '''SELECT a.id, a.nome, a.descrizione, a.difficolta, l.id, l.nome, l.stato, l.longitudine, l.latitudine
+            FROM attivita a
+            JOIN attivita_luoghi al ON a.id = al.id_attivita
+            JOIN luoghi l ON l.id = al.id_luogo
+            WHERE a.id = %d;''' % (idAttivita)
+
+    try:
+        cursor.execute(sql)
+        row = cursor.fetchone()
+
+        output = {
+                'idAttivita' : row[0],
+                'nomeAttivita' : row[1],
+                'descrizioneAttivita' : row[2],
+                'difficoltaAttivita' : row[3],
+                'idLuogo' : row[4],
+                'nomeLuogo' : row[5],
+                'statoLuogo' : row[6],
+                'latitudine' : row[7],
+                'longitudine' : row[8]
+            }
+        
     except:
         print('Error: unable to fetch data')
         return 'Errore'

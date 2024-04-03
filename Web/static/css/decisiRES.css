@@ -144,7 +144,8 @@ color: grey;
   .collapsible-text h3{
     margin-top: 0;
     padding: 0 15px;
-    color: #176B87;
+    color:#bcb4b4;
+    font-weight: 500;
   }
   
   .collapsible-text p{

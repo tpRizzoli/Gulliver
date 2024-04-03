@@ -295,17 +295,16 @@ def registrazione():
         email = request.form['email']
         pwd = request.form['password']
 
-        if Utente.query.filter_by(username=username):
-             return render_template('registrazione.html', error='Username già esistente')
+        if Utente.query.filter_by(username=username).first():
+            return render_template('registrazioneProva.html', error='Username già esistente')
 
-        if Utente.query.filter_by(email=email):
-             return render_template('registrazione.html', error='Email già esistente')
+        if Utente.query.filter_by(email=email).first():
+            return render_template('registrazioneProva.html', error='Email già esistente')
 
         try:
             
-            sql="INSERT INTO utenti (username, email, pwd) VALUES ('%s', '%s', '%s');"
+            sql=("INSERT INTO utenti (username, email, pwd) VALUES ('%s', '%s', '%s');")
             cursor.execute(sql,(username, email, pwd))
-            cursor.lastrowid
             db.commit()
             
             nuovo_utente = Utente(id=id, username=username, email=email, password=pwd)
@@ -317,10 +316,10 @@ def registrazione():
         except Exception as e :
             print("Errore durante la creazione dell'utente: {e}")
             traceback.print_exc()
-            return render_template('registrazione.html', error = 'Registrazione fallita')
+            return render_template('registrazioneProva.html', error = 'Registrazione fallita')
          
     else:
-        return render_template('registrazione.html')
+        return render_template('registrazioneProva.html')
 
 
 

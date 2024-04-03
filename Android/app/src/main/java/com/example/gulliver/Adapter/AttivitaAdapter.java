@@ -1,10 +1,11 @@
 package com.example.gulliver.Adapter;
-/*
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.Checkable;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
@@ -14,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.gulliver.ClassiModello.Attivita;
-import com.example.gulliver.ClassiModello.Tipologia;
 import com.example.gulliver.R;
 
 import java.util.ArrayList;
@@ -24,11 +24,11 @@ public class AttivitaAdapter extends ArrayAdapter<Attivita>{
 
     Context context;
     int resource;
-    private ArrayList<Tipologia> lista;
+    private ArrayList<Attivita> lista;
     private ArrayList<Boolean> checkedStates;
 
-    public AttivitaAdapter(@NonNull Context context, int resource) {
-        super(context, resource);
+    public AttivitaAdapter(@NonNull Context context, int resource, ArrayList<Attivita> lista) {
+        super(context, resource, lista);
         this.context = context;
         this.resource = resource;
         this.lista = lista;
@@ -36,71 +36,29 @@ public class AttivitaAdapter extends ArrayAdapter<Attivita>{
         checkedStates = new ArrayList<>(Collections.nCopies(lista.size(), false));
     }
 
-    /*static class TipologiaGridViewHolder {
-        CheckBox checkBox;
-    }
-
-    public void notifyDataSetChanged() {
-        super.notifyDataSetChanged();
-
-        checkedStates.clear();
-        checkedStates = new ArrayList<>(Collections.nCopies(lista.size(), false));
-    }
-
-    public ArrayList<Tipologia> getAdapterList() {
-        return lista;
-    }
-
-    //class AttivitaViewHolder extends RelativeLayout implements Checkable{
-
-        //LayoutInflater inflater = LayoutInflater.from(context);
-       // View v = inflater.inflate(R.layout.attivita_list_item, this, true);
-
+    public static class AttivitaCliccabileViewHolder{
         TextView nome;
         TextView descrizione;
         TextView difficolta;
         TextView luogo;
 
-        RelativeLayout layout;
+        CheckBox checkBox;
+    }
 
-        private Boolean checked;
+    public ArrayList<Attivita> getAdapterList() {
+        return lista;
+    }
 
-        public AttivitaViewHolder(Context context) {
-            super(context);
+    public ArrayList<Boolean> getCheckedStates() {
+        return checkedStates;
+    }
 
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
 
-            nome = v.findViewById(R.id.nomeAttivita);
-            descrizione = v.findViewById(R.id.descrizioneAttivita);
-            difficolta = v.findViewById(R.id.difficoltaValore);
-            luogo = v.findViewById(R.id.luogoValore);
-
-            layout = v.findViewById(R.id.corniceLayout);
-
-            checked = false;
-        }
-
-        @Override
-        public void setChecked(boolean checked) {
-            this.checked = checked;
-
-            if(isChecked()){
-                layout.setBackgroundResource(R.drawable.shape_backgroud_checked);
-            }
-            else{
-                layout.setBackgroundResource(R.drawable.shape_background);
-            }
-        }
-
-        @Override
-        public boolean isChecked() {
-            return checked;
-        }
-
-        @Override
-        public void toggle() {
-            this.checked = !checked;
-        }
-
+        checkedStates.clear();
+        checkedStates = new ArrayList<>(Collections.nCopies(lista.size(), false));
     }
 
     @NonNull
@@ -112,10 +70,15 @@ public class AttivitaAdapter extends ArrayAdapter<Attivita>{
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
             viewContent = inflater.inflate(resource, null);
 
-            //AttivitaAdapter.AttivitaViewHolder holder = new TipologieAdapter.TipologiaGridViewHolder();
+            AttivitaCliccabileViewHolder holder = new AttivitaCliccabileViewHolder();
 
+            holder.nome = viewContent.findViewById(R.id.nomeAttivita);
+            holder.descrizione = viewContent.findViewById(R.id.descrizioneAttivita);
+            holder.difficolta = viewContent.findViewById(R.id.difficoltaValore);
+            holder.luogo = viewContent.findViewById(R.id.luogoValore);
+            holder.checkBox = viewContent.findViewById(R.id.checkboxAttivita);
 
-            //holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     checkedStates.set(position, isChecked);
@@ -125,15 +88,14 @@ public class AttivitaAdapter extends ArrayAdapter<Attivita>{
             viewContent.setTag(holder);
         }
 
-        TipologieAdapter.TipologiaGridViewHolder holder = (TipologieAdapter.TipologiaGridViewHolder) viewContent.getTag();
+        AttivitaAdapter.AttivitaCliccabileViewHolder holder = (AttivitaCliccabileViewHolder) viewContent.getTag();
         Attivita item = getItem(position);
 
-
-        holder.checkBox.setText(String.valueOf(item.nome));
+        holder.nome.setText(String.valueOf(item.nome));
+        holder.descrizione.setText(String.valueOf(item.descrizione));
+        holder.difficolta.setText(String.valueOf(item.difficolta));
+        holder.luogo.setText(String.valueOf(item.nomeLuogo));
 
         return viewContent;
     }
-
-
 }
-*/

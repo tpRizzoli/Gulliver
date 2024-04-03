@@ -27,7 +27,7 @@ public class ItinerarioAdapter extends ArrayAdapter<Itinerario> {
     }
 
 
-    static class ItinerarioGridViewHolder {
+    static class ItinerarioViewHolder {
         TextView textView;
     }
 
@@ -40,15 +40,14 @@ public class ItinerarioAdapter extends ArrayAdapter<Itinerario> {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
             viewContent = inflater.inflate(resource, null);
 
-            ItinerarioGridViewHolder holder = new ItinerarioGridViewHolder();
+            ItinerarioViewHolder holder = new ItinerarioViewHolder();
             holder.textView = viewContent.findViewById(R.id.nomeTextView);
 
             viewContent.setTag(holder);
         }
 
-        ItinerarioGridViewHolder holder = (ItinerarioGridViewHolder) viewContent.getTag();
+        ItinerarioViewHolder holder = (ItinerarioViewHolder) viewContent.getTag();
         Itinerario item = getItem(position);
-
 
         holder.textView.setText(String.valueOf(item.nome));
 

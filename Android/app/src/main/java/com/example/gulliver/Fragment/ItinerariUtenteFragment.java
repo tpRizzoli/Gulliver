@@ -58,39 +58,34 @@ public class ItinerariUtenteFragment extends Fragment {
         MyApiEndpointInterface apiService = retrofit.create(MyApiEndpointInterface.class);
 
         listView = view.findViewById(R.id.listaItinerari);
-        adapter = new ItinerarioAdapter(context, R.layout.lista_itinerari, listaItinerari);
+        adapter = new ItinerarioAdapter(context, R.layout.itinerari_list_item, listaItinerari);
         listView.setAdapter(adapter);
 
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
         Integer id = sharedPreferences.getInt(ID, -1);
 
-/*        Call<ArrayList<Itinerario>> call = apiService.findItinerariUtente(id);
+        Call<ArrayList<Itinerario>> call = apiService.findItinerariUtente(id);
 
         call.enqueue(new Callback<ArrayList<Itinerario>>() {
             @Override
             public void onResponse(Call<ArrayList<Itinerario>> call, Response<ArrayList<Itinerario>> response) {
                 if (response.isSuccessful()) {
                     listaItinerari.clear();
-                    listaItinerari = response.body();
+                    listaItinerari.addAll(response.body());
 
                     adapter.notifyDataSetChanged();
                     listView.invalidate();
-
-                    //codice per visualizzare le info dell'itinerario cliccato
-
-
-
                 } else {
-                    Toast.makeText(getActivity(), "Impossibile vedere", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Query Error", Toast.LENGTH_SHORT).show();
                 }
             }
 
             public void onFailure(Call<ArrayList<Itinerario>> call, Throwable t) {
-                // Gestisci eventuali errori di comunicazione qui
-                Toast.makeText(getActivity(), "error...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Errore di rete", Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
+
         return view;
     }
 }

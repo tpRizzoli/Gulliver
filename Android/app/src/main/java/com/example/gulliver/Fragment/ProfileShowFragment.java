@@ -17,6 +17,9 @@ import com.example.gulliver.R;
 public class ProfileShowFragment extends Fragment {
 
     Context ctx = null;
+    TextView usernameText;
+    TextView emailText;
+
 
     public ProfileShowFragment() {
     }
@@ -25,6 +28,12 @@ public class ProfileShowFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         ctx = context;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        
     }
 
     @Override

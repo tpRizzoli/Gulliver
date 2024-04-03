@@ -73,6 +73,7 @@ public class ConfermaItinerarioFragment extends Fragment {
 
             @Override
             public void onResponse(Call<ArrayList<AttivitaConLuogo>> call, Response<ArrayList<AttivitaConLuogo>> response) {
+                dettagliAttivita.clear();
                 dettagliAttivita.addAll(response.body());
                 adapter.notifyDataSetChanged();
                 listaAttivita.invalidate();

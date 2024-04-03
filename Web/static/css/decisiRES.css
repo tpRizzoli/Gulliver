@@ -7,14 +7,17 @@ justify-content: space-between;
 }
 
 .left{
-width:50%;
-height: 600px;
+width:44%;
+height: 80%;
 background-color: aquamarine;
+position: fixed;
+border-radius: .7rem;
 }
 
 .right{
 position: relative;
-
+left: 55%;
+width: 40%;
 }
 
 .right-content{
@@ -61,3 +64,188 @@ button:disabled {
 cursor: auto;
 color: grey;
 }
+
+.wrapper{
+  width: 100%;
+  padding-top: 50px;
+  justify-content: center;
+  margin: auto;
+  padding-bottom: 250px; 
+} 
+
+/*----------------------------*/
+.collapsible{
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    font-weight: 500;
+    
+  }
+  
+  .tohide{
+    display: none;
+  }
+  
+  .collapsible label{
+    position: relative;
+    font-weight: 600;
+    background: #dfd9d9;
+    color:#176B87;
+    display:block;
+    margin-bottom: 10px;
+    cursor: pointer;
+    padding: 15px;
+    z-index: 1;
+    border-top-left-radius:10px ;
+    border-top-right-radius: 10px;
+  }
+  
+  .collapsible label:after{
+    content: "";
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    width: 18px;
+    transition: all 0.3s ease;
+  }
+  
+  .collapsible label::before{
+    display: none;
+  }
+  
+  .collapsible-text{
+    overflow: hidden;
+    border-radius: 4px;
+    position: relative;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    /* top: -100%;
+    opacity: 0.5;
+    transition: all 0.3s ease; */
+  
+  
+  }
+  .collapsible input:checked ~ .collapsible-text{
+    max-height: 500px;
+    padding-bottom: 25px;
+    background: #fff;
+    /* box-shadow: 0 5px 11px 0 #fff, 0 4px 11px 0 aqua; */
+    opacity: 1;
+    /* top: 0; */
+  }
+  
+  .collapsible-text h2{
+    margin-bottom: 0;
+    padding: 0 15px;
+    color: #176B87;
+  }
+  
+  .collapsible-text h3{
+    margin-top: 0;
+    padding: 0 15px;
+    color: #176B87;
+  }
+  
+  .collapsible-text p{
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .summary{
+    /* margin-top: 50px; */
+    width: 100%;
+    padding-top: 50px;
+    justify-content: center;
+    margin: auto;
+    padding-bottom: 250px;
+    
+  }
+
+  .activity{
+    margin-bottom: 50px;
+  }
+
+  .crea{
+    width: 100%;
+    overflow: hidden;
+    font-weight: 500;
+    text-align: right;
+    margin-top: 100px;
+  }
+  
+  
+  .tohide{
+    display: none;
+  }
+  
+  .crea label{
+    width:fit-content;
+    font-weight: 600;
+    background: #dfd9d9;
+    color:#176B87;
+    display:inline-block;
+    cursor: pointer;
+    padding: 15px;
+    z-index: 1;
+    border-top-left-radius:10px ;
+    border-top-right-radius: 10px;
+    
+  }
+  
+  .crea label:after{
+    content: "";
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    width: 18px;
+    transition: all 0.3s ease;
+  }
+  
+  .crea label::before{
+    display: none;
+  }
+  
+  
+  .crea-text{
+    /* justify-content: right;
+    display: flex; */
+    overflow: hidden;
+  
+    display: flex;
+    justify-content: space-between;  
+    align-items: center;
+    padding: 13px;
+    position: relative;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+  }
+  .crea input:checked ~ .crea-text{
+    max-height: 500px;
+    /* padding-bottom: 25px; */
+    background: white;
+    border-top: #176B87 solid;
+    /* border-top-left-radius: 8px; */
+    opacity: 1;
+  }
+  
+  .newIt-wrapper input {
+    background-color: #eee;
+    border: none;
+    padding: 1rem;
+    font-size: 1rem;
+    width: 16em;
+    border-radius: 1rem;
+    color:rgb(39, 167, 115);;
+    box-shadow: 0 0.4rem #dfd9d9;
+    cursor: pointer;
+  }
+  
+  .newIt-wrapper input:focus {
+    outline-color:rgb(39, 167, 115);;
+  }
+  
+  /* .add{
+    width: 3.5rem;
+  } */

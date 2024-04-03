@@ -42,46 +42,55 @@
             </div>
             <div class="right">
                 <div class="right-content">
-                    <h1 style="font-size: 2rem;">Attività da fare a <span>{{destinazione}}</span></h1>
-                    <p>Seleziona le attività desiderate</p>
-    
-                        <!-- {% for elem in lista %}
-                        <p>{{elem.nome_attivita}} , {{elem.difficolta}}  ,  {{elem.descrizione_attivita}} </p>
-                        <p>{{elem}}</p>
-                        {% endfor %} -->
+                    <h1>Itinerario a: <span>{{destinazione}}</span></h1>
+                    <p style="color:darkgrey"><i>Sommario delle attività selezionate</i></p>
     
                     
-    
-    
-    
-                    <div class="wrapper">
-                        <form action="/Sommario" method="POST">
-                            <input type="hidden" name="destinazione" value="{{destinazione}}"/>
-                            {% for elem in lista.keys() %}
-                            <div class="collapsible">
-                                <input type="checkbox" class="tohide"id="collapsible-head{{ loop.index }}">
-                                <label for="collapsible-head{{ loop.index }}">{{elem}}</label>
-                                <div class="collapsible-text">
-                                    {% for act in lista[elem] %}
-                                    <h2 id="collapsible-h2{{ loop.index }}">{{act.nome_attivita}}</h2>
-                                    <h3 id="collapsible-h3{{ loop.index }}">difficoltà: {{act.difficolta}}</h3>
-                                    <p id="collapsible-p{{ loop.index }}">{{act.descrizione_attivita}}</p>
-                                    <input type="checkbox" id="collapsible-checkbox{{ loop.index }}" name="opzioneDinamica" value="{{act.nome_attivita}}">
-                                    {%  endfor %} 
+                    <div class="summary">
+                        <form action="/ItinerarioSalvato" method="POST">
+                            {% for elem in sommario %}
+                                <div class="activity {{ loop.index }}">
+                                    <h2 class="activity-head{{ loop.index }}">{{elem.nome_attivita}}</h2>
+                                    <h3 style="color:darkgrey; font-weight: 300;" class="activity-difficulty{{ loop.index }}">difficoltà: {{elem.difficolta}}</h3>
+                                    <p class="activity-text{{ loop.index }}">{{elem.descrizione_attivita}}</p>
                                 </div>
-                            </div>
                             {% endfor %}
-                            <button>Avanti</button>
-                        </form>
-                        
-                    </div>
+                            
     
-                    
+    
+                            
+                            <div class="crea-wrapper">
+                                <div class="crea">
+                                    <input type="checkbox" class="tohide" id="crea-head">
+                                    <label for="crea-head">Crea Itinerario</label>
+                                    <div class="crea-text">
+                                        
+                                        <div class="newIt-wrapper">
+                                            <input type="text" placeholder="Nome Itinerario..." name="nuovoItinerario" class="newIt" required>
+                                        </div>
+                                        <button class="add"type="submit">+</button>
+                                        
+                                </div>
+                                
+                            </div>
+                        </form>
+                            
+                        
+                         
+                
+    
+                    </div>    
+    
+                 
                     
                       
                 </div>
             </div>
         </div>
+    
+        
+    
+
 
 
     <!-- footer -->

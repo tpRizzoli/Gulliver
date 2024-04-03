@@ -66,7 +66,7 @@ class Itinerario:
 
 @appWebApi.route("/prova")
 def prova():
-    return render_template("sceltaTipologiaRES.html")
+    return render_template("provacss.html")
 
 @appWebApi.route("/profilo")
 def getProfilo():
@@ -250,7 +250,7 @@ def createSommario():
         except:
             print ("Error: cannot fetch data")
             
-    return render_template('sommario.html', destinazione=nomeLuogo, sommario = sommarioAttivita)
+    return render_template('sommarioRES.html', destinazione=nomeLuogo, sommario = sommarioAttivita)
     
 @appWebApi.route("/ItinerarioSalvato", methods=["POST"])
 def salvaItinerario():

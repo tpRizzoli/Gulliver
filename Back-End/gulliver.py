@@ -19,10 +19,10 @@ db = pymysql.connect(host = MYSQL_HOST, user = MYSQL_USER, password = MYSQL_PASS
 
 # Classi database
 class Attivita:
-    def __init__(self, id, nome, luogo, difficolta, descrizione):
+    def __init__(self, id, nome, tipologia, difficolta, descrizione):
         self.id = id
         self.nome = nome
-        self.luogo = luogo
+        self.tipologia = tipologia
         self.difficolta = difficolta
         self.descrizione = descrizione
 
@@ -98,16 +98,16 @@ def findAttivitaTipologie():
 
     args = request.args
 
-    nomeLuogo = args.get('nomeLuogo')
+    idLuogo = int(args.get('idLuogo'))
     idTipolgie = args.getlist('idTipologia')
     listaId = ', '.join(idTipolgie)
    
-    sql= """SELECT a.id, a.nome, l.nome, a.difficolta, a.descrizione
+    sql= """SELECT a.* 
             FROM attivita AS a
             JOIN tipologie AS t ON t.id = a.id_tipologia
             JOIN attivita_luoghi AS al ON al.id_attivita = a.id
             JOIN luoghi AS l ON l.id = al.id_luogo
-            WHERE l.nome = '%s' AND t.id IN (%s);""" % (nomeLuogo, listaId)
+            WHERE l.id = %d AND t.id IN (%s);""" % (idLuogo, listaId)
    
     
     try:
@@ -117,7 +117,7 @@ def findAttivitaTipologie():
         output = []
 
         for row in results:
-            utente = Attivita(row[0], row[1], row[2], row[3], row[4])
+            utente = Utente(row[0], row[1], row[2], row[3])
             output.append(utente.__dict__)
     except:
         print("Error: unable to fetch data")
@@ -127,7 +127,6 @@ def findAttivitaTipologie():
 
 
 @app.route('/createItinerario', methods=['POST']) #mi serve un idItinerario
-
 def createItinerario():
 
     args = request.args
@@ -281,9 +280,10 @@ def getDettagliItinerari():
 
     idItinerario = int(args.get('idItinerario'))    
     
-    sql = '''SELECT a.id, a.nome, a.descrizione, t.nome, a.difficolta
+    sql = '''SELECT a.id, a.nome, a.descrizione, a.difficolta, l.id, l.nome, l.stato, l.longitudine, l.latitudine
             FROM attivita a
-            JOIN tipologie t ON a.id_tipologia = t.id
+            JOIN attivita_luoghi al ON a.id = al.id_attivita
+            JOIN luoghi l ON l.id = al.id_luogo
             JOIN attivita_itinerari ai ON a.id = ai.id_attivita
             WHERE ai.id_itinerario = %d;''' % (idItinerario)
 
@@ -293,7 +293,18 @@ def getDettagliItinerari():
 
         output = []
         for row in results:
-            output.append(Attivita(row[0], row[1], row[2], row[3], row[4]).__dict__)
+            d = {
+                'idAttivita' : row[0],
+                'nomeAttivita' : row[1],
+                'descrizioneAttivita' : row[2],
+                'difficoltaAttivita' : row[3],
+                'idLuogo' : row[4],
+                'nomeLuogo' : row[5],
+                'statoLuogo' : row[6],
+                'latitudine' : row[7],
+                'longitudine' : row[8]
+            }
+            output.append(d)
             
     except:
         print('Error: unable to fetch data')

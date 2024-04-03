@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+
+    <!--home-->
+    <section class="home">
+    <div class="home-box">
         <nav>
             <div class="logo bars">
                 <div class="bar">
@@ -41,37 +45,37 @@
             </div>
             <div class="right">
                 <div class="right-content">
-                    <h1 style="font-size: 2rem;">Tipologia di attività a <span>{{destinazione}}</span></h1>
+                    <h1>Tipologia di attività a <span>{{destinazione}}</span></h1>
                     <p>Facci sapere cosa vorresti fare nel tuo viaggio e noi di  aiuteremo
                         a trovare le migliori attivita!</p>
-                    
-                    <div class="wrapper">
-                        <div class="checkbox-container">
-                            <form action="/Attivita" method="POST">
-                                <input type="hidden" name="destinazione" value="{{destinazione}}"/>
-                                {% for elem in lista %}
-                                    <div class="checkbox-holder">
-                                        <input type="checkbox" id="cCB{{ loop.index }}" name="opzioneDinamica" value="{{elem.nome_tipologia}}">
-                                        <label for="cCB{{ loop.index }}">{{elem.nome_tipologia}}</label> 
-                                    </div> 
-                                {% endfor %} 
-                                
+    
+                    <div class="checkbox-container">
+                        <form action="/Attivita" method="POST">
+                            <input type="hidden" name="destinazione" value="{{destinazione}}"/>
+                            {% for elem in lista %}
+                                <div class="checkbox-holder">
+                                    <input type="checkbox" id="cCB{{ loop.index }}" name="opzioneDinamica" value="{{elem.nome_tipologia}}">
+                                    <label for="cCB{{ loop.index }}">{{elem.nome_tipologia}}</label> 
+                                </div> 
+                            {% endfor %} 
                             
-        
-                                <button type="submit">Avanti</button>
-                            </form>
-                        </div> 
-                    </div>
+                        
+    
+                            <button type="submit">Avanti</button>
+                        </form>
+                    </div> 
+                    
                       
                 </div>
             </div>
         </div>   
-
+    </div>
+    </section>
 
 
 
     <!-- footer -->
-    <!-- <footer>
+    <footer>
         <div class="footer">
             <div class="container">
                 <div class="detail">
@@ -83,7 +87,7 @@
                 </div>
             </div>
         </div>
-    </footer> -->
+    </footer>
 
 
 

@@ -138,7 +138,7 @@ def getCategorie():
             Where c.nome ='"+categoriaPassata+"'\
             GROUP BY i.nome;"
     
-    print(sql)
+    # print(sql)
     
     try:
         cursor.execute(sql)
@@ -164,7 +164,7 @@ def getTipologieAttivita():
         WHERE l.nome ='"+nomeLuogo+"'\
         GROUP BY t.id;"
     
-    print(sql)
+    # print(sql)
     listaTipologieXLuogo = []
 
     try:
@@ -258,19 +258,45 @@ def salvaItinerario():
     if not session.get("username"):
         return redirect("/login")
 
-    nomeAttivita = request.form.getlist('nomeAttivita')
+    listaAttivitaSommario = request.form.getlist('nomeAttivita')
     nuovoItinerario = request.form.get('nuovoItinerario')
     print("NOME ITINERARIO: ", nuovoItinerario)
-    print("ATTIVITA SELEZIONATE:", nomeAttivita)
+    print("ATTIVITA SELEZIONATE:", listaAttivitaSommario)
+
+    #recupero ID delle attività
+    cursor = db.cursor()
+    listaIDAttivita=[]
+    for nomeAttivita in listaAttivitaSommario:
+        # Esegui la query per ottenere l'ID dell'attività
+        sql = "SELECT id FROM Attivita WHERE nome = %s"
+        cursor.execute(sql,(nomeAttivita))
+        result = cursor.fetchone()
+        # print(result)
+        if result:
+            # Aggiungi l'ID alla lista
+            listaIDAttivita.append(result[0])
+        else:
+            print("Errore: l'attività non esiste nel database.")
+    print(listaIDAttivita)
+
+
+    cercaItinerarioNome = """SELECT * FROM itinerari WHERE nome = '%s';"""
+    cercaItinerarioId = """SELECT * FROM itinerari WHERE id = %d;"""
+    controllaRelazioneUtenteItinerario = """SELECT * FROM utenti_itinerari WHERE id_utente = %d AND id_itinerario = %d;"""
+
+    creazioneItinerario = """INSERT INTO itinerari (nome) VALUES ('%s');"""
+    creazioneRelazioniAttivitaItinerario = """INSERT INTO attivita_itinerari (id_attivita, id_itinerario) VALUES (%d, %d);"""
+    creazioneRelazioneUtenteItinerario = """INSERT INTO utenti_itinerari (id_utente, id_itinerario) VALUES (%d, %d);"""
+
+    try:
+        cursor.execute(creazioneItinerario % nuovoItinerario)
+        db.commit()
+        cursor.execute('SELECT * FROM itinerari WHERE id = LAST_INSERT_ID()')
+        itinerarioCreato = Itinerario(*cursor.fetchone())
+    except:
+        print("errore: creazione record itinerario")
 
     
-
-
-
-
-
-
-
 
     return redirect("/profilo")
 

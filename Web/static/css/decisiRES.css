@@ -7,14 +7,17 @@ justify-content: space-between;
 }
 
 .left{
-width:50%;
-height: 600px;
+width:44%;
+height: 80%;
 background-color: aquamarine;
+position: fixed;
+border-radius: .7rem;
 }
 
 .right{
 position: relative;
-
+left: 55%;
+width: 40%;
 }
 
 .right-content{

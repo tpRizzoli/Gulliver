@@ -73,7 +73,6 @@ public class ItinerariUtenteFragment extends Fragment {
                 if (response.isSuccessful()) {
                     listaItinerari.clear();
                     listaItinerari.addAll(response.body()); // Aggiungi gli itinerari alla lista esistente
-
                     adapter.notifyDataSetChanged();
                     listView.invalidate();
 

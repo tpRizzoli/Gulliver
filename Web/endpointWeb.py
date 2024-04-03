@@ -263,6 +263,8 @@ def salvaItinerario():
     print("NOME ITINERARIO: ", nuovoItinerario)
     print("ATTIVITA SELEZIONATE:", nomeAttivita)
 
+    
+
 
 
 

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css"> <!--con server ONLINE questo href non serve-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+    <title>Gulliver - Lasciati ispirare</title>
+</head>
+<body>
+
+    <nav class="dash">
+        <div class="logo-icon">
+            <img src="/static/images/planet-icon.png"  alt="">
+        </div>
+        <div class="login-icon">
+            <img src="/static/images/user-icon.png" alt="">
+        </div>
+    </nav>
+
+    <div class="main-title">
+        <h1>Itinerari per {{categoria}}</h1>
+    </div>
+   
+    <div class="main-card">
+        {% for elem in lista %}
+        <div class="elemlist">
+            <div class="card-body">
+                <img src="https://cdn-icons-png.flaticon.com/512/2038/2038466.png">
+                <h3 class="card-title">{{elem.nome_itinerario}}</h3>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod
+                    tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim
+                    veniam, quis nostrum exercitationem ullam</p>
+                <a href="#" class="card-link">Dettagli</a>
+            </div>
+          </div>
+        {% endfor %}
+    </div>
+    
+</body>
+</html>

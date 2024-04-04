@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gulliver - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar-home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mediaResponsive.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/loginPageButton.css') }}">
+</head>
+<body>
+    <section class="home">
+        <div class="home-box">
+            
+            <div class="content">
+                <h1>Crea un nuovo account!</h1>
+                <!-- Rimuovi il form di ricerca -->
+                <form action="/modificaProfilo/" class="login-form" method="POST">
+                    <div class="search">
+                        <i class="fa fa-envelope"></i>
+                        <input  placeholder="username" name="username" class="username" type="text" required>
+                    </div>
+
+                    <br>
+                   
+                    <div class="search">
+                        <i class="fa fa-envelope"></i>
+                        <input  placeholder="email" name="email" class="email" type="email" required>
+                    </div>
+                    <br>
+                    
+                    <div class="search">
+                        <i class="fa fa-lock"></i>
+                        <input class="input" name="password" placeholder="Password" type="password" required>
+                    </div>
+                    <br>
+                    <button type="submit" class="login-btn">modifica</button>
+                    <br>
+
+                    <br>
+                    
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer">
+            <div class="container">
+                <div class="detail">
+                    <h3>Gulliver</h3>
+                    <!-- Rimuovi il testo del footer non pertinente al login -->
+                    <h5>Contattaci</h5>
+                    <a href="#">gulliver@mail.com</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" 
+        integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Rimuovi il link al file JS -->
+</body>
+</html>

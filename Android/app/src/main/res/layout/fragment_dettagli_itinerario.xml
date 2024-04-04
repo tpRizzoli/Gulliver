@@ -12,13 +12,13 @@
         android:id="@+id/nomeItinerario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
+        android:layout_gravity="center_horizontal"
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
         android:text="Nome Itinerario"
         android:textColor="@color/black"
-        android:textSize="30dp"
+        android:textSize="20dp"
         android:textStyle="bold"/>
 
 
@@ -36,16 +36,19 @@
     <ListView
         android:id="@+id/listaAttivita"
         android:layout_width="match_parent"
-        android:layout_height="284dp" />
+        android:layout_height="305dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:dividerHeight="10dp"
+        android:divider="@color/white"
+        android:layout_marginBottom="20dp"
+        />
 
     <Button
         android:id="@+id/btnEliminaItinerario"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_style_button"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
         android:text="Elimina"
         android:backgroundTint="@color/rosso" />

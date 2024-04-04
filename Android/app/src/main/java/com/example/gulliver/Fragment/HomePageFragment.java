@@ -7,34 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.gulliver.Activity.MainActivity;
 import com.example.gulliver.R;
-import com.example.gulliver.ClassiModello.Tipologia;
-import com.example.gulliver.Adapter.TipologieAdapter;
-
-import java.util.ArrayList;
 
 public class HomePageFragment extends Fragment {
 
-    Context ctx = null;
-    GridView grigliaTipologie = null;
-    TipologieAdapter tga = null;
-
-    ArrayList<Tipologia> listaTipologie = new ArrayList<>();
-
-
-    public HomePageFragment() {
-    }
+    Context context = null;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ctx = context;
+        this.context = context;
     }
 
     @Override
@@ -60,7 +47,7 @@ public class HomePageFragment extends Fragment {
                     extra.putString("nomeLuogo", nomePosto.getText().toString());
 
                     TipologieFragment tipologieFragment = new TipologieFragment();
-                    ((MainActivity) ctx).changeFragment(tipologieFragment, extra);
+                    ((MainActivity) context).changeFragment(tipologieFragment, extra);
                 }
             }
         });
@@ -75,7 +62,7 @@ public class HomePageFragment extends Fragment {
                 Bundle extra = new Bundle();
                 extra.putString("nomeCategoria", "Mare");
 
-                ((MainActivity) ctx).changeFragment(itinerariSuggeriti, extra);
+                ((MainActivity) context).changeFragment(itinerariSuggeriti, extra);
             }
         });
 
@@ -88,7 +75,7 @@ public class HomePageFragment extends Fragment {
                 Bundle extra = new Bundle();
                 extra.putString("nomeCategoria", "Montagna");
 
-                ((MainActivity) ctx).changeFragment(itinerariSuggeriti, extra);
+                ((MainActivity) context).changeFragment(itinerariSuggeriti, extra);
             }
         });
 
@@ -101,7 +88,7 @@ public class HomePageFragment extends Fragment {
                 Bundle extra = new Bundle();
                 extra.putString("nomeCategoria", "Citta");
 
-                ((MainActivity) ctx).changeFragment(itinerariSuggeriti, extra);
+                ((MainActivity) context).changeFragment(itinerariSuggeriti, extra);
             }
         });
 

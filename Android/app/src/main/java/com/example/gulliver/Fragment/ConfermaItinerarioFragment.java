@@ -71,48 +71,114 @@ public class ConfermaItinerarioFragment extends Fragment {
         listaAttivita.setAdapter(adapter);
 
         Bundle extra = getArguments();
+
         ArrayList<Integer> idAttivitaScelte = extra.getIntegerArrayList("idAttivita");
+        Integer idItinerario = extra.getInt("idItinerario");
+        String nomeItinerario = extra.getString("nomeItinerario");
 
-        Call recuperoDettagliAttivita = apiService.findDettagliAttivita(idAttivitaScelte);
-        recuperoDettagliAttivita.enqueue(new Callback<ArrayList<AttivitaConLuogo>>() {
+        if(idAttivitaScelte != null){
+            // Creazione nuovo itinerario e collegamento con l'utente
 
-            @Override
-            public void onResponse(Call<ArrayList<AttivitaConLuogo>> call, Response<ArrayList<AttivitaConLuogo>> response) {
-                dettagliAttivita.clear();
-                dettagliAttivita.addAll(response.body());
-                adapter.notifyDataSetChanged();
-                listaAttivita.invalidate();
-            }
+            inserimentoNome.setEnabled(true);
+            Call recuperoDettagliAttivita = apiService.findDettagliAttivita(idAttivitaScelte);
+            recuperoDettagliAttivita.enqueue(new Callback<ArrayList<AttivitaConLuogo>>() {
 
-            @Override
-            public void onFailure(Call<ArrayList<AttivitaConLuogo>> call, Throwable t) {
-                Toast.makeText(context, "Impossibile caricare i dettagli", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onResponse(Call<ArrayList<AttivitaConLuogo>> call, Response<ArrayList<AttivitaConLuogo>> response) {
+                    dettagliAttivita.clear();
+                    dettagliAttivita.addAll(response.body());
+                    adapter.notifyDataSetChanged();
+                    listaAttivita.invalidate();
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<AttivitaConLuogo>> call, Throwable t) {
+                    Toast.makeText(context, "Impossibile caricare i dettagli", Toast.LENGTH_SHORT).show();
+                }
+            });
 
 
-        pulsanteAnnulla.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HomePageFragment homePage = new HomePageFragment();
-                ((MainActivity) context).changeFragment(homePage);
-            }
-        });
+            pulsanteAnnulla.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HomePageFragment homePage = new HomePageFragment();
+                    ((MainActivity) context).changeFragment(homePage);
+                }
+            });
 
-        pulsanteConferma.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String nomeItinerario = inserimentoNome.getText().toString();
+            pulsanteConferma.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String nomeItinerario = inserimentoNome.getText().toString();
 
-                if(nomeItinerario.equals("")){
-                    Toast.makeText(context, "Devi prima scegliere un nome", Toast.LENGTH_SHORT).show();
-                }else{
+                    if(nomeItinerario.equals("")){
+                        Toast.makeText(context, "Devi prima scegliere un nome", Toast.LENGTH_SHORT).show();
+                    }else{
+                        SharedPreferences sp = getActivity().getSharedPreferences(LoginActivity.MY_PREFERENCES, Context.MODE_PRIVATE);
+                        Integer idUtente = sp.getInt(LoginActivity.ID, -1);
+
+                        if(idUtente != -1){
+                            Call<Itinerario> creaItinerario = apiService.creaItinerario(idUtente, nomeItinerario, idAttivitaScelte);
+                            creaItinerario.enqueue(new Callback<Itinerario>() {
+                                @Override
+                                public void onResponse(Call<Itinerario> call, Response<Itinerario> response) {
+                                    Itinerario itinerarioCreato = response.body();
+
+                                    ItinerariUtenteFragment riepilogoItinerari = new ItinerariUtenteFragment();
+                                    ((MainActivity) context).changeFragment(riepilogoItinerari);
+                                    Toast.makeText(context, "Itinerario creato con successo!", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onFailure(Call<Itinerario> call, Throwable t) {
+                                    Toast.makeText(context, "Impossibile creare l'itinerario", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        } else {
+            // Collegamento di un Itinerario con l'utente
+
+            inserimentoNome.setEnabled(false);
+            inserimentoNome.setText(nomeItinerario);
+
+            Call recuperoDettagliItinerario = apiService.findDettagliItinerario(idItinerario);
+            recuperoDettagliItinerario.enqueue(new Callback<ArrayList<AttivitaConLuogo>>() {
+                @Override
+                public void onResponse(Call<ArrayList<AttivitaConLuogo>> call, Response<ArrayList<AttivitaConLuogo>> response) {
+                    dettagliAttivita.clear();
+                    dettagliAttivita.addAll(response.body());
+                    adapter.notifyDataSetChanged();
+                    listaAttivita.invalidate();
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<AttivitaConLuogo>> call, Throwable t) {
+                    Toast.makeText(context, "Impossibile caricare i dettagli", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+            pulsanteAnnulla.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HomePageFragment homePage = new HomePageFragment();
+                    ((MainActivity) context).changeFragment(homePage);
+                }
+            });
+
+            pulsanteConferma.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
                     SharedPreferences sp = getActivity().getSharedPreferences(LoginActivity.MY_PREFERENCES, Context.MODE_PRIVATE);
                     Integer idUtente = sp.getInt(LoginActivity.ID, -1);
 
                     if(idUtente != -1){
-                        Call<Itinerario> creaItinerario = apiService.creaItinerario(idUtente, nomeItinerario, idAttivitaScelte);
-                        creaItinerario.enqueue(new Callback<Itinerario>() {
+                        Call<Itinerario> associaItinerario = apiService.associaItinerario(idUtente, idItinerario);
+                        associaItinerario.enqueue(new Callback<Itinerario>() {
                             @Override
                             public void onResponse(Call<Itinerario> call, Response<Itinerario> response) {
                                 Itinerario itinerarioCreato = response.body();
@@ -124,15 +190,14 @@ public class ConfermaItinerarioFragment extends Fragment {
 
                             @Override
                             public void onFailure(Call<Itinerario> call, Throwable t) {
-
                                 Toast.makeText(context, "Impossibile creare l'itinerario", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
-                }
-            }
-        });
 
+                }
+            });
+        }
 
         return view;
     }

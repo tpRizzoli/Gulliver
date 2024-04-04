@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.gulliver.Activity.MainActivity;
 import com.example.gulliver.ClassiModello.Itinerario;
 import com.example.gulliver.Adapter.ItinerarioAdapter;
 import com.example.gulliver.MyApiEndpointInterface;
@@ -83,6 +85,21 @@ public class ItinerariUtenteFragment extends Fragment {
 
             public void onFailure(Call<ArrayList<Itinerario>> call, Throwable t) {
                 Toast.makeText(getActivity(), "Errore di rete", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle extra = new Bundle();
+
+                Itinerario i = listaItinerari.get(position);
+
+                extra.putInt("idItinerario", i.id);
+                extra.putString("nomeItinerario", i.nome);
+
+                DettagliItinerarioFragment dettagliItinerario = new DettagliItinerarioFragment();
+                ((MainActivity)context).changeFragment(dettagliItinerario, extra);
             }
         });
 

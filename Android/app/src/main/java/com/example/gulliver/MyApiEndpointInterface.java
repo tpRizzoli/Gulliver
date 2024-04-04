@@ -6,7 +6,10 @@ import com.example.gulliver.ClassiModello.Itinerario;
 import com.example.gulliver.ClassiModello.Tipologia;
 import com.example.gulliver.ClassiModello.User;
 
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -48,5 +51,8 @@ public interface MyApiEndpointInterface {
 
     @POST("/createItinerario")
     Call<Itinerario> associaItinerario(@Query("idUtente") Integer idUtente, @Query("idItinerario") Integer idItinerario);
+
+    @DELETE("/eliminaItinerario")
+    Call<String> eliminaItinerario(@Query("idUtente") Integer idUtente, @Query("idItinerario") Integer idItinerario);
 
 }

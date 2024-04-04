@@ -124,6 +124,7 @@ public class ConfermaItinerarioFragment extends Fragment {
 
                             @Override
                             public void onFailure(Call<Itinerario> call, Throwable t) {
+
                                 Toast.makeText(context, "Impossibile creare l'itinerario", Toast.LENGTH_SHORT).show();
                             }
                         });

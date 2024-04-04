@@ -1,6 +1,6 @@
 # Gulliver Back-End
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response
 import pymysql
 import json
 
@@ -454,11 +454,11 @@ def deleteItinerario():
 
         db.commit()
     except:
-        connection.rollback()
+        db.rollback()
         print('Query Error')
         return 'Errore'
 
-    return 'Itinerario eliminato'
+    return 'Itinerario eliminato!'
 
 
 # Ritorna elenco di Itinerari in base alla categoria scelta

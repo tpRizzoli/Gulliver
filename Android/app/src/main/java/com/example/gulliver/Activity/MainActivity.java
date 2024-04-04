@@ -70,7 +70,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     // Sovrascrivi il metodo onBackPressed per gestire correttamente la gesture "indietro"
-    @Override
+
+    // TO-DO sistemare questo metodo!!!
+    /*@Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         int count = fragmentManager.getBackStackEntryCount();
@@ -91,5 +93,5 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 bottomNavigationView.setSelectedItemId(R.id.main); // Seleziona l'elemento corrispondente nel BottomNavigationView
             }
         }
-    }
+    }*/
 }

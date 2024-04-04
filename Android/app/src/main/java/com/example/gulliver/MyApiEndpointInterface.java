@@ -17,7 +17,7 @@ import java.util.List;
 
 public interface MyApiEndpointInterface {
 
-    String urlServer = "http://192.168.101.33:5000";
+    String urlServer = "http://192.168.0.104:5000";
 
     @GET("/getUser")
     Call<User> getUser(@Query("utente") String username, @Query("password") String password);
@@ -42,5 +42,11 @@ public interface MyApiEndpointInterface {
 
     @GET("/getDettagliItinerario")
     Call<ArrayList<AttivitaConLuogo>> findDettagliItinerario(@Query("idItinerario") Integer idItinerario);
+
+    @POST("/createItinerario")
+    Call<Itinerario> creaItinerario(@Query("idUtente") Integer idUtente, @Query("nomeItinerario") String nomeItinerario, @Query("idAttivita") ArrayList<Integer> idAttivita);
+
+    @POST("/createItinerario")
+    Call<Itinerario> associaItinerario(@Query("idUtente") Integer idUtente, @Query("idItinerario") Integer idItinerario);
 
 }

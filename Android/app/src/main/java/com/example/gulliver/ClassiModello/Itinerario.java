@@ -20,9 +20,7 @@ public class Itinerario {
         this.sysDefault = sysDefault;
     }
 
-    public String getNome() {
-        return nome;
-    }
+
 }
 
 

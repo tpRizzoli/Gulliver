@@ -4,6 +4,7 @@ import static com.example.gulliver.MyApiEndpointInterface.urlServer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,9 +18,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.gulliver.Activity.LoginActivity;
 import com.example.gulliver.Activity.MainActivity;
 import com.example.gulliver.Adapter.AttivitaConLuogoAdapter;
 import com.example.gulliver.ClassiModello.AttivitaConLuogo;
+import com.example.gulliver.ClassiModello.Itinerario;
 import com.example.gulliver.MyApiEndpointInterface;
 import com.example.gulliver.R;
 
@@ -93,6 +96,39 @@ public class ConfermaItinerarioFragment extends Fragment {
             public void onClick(View v) {
                 HomePageFragment homePage = new HomePageFragment();
                 ((MainActivity) context).changeFragment(homePage);
+            }
+        });
+
+        pulsanteConferma.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nomeItinerario = inserimentoNome.getText().toString();
+
+                if(nomeItinerario.equals("")){
+                    Toast.makeText(context, "Devi prima scegliere un nome", Toast.LENGTH_SHORT).show();
+                }else{
+                    SharedPreferences sp = getActivity().getSharedPreferences(LoginActivity.MY_PREFERENCES, Context.MODE_PRIVATE);
+                    Integer idUtente = sp.getInt(LoginActivity.ID, -1);
+
+                    if(idUtente != -1){
+                        Call<Itinerario> creaItinerario = apiService.creaItinerario(idUtente, nomeItinerario, idAttivitaScelte);
+                        creaItinerario.enqueue(new Callback<Itinerario>() {
+                            @Override
+                            public void onResponse(Call<Itinerario> call, Response<Itinerario> response) {
+                                Itinerario itinerarioCreato = response.body();
+
+                                ItinerariUtenteFragment riepilogoItinerari = new ItinerariUtenteFragment();
+                                ((MainActivity) context).changeFragment(riepilogoItinerari);
+                                Toast.makeText(context, "Itinerario creato con successo!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Itinerario> call, Throwable t) {
+                                Toast.makeText(context, "Impossibile creare l'itinerario", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
             }
         });
 

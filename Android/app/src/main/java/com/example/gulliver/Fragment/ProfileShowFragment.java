@@ -30,11 +30,6 @@ public class ProfileShowFragment extends Fragment {
         ctx = context;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

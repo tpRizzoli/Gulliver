@@ -3,6 +3,7 @@ package com.example.gulliver.Fragment;
 import static com.example.gulliver.MyApiEndpointInterface.urlServer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.gulliver.Activity.MainActivity;
 import com.example.gulliver.Adapter.AttivitaConLuogoAdapter;
 import com.example.gulliver.ClassiModello.AttivitaConLuogo;
 import com.example.gulliver.MyApiEndpointInterface;
@@ -82,6 +84,15 @@ public class ConfermaItinerarioFragment extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<AttivitaConLuogo>> call, Throwable t) {
                 Toast.makeText(context, "Impossibile caricare i dettagli", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        pulsanteAnnulla.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomePageFragment homePage = new HomePageFragment();
+                ((MainActivity) context).changeFragment(homePage);
             }
         });
 

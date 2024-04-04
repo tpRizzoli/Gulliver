@@ -191,7 +191,7 @@ def getCategorie():
             listaItinerariXCategoria.append(Categoria(nome_itinerario, nome_categoria))
     except:
         print ("Error: cannot fetch data")
-    return render_template('idee.html',  categoria = categoriaPassata, lista = listaItinerariXCategoria)
+    return render_template('ideeRES.html',  categoria = categoriaPassata, lista = listaItinerariXCategoria)
 
 @appWebApi.route("/destinazione") 
 def getTipologieAttivita():

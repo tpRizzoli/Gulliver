@@ -53,6 +53,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:divider="@color/white"
+        android:dividerHeight="10dp"
         />
 
 

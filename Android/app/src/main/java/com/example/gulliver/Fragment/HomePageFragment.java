@@ -66,54 +66,44 @@ public class HomePageFragment extends Fragment {
         });
 
 
-
-        Button btnmare = view.findViewById(R.id.imageMare);
-        btnmare.setOnClickListener(new View.OnClickListener() {
+        Button btnMare = view.findViewById(R.id.imageMare);
+        btnMare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ItMareFragment itMareFragment = new ItMareFragment();
-                ((MainActivity) ctx).changeFragment(itMareFragment);
+                ItinerariSuggeritiFragment itinerariSuggeriti = new ItinerariSuggeritiFragment();
+
+                Bundle extra = new Bundle();
+                extra.putString("nomeCategoria", "Mare");
+
+                ((MainActivity) ctx).changeFragment(itinerariSuggeriti, extra);
             }
         });
 
-        Button btnmontagna = view.findViewById(R.id.imageMontagna);
-        btnmontagna.setOnClickListener(new View.OnClickListener() {
+        Button btnMontagna = view.findViewById(R.id.imageMontagna);
+        btnMontagna.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ItMontagnaFragment ItMontagnaFragment = new ItMontagnaFragment();
-                ((MainActivity) ctx).changeFragment(ItMontagnaFragment);
+                ItinerariSuggeritiFragment itinerariSuggeriti = new ItinerariSuggeritiFragment();
+
+                Bundle extra = new Bundle();
+                extra.putString("nomeCategoria", "Montagna");
+
+                ((MainActivity) ctx).changeFragment(itinerariSuggeriti, extra);
             }
         });
 
-        Button btncitta = view.findViewById(R.id.imageCitta);
-        btncitta.setOnClickListener(new View.OnClickListener() {
+        Button btnCitta = view.findViewById(R.id.imageCitta);
+        btnCitta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ItCittaFragment ItCittaFragment = new ItCittaFragment();
-                ((MainActivity) ctx).changeFragment(ItCittaFragment);
+                ItinerariSuggeritiFragment itinerariSuggeriti = new ItinerariSuggeritiFragment();
+
+                Bundle extra = new Bundle();
+                extra.putString("nomeCategoria", "Citta");
+
+                ((MainActivity) ctx).changeFragment(itinerariSuggeriti, extra);
             }
         });
-
-        /*
-        RecyclerView recyclerView = view.findViewById(R.id.recycler);
-        ArrayList<String> arrayList = new ArrayList<>();
-
-        // Add multiple images to arraylist.
-        arrayList.add("");
-        arrayList.add("");
-        arrayList.add("");
-        arrayList.add("");
-
-        ImageAdapter adapter = new ImageAdapter(HomePageFragment.this, arrayList);
-        recyclerView.setAdapter(adapter);
-
-        adapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
-            @Override
-            public void onClick(ImageView imageView, String path) {
-                // Do something like opening the image in new activity or showing it in full screen or something else.
-            }
-        });
-        */
 
         return view;
     }

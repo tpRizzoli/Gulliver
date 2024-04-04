@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 
 import com.example.gulliver.R;
 
-public class ItCittaFragment extends Fragment {
+public class ItinerariSuggeritiFragment extends Fragment {
 
-    public ItCittaFragment() {
+    public ItinerariSuggeritiFragment() {
     }
 
     @Override

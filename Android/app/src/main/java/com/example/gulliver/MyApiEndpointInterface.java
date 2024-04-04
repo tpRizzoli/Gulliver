@@ -49,10 +49,15 @@ public interface MyApiEndpointInterface {
     @POST("/createItinerario")
     Call<Itinerario> creaItinerario(@Query("idUtente") Integer idUtente, @Query("nomeItinerario") String nomeItinerario, @Query("idAttivita") ArrayList<Integer> idAttivita);
 
+    @GET("/findItinerariSuggeriti")
+    Call<ArrayList<Itinerario>> findItinerariSuggeriti(@Query("categoria") String nomeCategoria);
+
     @POST("/createItinerario")
     Call<Itinerario> associaItinerario(@Query("idUtente") Integer idUtente, @Query("idItinerario") Integer idItinerario);
 
     @DELETE("/eliminaItinerario")
     Call<String> eliminaItinerario(@Query("idUtente") Integer idUtente, @Query("idItinerario") Integer idItinerario);
+
+
 
 }

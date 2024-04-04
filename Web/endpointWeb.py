@@ -86,7 +86,26 @@ def getProfilo():
     except:
         print ("Error: cannot fetch data")
     
-    return render_template("profiloRES.html", user = username_utente, email = email_utente)
+    query = "SELECT i.ID, i.nome , i.sysDefault\
+        FROM utenti_itinerari ui\
+        JOIN itinerari i ON ui.id_itinerario = i.ID\
+        JOIN utenti u ON ui.id_utente = u.ID\
+        WHERE u.username ='"+username_utente+"';"   #si potrebbe provare a usare l'id, ma al momento da errore
+    
+    listaItinerariUtenti = []
+    try:
+        cursor.execute(query)
+        results = cursor.fetchall()
+        for row in results:
+            id_itinerario = row[0]
+            nome_itinerario = row[1]
+            default_itinerario = row[2]
+            listaItinerariUtenti.append(Itinerario(id_itinerario, nome_itinerario, default_itinerario))
+    except:
+        print ("Error: cannot fetch data")
+
+    
+    return render_template("profiloRES.html", user = username_utente, email = email_utente, lista = listaItinerariUtenti)
 
 #login utente e creazione della sessione utente
 @appWebApi.route("/login", methods=["POST", "GET"])
@@ -155,7 +174,7 @@ def modificaProfilo(id):
 #logout utente chiusura della sessione dell'utente
 @appWebApi.route("/logout")
 def logout():
-    session['username'] = None
+    session['id'] = None
     return redirect("/")
 
 #FINE GESTIONE ACCOUNT UTENTE ------------------------------------------------------------------------------------------
@@ -292,9 +311,7 @@ def createSommario():
             
     return render_template('sommarioRES.html', destinazione=nomeLuogo, sommario = sommarioAttivita)
     
-
-
-
+### DA COMPLETARE ###
 @appWebApi.route("/ItinerarioSalvato", methods=["POST"])
 def salvaItinerario():
     if not session.get("username"):

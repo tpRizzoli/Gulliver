@@ -49,39 +49,19 @@
             <div class="container-itinerari">
                 <h2>i tuoi itinerari</h2>
                 <div class="main-card">
-                    
+                    {% for elem in lista %}
                     <div class="elemlist">
                         <div class="card-body">
                             <img src="https://cdn-icons-png.flaticon.com/512/2038/2038466.png">
-                            <h3 class="card-title">//nome itinerario</h3>
+                            <h3 class="card-title">{{elem.nome_itinerario}}</h3>
                             <!-- <p class="card-text">//descrizione itinerario</p> -->
                             <a href="#" class="card-link">Dettagli</a>
                         </div>
                     </div>
-                    <div class="elemlist">
-                        <div class="card-body">
-                            <img src="https://cdn-icons-png.flaticon.com/512/2038/2038466.png">
-                            <h3 class="card-title">//nome itinerario</h3>
-                            <!-- <p class="card-text">//descrizione itinerario</p> -->
-                            <a href="#" class="card-link">Dettagli</a>
-                        </div>
-                    </div>
-                    <div class="elemlist">
-                        <div class="card-body">
-                            <img src="https://cdn-icons-png.flaticon.com/512/2038/2038466.png">
-                            <h3 class="card-title">//nome itinerario</h3>
-                            <!-- <p class="card-text">//descrizione itinerario</p> -->
-                            <a href="#" class="card-link">Dettagli</a>
-                        </div>
-                    </div>
-                    <div class="elemlist">
-                        <div class="card-body">
-                            <img src="https://cdn-icons-png.flaticon.com/512/2038/2038466.png">
-                            <h3 class="card-title">//nome itinerario</h3>
-                            <!-- <p class="card-text">//descrizione itinerario</p> -->
-                            <a href="#" class="card-link">Dettagli</a>
-                        </div>
-                    </div>     
+                    {% endfor %}
+
+                   
+                     
                 </div>
             </div>
 

@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scelta Attività</title>
+    <title>Sommario Default</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar-decisi.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/ideeRES.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/decisiRES.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/footerSection.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mediaResponsive.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -29,34 +29,50 @@
                 </ul> 
             </div>
             <div class="signup-login">
-                <a href="/registrazione">Registrati</a>
+                <a href="#">Registrati</a>
                 <a href="/login">Accedi</a>
             </div>
         </nav>
 
-        <div class="main-title">
-            <h1>Itinerari per {{categoria}}</h1>
-        </div>
-       
-        <div class="main-card">
-            {% for elem in lista %}
-            <div class="elemlist">
-                <div class="card-body">
-                    <!-- <img src="https://cdn-icons-png.flaticon.com/512/2038/2038466.png"> -->
-                    <img src="https://picsum.photos/200"> <!--random image-->
-                    <h3 class="card-title">{{elem.nome_itinerario}}</h3>
-                    <!-- <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod
-                        tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim
-                        veniam, quis nostrum exercitationem ullam</p>  -->
-                    <a href="{{ url_for('getDefaultSummary', nomeItinerarioDef=elem.nome_itinerario)}}" class="card-link">Dettagli</a>
+        <div class="main">
+            <div class="left">
+                MAPPA
+            </div>
+            <div class="right">
+                <div class="right-content">
+                    <h1><span>{{nomeItinerario}}</span></h1>
+                    <p style="color:darkgrey"><i>Sommario delle attività</i></p>
+    
+                    
+                    <div class="summary">
+                        <form action="/SalvaDefault" method="POST">
+                            {% for elem in lista %}
+                                <input type="hidden" name="nomeItinerario" value="{{nomeItinerario}}">
+                                <div class="activity {{ loop.index }}">
+                                    <input type="hidden" name="nomeAttivita" value="{{elem.nome_attivita}}"/> 
+                                    <h2 class="activity-head{{ loop.index }}">{{elem.nome_attivita}}</h2>
+                                    <h3 style="color:darkgrey; font-weight: 300;" class="activity-difficulty{{ loop.index }}">difficoltà: {{elem.difficolta}}</h3>
+                                    <p class="activity-text{{ loop.index }}">{{elem.descrizione_attivita}}</p>
+                                </div>
+                            {% endfor %} 
+                            <button class="add"type="submit">Salva</button>
+                        </form>
+                    </div>    
+    
+                 
+                    
+                      
                 </div>
-              </div>
-            {% endfor %}
+            </div>
         </div>
+    
+        
+    
+
 
 
     <!-- footer -->
-    <footer>
+    <!-- <footer>
         <div class="footer">
             <div class="container">
                 <div class="detail">
@@ -68,7 +84,7 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer> -->
 
 
 

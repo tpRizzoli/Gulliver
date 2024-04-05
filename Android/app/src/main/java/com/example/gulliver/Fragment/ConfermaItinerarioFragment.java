@@ -9,6 +9,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,8 @@ import com.example.gulliver.ClassiModello.AttivitaConLuogo;
 import com.example.gulliver.ClassiModello.Itinerario;
 import com.example.gulliver.MyApiEndpointInterface;
 import com.example.gulliver.R;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.ArrayList;
 
@@ -50,6 +54,10 @@ public class ConfermaItinerarioFragment extends Fragment {
     Button pulsanteConferma;
     Button pulsanteAnnulla;
 
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+    SupportMapFragment mappa;
+
     ArrayList<AttivitaConLuogo> dettagliAttivita = new ArrayList<>();
 
     @Override
@@ -66,6 +74,14 @@ public class ConfermaItinerarioFragment extends Fragment {
         listaAttivita = view.findViewById(R.id.listaAttivita);
         pulsanteConferma = view.findViewById(R.id.btnConferma);
         pulsanteAnnulla = view.findViewById(R.id.btnAnnulla);
+
+        fragmentManager = getChildFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        mappa = SupportMapFragment.newInstance();
+
+        fragmentTransaction.replace(R.id.map, mappa);
+        fragmentTransaction.commit();
+
 
         AttivitaConLuogoAdapter adapter = new AttivitaConLuogoAdapter(context, R.layout.attivita_list_item_nocheckbox, dettagliAttivita);
         listaAttivita.setAdapter(adapter);

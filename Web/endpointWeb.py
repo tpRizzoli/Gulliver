@@ -74,14 +74,17 @@ class Itinerario:
 @appWebApi.route("/profilo")
 def getProfilo():
     if not session.get("id"):
+    if not session.get("id"):
         return redirect("/login")
     
+    utente = session.get("id")
     utente = session.get("id")
     cursor = db.cursor()
     sql = "SELECT username, email FROM utenti WHERE id ='%s';"
     #print(sql)
 
     try:
+        cursor.execute(sql,(utente))
         cursor.execute(sql,(utente))
         results = cursor.fetchone()
         #print(results)
@@ -332,10 +335,12 @@ def getDefaultSummary():
     print(nomeItinerario)
     # i dati arrivano correttamente
 
-    sql = "SELECT a.nome, a.difficolta, a.descrizione AS nome_attivita\
+    sql = "SELECT a.nome, a.difficolta, a.descrizione AS nome_attivita, l.latitudine , l.longitudine\
         FROM attivita_itinerari ai\
         JOIN itinerari i ON ai.id_itinerario = i.ID\
         JOIN attivita a ON ai.id_attivita = a.ID\
+        JOIN attivita_luoghi al ON  al.id_attivita = a.ID\
+        JOIN luoghi l ON al.id_luogo = l.id\
         WHERE i.nome = '"+nomeItinerario+"';"
     
     sommarioAttivita=[]
@@ -349,7 +354,13 @@ def getDefaultSummary():
             nome_attivita = row[0]
             difficolta = row[1]
             descrizione_attivita = row[2]
-            sommarioAttivita.append(Attivita(nome_attivita, difficolta, descrizione_attivita))
+            latitudine = row[3]
+            longitudine = row[4]
+
+            sommarioAttivita.append(Attivita(nome_attivita, difficolta, descrizione_attivita, latitudine, longitudine))
+
+
+
 
     except:
         print ("Error: cannot fetch data")
@@ -472,44 +483,7 @@ def salvaItinerario():
     return redirect("/profilo")
 
 
-@appWebApi.route("/SommarioDefault")
-def getDefaultSummary():
-    nomeItinerario = str(request.args.get('nomeItinerarioDef'))
-    print(nomeItinerario)
-    # i dati arrivano correttamente
 
-    sql = "SELECT a.nome, a.difficolta, a.descrizione AS nome_attivita, l.latitudine , l.longitudine\
-        FROM attivita_itinerari ai\
-        JOIN itinerari i ON ai.id_itinerario = i.ID\
-        JOIN attivita a ON ai.id_attivita = a.ID\
-        JOIN attivita_luoghi al ON  al.id_attivita = a.ID\
-        JOIN luoghi l ON al.id_luogo = l.id\
-        WHERE i.nome = '"+nomeItinerario+"';"
-    
-    sommarioAttivita=[]
-    cursor=db.cursor()
-
-    try:
-        cursor.execute(sql)
-        results = cursor.fetchall()
-        print(results)
-        for row in results:
-            nome_attivita = row[0]
-            difficolta = row[1]
-            descrizione_attivita = row[2]
-            latitudine = row[3]
-            longitudine = row[4]
-
-            sommarioAttivita.append(Attivita(nome_attivita, difficolta, descrizione_attivita, latitudine, longitudine))
-
-
-
-
-    except:
-        print ("Error: cannot fetch data")
-            
-
-    return render_template("sommarioDefRES.html", nomeItinerario = nomeItinerario, lista = sommarioAttivita)
 
 @appWebApi.route("/SalvaDefault", methods=["POST"])
 def salvaDefault():

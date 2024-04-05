@@ -394,7 +394,18 @@ def deleteItinerarioUtente():
     nomeItinerario = str(request.args.get('nomeItinerarioDelete'))
     print(nomeItinerario)
 
-    return redirect("/")
+    cursor=db.cursor()
+    ricercaIdItinerario = "SELECT ID FROM itinerari WHERE nome = '"+nomeItinerario+"';"
+    cursor.execute(ricercaIdItinerario)
+    idItinerario = cursor.fetchone()
+    print(idItinerario)
+    idUtente = session.get("id")
+
+    eliminaItinerarioUtente = "DELETE FROM utenti_itinerari WHERE id_utente = %s AND id_itinerario = %s;"
+    cursor.execute(eliminaItinerarioUtente, (idUtente, idItinerario))
+    db.commit()
+
+    return redirect("/profilo")
 
 
 

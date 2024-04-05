@@ -57,7 +57,8 @@
                                     <h3 class="card-title">{{elem.nome_itinerario}}</h3>
                                     <!-- <p class="card-text">//descrizione itinerario</p> -->
                                     
-                                    <a href="#" class="card-link">Dettagli</a>
+                                    <a href="{{ url_for('getDefaultSummary', nomeItinerarioDef=elem.nome_itinerario)}}" class="card-link">Dettagli</a>
+                                    <a href="{{ url_for('deleteItinerarioUtente', nomeItinerarioDelete=elem.nome_itinerario)}}"><i class="fa fa-trash-o"></i></a>
                                 </div>
                             </div>
                         <!-- </form> -->
@@ -72,20 +73,22 @@
         </div>       
 
 
-    <!-- footer -->
-    <footer>
-        <div class="footer">
-            <div class="container">
-                <div class="detail">
-                    <h3>Gulliver</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo porro perspiciatis dolorem sint, 
-                        necessitatibus molestias. Harum totam magnam sint et.</p>
-                    <h5>get in touch</h5>
-                    <a href="#">gulliver@mail.com</a>
+        <footer>
+            <div class="footer">
+                <div class="container">
+                    <div class="detail">
+                        <h3>Gulliver</h3>
+                        <p>© 2024 Gulliver. Tutti i diritti riservati.<br>
+                            Privacy Policy | Termini di Utilizzo<br>
+                            
+                            Indirizzo: Via Soderini 24, Milano, 20146<br>
+                            Telefono: +39 012 3456789</p>
+                        <h5>Contattaci</h5>
+                        <a href="#">gulliver@gmail.com</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </footer>
+        </footer>
 
 
 

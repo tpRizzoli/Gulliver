@@ -281,13 +281,13 @@ color: grey;
   } */
 
 
-  /*profilo-----------------*/
-  .main-profilo{
-    width: 90%;
-    margin: auto;
-    /* background-color: rgb(150, 143, 143); */
-    display: block;
-    padding-top: 30px;
+/*profilo-----------------*/
+.main-profilo{
+  width: 90%;
+  margin: auto;
+  /* background-color: rgb(150, 143, 143); */
+  display: block;
+  padding-top: 30px;
 }
 
 .container-profilo{
@@ -354,6 +354,7 @@ h1, h2{
     box-shadow:  5px 5px 9px #8a0e0e,
                 -5px -5px 9px #ba1414; */
     border: #02636e solid 2px;
+    border-radius: .7rem;
     }
 
 
@@ -371,6 +372,11 @@ h1, h2{
 .card.title{
     display: flex;
     width:fit-content;
+}
+
+.fa.fa-trash-o{
+  position: relative;
+  left: 25%;
 }
 
 .modifica, .logout{

@@ -12,13 +12,35 @@
 <body>
     <section class="home">
         <div class="home-box">
+            <nav>
+                <div class="logo bars">
+                    <div class="bar">
+                        <i class="fa fa-bars"></i>
+                    </div>
+                    <a href="/"><h3>Gulliver</h3></a>
+                </div>
+                <div class="menu">
+                    <div class="close">
+                        <i class="fa fa-close"></i>
+                    </div>    
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="#travel">Esplora</a></li>
+                        <li><a href="/profilo">Profilo</a></li>
+                    </ul> 
+                </div>
+                <div class="signup-login">
+                    <a style="display: none;" href="#">Registrati</a>
+                    <a style="display: none;" href="/login">Accedi</a>
+                </div>
+            </nav>
             
             <div class="content">
-                <h1>Crea un nuovo account!</h1>
+                <h1>Modifica account</h1>
                 <!-- Rimuovi il form di ricerca -->
-                <form action="/modificaProfilo" class="login-form" method="PUT">
+                <form action="/modificaProfilo" class="login-form" method="POST">
                     <div class="search">
-                        <i class="fa fa-envelope"></i>
+                        <i class="fa fa-user"></i>
                         <input  placeholder="username" name="username" class="username" type="text" required>
                     </div>
 
@@ -45,15 +67,18 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="footer">
             <div class="container">
                 <div class="detail">
                     <h3>Gulliver</h3>
-                    <!-- Rimuovi il testo del footer non pertinente al login -->
+                    <p>© 2024 Gulliver. Tutti i diritti riservati.<br>
+                        Privacy Policy | Termini di Utilizzo<br>
+                        
+                        Indirizzo: Via Soderini 24, Milano, 20146<br>
+                        Telefono: +39 012 3456789</p>
                     <h5>Contattaci</h5>
-                    <a href="#">gulliver@mail.com</a>
+                    <a href="#">gulliver@gmail.com</a>
                 </div>
             </div>
         </div>

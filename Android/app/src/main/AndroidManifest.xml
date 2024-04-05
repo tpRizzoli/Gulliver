@@ -4,10 +4,17 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
+    <!--
+    Default
+    <meta-data
+        android:name="com.google.android.maps.v2.API_KEY"
+        android:value="AIzaSyD-m-gZ7kyZiaCbxQn_BCJQe9JUgy-pe4s" />
+    -->
+
     <!-- Guida mappe: https://drive.google.com/drive/folders/1oCb_hxSVpEuvetkK_H_9TFvXSI7c7Tgy  -->
     
     <meta-data
-        android:name="com.google.android.maps.v2.API_KEY"
+        android:name=""
         android:value="" />
 
     <application

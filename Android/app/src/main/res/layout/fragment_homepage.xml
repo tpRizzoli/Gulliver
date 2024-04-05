@@ -102,7 +102,7 @@
                 android:layout_margin="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/custom_btn_homepage"
-                android:drawableTop="@drawable/mareico"
+                android:drawableTop="@drawable/trace"
                 android:padding="15dp" />
 
             <Button
@@ -112,7 +112,7 @@
                 android:layout_height="100dp"
                 android:layout_margin="20dp"
                 android:background="@drawable/custom_btn_homepage"
-                android:drawableTop="@drawable/montagna"
+                android:drawableTop="@drawable/montagna2"
                 android:padding="15dp"/>
 
             <Button
@@ -122,7 +122,7 @@
                 android:layout_height="100dp"
                 android:layout_margin="20dp"
                 android:background="@drawable/custom_btn_homepage"
-                android:drawableTop="@drawable/citta"
+                android:drawableTop="@drawable/cittasvg"
                 android:padding="15dp"/>
 
         </LinearLayout>

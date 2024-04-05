@@ -50,10 +50,14 @@ class Attivita:
     nome_attivita = None
     difficolta = None
     descrizione_attivita = None
-    def __init__(self, nome, difficolta, descrizione):
+    latitudine = None
+    longitudine = None
+    def __init__(self, nome, difficolta, descrizione, latitudine, longitudine):
         self.nome_attivita = nome
         self.difficolta = difficolta
         self.descrizione_attivita = descrizione
+        self.latitudine = latitudine
+        self.longitudine = longitudine
 
 class Itinerario:
     id_itinerario = None
@@ -69,6 +73,7 @@ class Itinerario:
 #visualizzazione del profilo utente
 @appWebApi.route("/profilo")
 def getProfilo():
+    
     if not session.get("id"):
         return redirect("/login")
     
@@ -325,13 +330,13 @@ def createSommario():
 @appWebApi.route("/SommarioDefault")
 def getDefaultSummary():
     nomeItinerario = str(request.args.get('nomeItinerarioDef'))
-    print(nomeItinerario)
-    # i dati arrivano correttamente
-
-    sql = "SELECT a.nome, a.difficolta, a.descrizione AS nome_attivita\
+   
+    sql = "SELECT a.nome, a.difficolta, a.descrizione AS nome_attivita, l.latitudine , l.longitudine\
         FROM attivita_itinerari ai\
         JOIN itinerari i ON ai.id_itinerario = i.ID\
         JOIN attivita a ON ai.id_attivita = a.ID\
+        JOIN attivita_luoghi al ON  al.id_attivita = a.ID\
+        JOIN luoghi l ON al.id_luogo = l.id\
         WHERE i.nome = '"+nomeItinerario+"';"
     
     sommarioAttivita=[]
@@ -345,12 +350,14 @@ def getDefaultSummary():
             nome_attivita = row[0]
             difficolta = row[1]
             descrizione_attivita = row[2]
-            sommarioAttivita.append(Attivita(nome_attivita, difficolta, descrizione_attivita))
+            latitudine = row[3]
+            longitudine = row[4]
+
+            sommarioAttivita.append(Attivita(nome_attivita, difficolta, descrizione_attivita, latitudine, longitudine))
 
     except:
         print ("Error: cannot fetch data")
             
-
     return render_template("sommarioDefRES.html", nomeItinerario = nomeItinerario, lista = sommarioAttivita)
 
 
@@ -466,6 +473,17 @@ def salvaItinerario():
     
 
     return redirect("/profilo")
+
+
+
+
+
+
+    
+
+
+    return redirect("/")
+    
 
 #--------------------------------------------------------------------------------------------------------------------------------
 # Classi database

@@ -57,14 +57,14 @@
                             <input type="hidden" name="destinazione" value="{{destinazione}}"/>
                             {% for elem in lista.keys() %}
                             <div class="collapsible">
-                                <input type="checkbox" class="tohide" id="collapsible-head{{ loop.index }}">
+                                <input type="checkbox" class="tohide"id="collapsible-head{{ loop.index }}">
                                 <label for="collapsible-head{{ loop.index }}">{{elem}}</label>
                                 <div class="collapsible-text">
                                     {% for act in lista[elem] %}
                                     <h2 id="collapsible-h2{{ loop.index }}">{{act.nome_attivita}}</h2>
                                     <h3 id="collapsible-h3{{ loop.index }}">difficoltà: {{act.difficolta}}</h3>
                                     <p id="collapsible-p{{ loop.index }}">{{act.descrizione_attivita}}</p>
-                                    <input type="checkbox" id="collapsible-checkbox{{ loop.index }}" class="check1" name="opzioneDinamica" value="{{act.nome_attivita}}">
+                                    <input type="checkbox" id="collapsible-checkbox{{ loop.index }}" name="opzioneDinamica" value="{{act.nome_attivita}}">
                                     {%  endfor %} 
                                 </div>
                             </div>

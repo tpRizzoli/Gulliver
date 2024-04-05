@@ -53,7 +53,7 @@ public class HomePageFragment extends Fragment {
         });
 
 
-        Button btnMare = view.findViewById(R.id.imageMare);
+        Button btnMare = view.findViewById(R.id.sea);
         btnMare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

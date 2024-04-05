@@ -20,7 +20,7 @@ import java.util.List;
 
 public interface MyApiEndpointInterface {
 
-    String urlServer = "http://192.168.0.108:5000";
+    String urlServer = "http://192.168.0.104posto:5000";
 
     @GET("/getUser")
     Call<User> getUser(@Query("utente") String username, @Query("password") String password);

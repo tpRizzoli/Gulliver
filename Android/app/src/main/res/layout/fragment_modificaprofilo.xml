@@ -134,6 +134,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:text="Salva"
+                android:textColor="@color/white"
                 android:textStyle="bold"/>
 
             <Button
@@ -145,6 +146,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:text="Annulla"
+                android:textColor="@color/white"
                 android:textStyle="bold"/>
 
         </LinearLayout>

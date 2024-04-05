@@ -134,11 +134,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_style_button"
-            android:backgroundTint="@color/azzurro"
+            android:backgroundTint="#FF0183FD"
+            android:text="Crea account"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
-            android:layout_marginEnd="20dp"
-            android:text="Crea account"/>
+            android:layout_marginEnd="20dp" />
+
 
     </LinearLayout>
 </ScrollView>

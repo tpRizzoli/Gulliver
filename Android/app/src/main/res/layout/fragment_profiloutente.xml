@@ -90,34 +90,6 @@
 
     </LinearLayout>
 
-    <!-- <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        
-        android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Password"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"/>
-
-        <TextView
-            android:id="@+id/cPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:background="@drawable/custom_view_content"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:layout_gravity="center_horizontal"/>
-    </LinearLayout> -->
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -134,6 +106,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:text="Modifica"
+            android:textColor="@color/white"
             android:textStyle="bold"/>
 
         <Button
@@ -145,6 +118,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:text="Log-Out"
+            android:textColor="@color/white"
             android:textStyle="bold"/>
 
     </LinearLayout>

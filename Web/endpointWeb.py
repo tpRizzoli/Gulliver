@@ -314,7 +314,7 @@ def createSommario():
 ### DA COMPLETARE ###
 @appWebApi.route("/ItinerarioSalvato", methods=["POST"])
 def salvaItinerario():
-    if not session.get("username"):
+    if not session.get("id"):
         return redirect("/login")
 
     listaAttivitaSommario = request.form.getlist('nomeAttivita')
@@ -360,8 +360,47 @@ def salvaItinerario():
     return redirect("/profilo")
 
 
+@appWebApi.route("/SommarioDefault")
+def getDefaultSummary():
+    nomeItinerario = str(request.args.get('nomeItinerarioDef'))
+    print(nomeItinerario)
+    # i dati arrivano correttamente
 
+    sql = "SELECT a.nome, a.difficolta, a.descrizione AS nome_attivita\
+        FROM attivita_itinerari ai\
+        JOIN itinerari i ON ai.id_itinerario = i.ID\
+        JOIN attivita a ON ai.id_attivita = a.ID\
+        WHERE i.nome = '"+nomeItinerario+"';"
+    
+    sommarioAttivita=[]
+    cursor=db.cursor()
 
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        print(results)
+        for row in results:
+            nome_attivita = row[0]
+            difficolta = row[1]
+            descrizione_attivita = row[2]
+            sommarioAttivita.append(Attivita(nome_attivita, difficolta, descrizione_attivita))
+
+    except:
+        print ("Error: cannot fetch data")
+            
+
+    return render_template("sommarioDefRES.html", nomeItinerario = nomeItinerario, lista = sommarioAttivita)
+
+@appWebApi.route("/SalvaDefault", methods=["POST"])
+def salvaDefault():
+    if not session.get("username"):
+        return redirect("/login")
+    
+    nomeItinerario = request.form.get('nomeItinerario')
+    print(nomeItinerario)
+
+    return redirect("/")
+    
 
 #--------------------------------------------------------------------------------------------------------------------------------
 # Classi database

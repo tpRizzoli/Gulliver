@@ -398,11 +398,34 @@ def getDefaultSummary():
 
 @appWebApi.route("/SalvaDefault", methods=["POST"])
 def salvaDefault():
-    if not session.get("username"):
+    if not session.get("id"):
         return redirect("/login")
     
     nomeItinerario = request.form.get('nomeItinerario')
     print(nomeItinerario)
+
+    cursor=db.cursor()
+    ricercaIdItinerario = "SELECT ID FROM itinerari WHERE nome = '"+nomeItinerario+"';"
+    cursor.execute(ricercaIdItinerario)
+    idItinerario = cursor.fetchone()
+    idUtente = session.get("id")
+
+    controlloPresenzaItinerario = "SELECT id, id_utente, id_itinerario\
+        FROM utenti_itinerari\
+        WHERE id_utente ="+idUtente+"and id_itinerario ="+idItinerario+";"
+    cursor.execute(controlloPresenzaItinerario)
+    presenza = cursor.fetchone()
+
+    if presenza == None:
+        addItinerario = "INSERT INTO utenti_itinerari (id_utente, id_itinerario)\
+            SELECT u.ID, i.ID\
+            FROM utenti u, itinerari i\
+            WHERE u.id ="+idUtente+"\
+            AND i.id ="+idItinerario+";"    
+
+
+    
+
 
     return redirect("/")
     

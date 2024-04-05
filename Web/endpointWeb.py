@@ -316,6 +316,93 @@ def createSommario():
             
     return render_template('sommarioRES.html', destinazione=nomeLuogo, sommario = sommarioAttivita)
     
+
+@appWebApi.route("/SommarioDefault")
+def getDefaultSummary():
+    nomeItinerario = str(request.args.get('nomeItinerarioDef'))
+    print(nomeItinerario)
+    # i dati arrivano correttamente
+
+    sql = "SELECT a.nome, a.difficolta, a.descrizione AS nome_attivita\
+        FROM attivita_itinerari ai\
+        JOIN itinerari i ON ai.id_itinerario = i.ID\
+        JOIN attivita a ON ai.id_attivita = a.ID\
+        WHERE i.nome = '"+nomeItinerario+"';"
+    
+    sommarioAttivita=[]
+    cursor=db.cursor()
+
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        print(results)
+        for row in results:
+            nome_attivita = row[0]
+            difficolta = row[1]
+            descrizione_attivita = row[2]
+            sommarioAttivita.append(Attivita(nome_attivita, difficolta, descrizione_attivita))
+
+    except:
+        print ("Error: cannot fetch data")
+            
+
+    return render_template("sommarioDefRES.html", nomeItinerario = nomeItinerario, lista = sommarioAttivita)
+
+
+
+@appWebApi.route("/SalvaDefault", methods=["POST"])
+def salvaDefault():
+    if not session.get("id"):
+        return redirect("/login")
+    
+    nomeItinerario = request.form.get('nomeItinerario')
+    print(nomeItinerario)
+
+    cursor=db.cursor()
+    ricercaIdItinerario = "SELECT ID FROM itinerari WHERE nome = '"+nomeItinerario+"';"
+    cursor.execute(ricercaIdItinerario)
+    idItinerario = cursor.fetchone()
+    print(idItinerario)
+    idUtente = session.get("id")
+
+    controlloPresenzaItinerario = "SELECT id, id_utente, id_itinerario \
+                                    FROM utenti_itinerari \
+                                    WHERE id_utente = %s AND id_itinerario = %s;"
+    cursor.execute(controlloPresenzaItinerario, (idUtente, idItinerario))
+    presenza = cursor.fetchone()
+    print(presenza)
+
+    if presenza == None:
+        addItinerario = "INSERT INTO utenti_itinerari (id_utente, id_itinerario)\
+            SELECT u.ID, i.ID\
+            FROM utenti u, itinerari i\
+            WHERE u.id = %s\
+            AND i.id = %s;"
+
+        cursor.execute(addItinerario, (idUtente, idItinerario))
+        db.commit()
+
+    return redirect("/profilo")
+    
+@appWebApi.route("/DeleteItinerarioUtente")
+def deleteItinerarioUtente():
+    nomeItinerario = str(request.args.get('nomeItinerarioDelete'))
+    print(nomeItinerario)
+
+    return redirect("/")
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### DA COMPLETARE ###
 @appWebApi.route("/ItinerarioSalvato", methods=["POST"])
 def salvaItinerario():
@@ -363,72 +450,6 @@ def salvaItinerario():
     
 
     return redirect("/profilo")
-
-
-@appWebApi.route("/SommarioDefault")
-def getDefaultSummary():
-    nomeItinerario = str(request.args.get('nomeItinerarioDef'))
-    print(nomeItinerario)
-    # i dati arrivano correttamente
-
-    sql = "SELECT a.nome, a.difficolta, a.descrizione AS nome_attivita\
-        FROM attivita_itinerari ai\
-        JOIN itinerari i ON ai.id_itinerario = i.ID\
-        JOIN attivita a ON ai.id_attivita = a.ID\
-        WHERE i.nome = '"+nomeItinerario+"';"
-    
-    sommarioAttivita=[]
-    cursor=db.cursor()
-
-    try:
-        cursor.execute(sql)
-        results = cursor.fetchall()
-        print(results)
-        for row in results:
-            nome_attivita = row[0]
-            difficolta = row[1]
-            descrizione_attivita = row[2]
-            sommarioAttivita.append(Attivita(nome_attivita, difficolta, descrizione_attivita))
-
-    except:
-        print ("Error: cannot fetch data")
-            
-
-    return render_template("sommarioDefRES.html", nomeItinerario = nomeItinerario, lista = sommarioAttivita)
-
-@appWebApi.route("/SalvaDefault", methods=["POST"])
-def salvaDefault():
-    if not session.get("id"):
-        return redirect("/login")
-    
-    nomeItinerario = request.form.get('nomeItinerario')
-    print(nomeItinerario)
-
-    cursor=db.cursor()
-    ricercaIdItinerario = "SELECT ID FROM itinerari WHERE nome = '"+nomeItinerario+"';"
-    cursor.execute(ricercaIdItinerario)
-    idItinerario = cursor.fetchone()
-    idUtente = session.get("id")
-
-    controlloPresenzaItinerario = "SELECT id, id_utente, id_itinerario\
-        FROM utenti_itinerari\
-        WHERE id_utente ="+idUtente+"and id_itinerario ="+idItinerario+";"
-    cursor.execute(controlloPresenzaItinerario)
-    presenza = cursor.fetchone()
-
-    if presenza == None:
-        addItinerario = "INSERT INTO utenti_itinerari (id_utente, id_itinerario)\
-            SELECT u.ID, i.ID\
-            FROM utenti u, itinerari i\
-            WHERE u.id ="+idUtente+"\
-            AND i.id ="+idItinerario+";"    
-
-
-    
-
-
-    return redirect("/")
-    
 
 #--------------------------------------------------------------------------------------------------------------------------------
 # Classi database

@@ -57,7 +57,8 @@
                                     <h3 class="card-title">{{elem.nome_itinerario}}</h3>
                                     <!-- <p class="card-text">//descrizione itinerario</p> -->
                                     
-                                    <a href="#" class="card-link">Dettagli</a>
+                                    <a href="{{ url_for('getDefaultSummary', nomeItinerarioDef=elem.nome_itinerario)}}" class="card-link">Dettagli</a>
+                                    <a href="{{ url_for('deleteItinerarioUtente', nomeItinerarioDelete=elem.nome_itinerario)}}"><i class="fa fa-trash-o"></i></a>
                                 </div>
                             </div>
                         <!-- </form> -->

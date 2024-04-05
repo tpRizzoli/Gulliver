@@ -48,10 +48,10 @@ public class RegisterActivity extends AppCompatActivity {
         Button registrationButton = findViewById(R.id.btnRegistrazione);
 
         registrationButton.setOnClickListener(v ->{
-            String username = casellaUsername.getText().toString();
-            String email = casellaEmail.getText().toString();
-            String password = casellaPassword.getText().toString();
-            String confermaPassword = casellaConfermaPassword.getText().toString();
+            String username = casellaUsername.getText().toString().trim();
+            String email = casellaEmail.getText().toString().trim();
+            String password = casellaPassword.getText().toString().trim();
+            String confermaPassword = casellaConfermaPassword.getText().toString().trim();
 
             if(username.equals("")){
                 Toast.makeText(this, "È necessario compilare tutti i campi di testo!", Toast.LENGTH_SHORT).show();

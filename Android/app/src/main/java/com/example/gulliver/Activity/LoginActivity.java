@@ -53,8 +53,8 @@ public class LoginActivity extends AppCompatActivity {
             EditText outputViewUsername = findViewById(R.id.inputDataUsername);
             EditText outputViewPassword = findViewById(R.id.inputDataPassword);
             //CheckBox salvaCred = findViewById(R.id.salvaCredenziali);
-            String username = outputViewUsername.getText().toString();
-            String password = outputViewPassword.getText().toString();
+            String username = outputViewUsername.getText().toString().trim();
+            String password = outputViewPassword.getText().toString().trim();
 
             Call<User> call = apiService.getUser(username, password);
             call.enqueue(new Callback<User>() {

@@ -96,14 +96,14 @@
             android:weightSum="3">
 
             <Button
-                android:id="@+id/imageMare"
+                android:id="@+id/sea"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_margin="20dp"
                 android:layout_weight="1"
-                android:background="@color/azzurro"
+                android:background="@drawable/custom_btn_homepage"
                 android:drawableTop="@drawable/mareico"
-                android:padding="15dp"/>
+                android:padding="15dp" />
 
             <Button
                 android:id="@+id/imageMontagna"
@@ -111,7 +111,7 @@
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_margin="20dp"
-                android:background="@color/azzurro"
+                android:background="@drawable/custom_btn_homepage"
                 android:drawableTop="@drawable/montagna"
                 android:padding="15dp"/>
 
@@ -121,7 +121,7 @@
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_margin="20dp"
-                android:background="@color/azzurro"
+                android:background="@drawable/custom_btn_homepage"
                 android:drawableTop="@drawable/citta"
                 android:padding="15dp"/>
 

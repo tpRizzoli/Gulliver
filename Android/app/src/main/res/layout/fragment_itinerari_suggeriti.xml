@@ -30,7 +30,7 @@
             android:layout_gravity="center_vertical"
             android:text="Categoria"
             android:textColor="@color/black"
-            android:textSize="50sp"
+            android:textSize="40sp"
             android:textStyle="bold" />
 
     </LinearLayout>

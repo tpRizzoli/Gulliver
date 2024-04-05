@@ -42,9 +42,10 @@ public class HomePageFragment extends Fragment {
                     // Il campo contiene numeri, mostra un messaggio di errore
                     Toast.makeText(getActivity(), "Inserisci il nome, non i numeri", Toast.LENGTH_SHORT).show();
                 } else {
+
                     // Il campo non contiene numeri, puoi procedere con il cambio del fragment
                     Bundle extra = new Bundle();
-                    extra.putString("nomeLuogo", nomePosto.getText().toString());
+                    extra.putString("nomeLuogo", nomePosto.getText().toString().trim());
 
                     TipologieFragment tipologieFragment = new TipologieFragment();
                     ((MainActivity) context).changeFragment(tipologieFragment, extra);

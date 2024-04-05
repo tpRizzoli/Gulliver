@@ -119,7 +119,7 @@ nav .signup-login a:hover{
 
 nav .signup-login a:last-child:hover{
     color: var(--white-color);
-    background: var(--green-color)
+    background: #3b9ca6
 }
 
 

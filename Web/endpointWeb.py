@@ -480,9 +480,9 @@ def salvaItinerario():
 
 
 
-@appWebApi.route("/logout")
-def closeAll():
-    db.close()
+# @appWebApi.route("/logout")
+# def closeAll():
+#     db.close()
 
 
 

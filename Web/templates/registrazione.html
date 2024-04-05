@@ -33,37 +33,33 @@
                     <a href="/login">Accedi</a>
                 </div>
             </nav>
+
             <div class="content">
-                <h1>Crea un nuovo account!</h1>
-                <!-- Rimuovi il form di ricerca -->
-                <form action="/registrazione" class="login-form" method="POST">
-                    <div class="search">
-                        <i class="fa fa-user"></i>
-                        <input  placeholder="username" name="username" class="username" type="text" required>
-                    </div>
-
-                    <br>
-                   
-                    
-                      
-                    <div class="search">
-                        <i class="fa fa-envelope"></i>
-                        <input  placeholder="email" name="email" class="email" type="email" required>
-                    </div>
-                    <br>
-                    
-                    <div class="search">
-                        <i class="fa fa-lock"></i>
-                        <input class="input" name="password" placeholder="Password" type="password" required>
-                    </div>
-                    <br>
-                    <button type="submit" class="login-btn">Registrati</button>
-                    <br>
-
-                    <br>
-                    
-                </form>
+                <div class="card-form">
+                    <h2>Crea un nuovo account</h2>
+                    <form action="/registrazione" class="login-form" method="POST">
+                        <div class="search">
+                            <i class="fa fa-user"></i>
+                            <input  placeholder="username" name="username" class="username" type="text" required>
+                        </div>
+                        <br>
+                        <div class="search">
+                            <i class="fa fa-envelope"></i>
+                            <input  placeholder="email" name="email" class="email" type="email" required>
+                        </div>
+                        <br>
+                        <div class="search">
+                            <i class="fa fa-lock"></i>
+                            <input class="input" name="password" placeholder="Password" type="password" required>
+                        </div>
+                        <br>
+                        <button type="submit" class="login-btn">Registrati</button>
+                        <br>
+                        <br>   
+                    </form>
+                </div>
             </div>
+
         </div>
     </section>
 

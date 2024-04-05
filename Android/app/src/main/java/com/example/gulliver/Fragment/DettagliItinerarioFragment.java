@@ -1,5 +1,6 @@
 package com.example.gulliver.Fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -22,6 +24,13 @@ import com.example.gulliver.ClassiModello.AttivitaConLuogo;
 import com.example.gulliver.ClassiModello.Itinerario;
 import com.example.gulliver.MyApiEndpointInterface;
 import com.example.gulliver.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,7 +44,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class DettagliItinerarioFragment extends Fragment {
+public class DettagliItinerarioFragment extends Fragment implements OnMapReadyCallback {
 
     TextView nomeItinerario;
     ListView elencoAttivita;
@@ -44,6 +53,11 @@ public class DettagliItinerarioFragment extends Fragment {
     Context context;
 
     AttivitaConLuogoAdapter adapter;
+    ArrayList<AttivitaConLuogo> listaAttivita;
+
+    GoogleMap googleMap;
+
+    LatLng marker;
 
     protected final static String MY_PREFERENCES = "loginUtente";
     protected final static String ID = "idData";
@@ -68,7 +82,7 @@ public class DettagliItinerarioFragment extends Fragment {
 
         MyApiEndpointInterface apiService = retrofit.create(MyApiEndpointInterface.class);
 
-        ArrayList<AttivitaConLuogo> listaAttivita = new ArrayList<>();
+        listaAttivita = new ArrayList<>();
 
         nomeItinerario = view.findViewById(R.id.nomeItinerario);
         elencoAttivita = view.findViewById(R.id.listaAttivita);
@@ -94,6 +108,9 @@ public class DettagliItinerarioFragment extends Fragment {
                     listaAttivita.addAll(response.body());
                     adapter.notifyDataSetChanged();
                     elencoAttivita.invalidate();
+
+                    initilizeMap();
+
                 } else {
                     Toast.makeText(getActivity(), "Query Error", Toast.LENGTH_SHORT).show();
                 }
@@ -142,7 +159,49 @@ public class DettagliItinerarioFragment extends Fragment {
             }
         });
 
+        elencoAttivita.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                changeMarker(position);
+            }
+        });
+
         return view;
+    }
+
+    private void initilizeMap() {
+        MapFragment mapFragment = null;
+
+        if (googleMap == null) {
+            mapFragment = ((MapFragment) ((Activity)context).getFragmentManager().findFragmentById(R.id.map));
+            mapFragment.getMapAsync(this);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initilizeMap();
+    }
+    @Override
+    public  void  onMapReady(GoogleMap googleMap)  {
+        this.googleMap  =  googleMap;
+
+        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
+        changeMarker(0);
+    }
+
+    private void changeMarker(Integer position) {
+        googleMap.clear();
+        ArrayList<AttivitaConLuogo> list = listaAttivita;
+        AttivitaConLuogo attivita = listaAttivita.get(position);
+
+        marker = new LatLng(attivita.latitudine, attivita.longitudine);
+        googleMap.addMarker(new MarkerOptions().position(marker).title(attivita.nomeAttivita));
+
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(marker).zoom(17).build();
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 }
 

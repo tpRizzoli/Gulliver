@@ -154,18 +154,19 @@ def registrazione():
         return render_template('registrazione.html')
 
 #modifica del profilo utente
-@appWebApi.route("/modificaProfilo", methods = ['PUT','GET'])
+@appWebApi.route("/modificaProfilo", methods = ['PUT', 'POST'])
 def modificaProfilo():
-    if request.method == 'PUT':
-        session.get('id')
+    if request.method == 'POST':
         try:
+            id_utente = session['id']
+
             new_username = request.form["username"]
             new_email = request.form["email"]
             new_pwd = request.form["password"]
 
             with db.cursor() as cursor:
-                sql= "update utenti set username = %s, email = %s, pwd = %s where id = %s"
-                cursor.execute(sql,(new_username, new_email, new_pwd, id))
+                sql= "update utenti set username = '%s', email = '%s', pwd = '%s' where id = '%s'" % (new_username, new_email, new_pwd, id_utente)
+                cursor.execute(sql)
                 db.commit()
                 
 
@@ -174,8 +175,12 @@ def modificaProfilo():
             db.rollback()
             return render_template("Impossibile modificare l'utente")
     else:
-        return redirect('/profilo')
+        return redirect('/')
 
+@appWebApi.route("/paginaModifica")
+def paginaModifica():
+    return render_template("modificaProfiloProva.html")
+    
 #logout utente chiusura della sessione dell'utente
 @appWebApi.route("/logout")
 def logout():

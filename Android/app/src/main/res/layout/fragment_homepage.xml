@@ -75,7 +75,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:textColor="@color/white"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="Pulsante Cerca Itinerario"/>
 
         <TextView
             android:id="@+id/txt3"
@@ -103,7 +104,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/custom_btn_homepage"
                 android:drawableTop="@drawable/trace"
-                android:padding="15dp" />
+                android:padding="15dp"
+                android:contentDescription="Pulsante Cerca Itinerario al Mare"/>
 
             <Button
                 android:id="@+id/imageMontagna"
@@ -113,7 +115,8 @@
                 android:layout_margin="20dp"
                 android:background="@drawable/custom_btn_homepage"
                 android:drawableTop="@drawable/montagna2"
-                android:padding="15dp"/>
+                android:padding="15dp"
+                android:contentDescription="Pulsante Cerca Itinerario in Montagna"/>
 
             <Button
                 android:id="@+id/imageCitta"
@@ -123,7 +126,8 @@
                 android:layout_margin="20dp"
                 android:background="@drawable/custom_btn_homepage"
                 android:drawableTop="@drawable/cittasvg"
-                android:padding="15dp"/>
+                android:padding="15dp"
+                android:contentDescription="Pulsante Accedi"/>
 
         </LinearLayout>
     </LinearLayout>

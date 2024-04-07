@@ -107,7 +107,8 @@
             android:layout_marginEnd="20dp"
             android:text="Modifica"
             android:textColor="@color/white"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:contentDescription="Pulsante Modifica Profilo"/>
 
         <Button
             android:id="@+id/btnLogout"
@@ -119,7 +120,8 @@
             android:layout_marginEnd="20dp"
             android:text="Log-Out"
             android:textColor="@color/white"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:contentDescription="Pulsante Log-out"/>
 
     </LinearLayout>
 

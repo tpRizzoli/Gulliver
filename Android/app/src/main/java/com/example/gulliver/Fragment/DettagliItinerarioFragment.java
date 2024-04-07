@@ -110,6 +110,7 @@ public class DettagliItinerarioFragment extends Fragment implements OnMapReadyCa
                     elencoAttivita.invalidate();
 
                     initilizeMap();
+                    changeMarker(0);
 
                 } else {
                     Toast.makeText(getActivity(), "Query Error", Toast.LENGTH_SHORT).show();
@@ -188,13 +189,10 @@ public class DettagliItinerarioFragment extends Fragment implements OnMapReadyCa
         this.googleMap  =  googleMap;
 
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
-        changeMarker(0);
     }
 
     private void changeMarker(Integer position) {
         googleMap.clear();
-        ArrayList<AttivitaConLuogo> list = listaAttivita;
         AttivitaConLuogo attivita = listaAttivita.get(position);
 
         marker = new LatLng(attivita.latitudine, attivita.longitudine);

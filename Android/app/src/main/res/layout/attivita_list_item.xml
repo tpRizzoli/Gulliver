@@ -98,7 +98,8 @@
         android:layout_below="@id/descrizioneAttivita"
         android:layout_marginLeft="148dp"
         android:layout_marginTop="17dp"
-        android:layout_toRightOf="@id/difficoltaValore" />
+        android:layout_toRightOf="@id/difficoltaValore"
+        android:contentDescription="Seleziona attività"/>
 
 
 </RelativeLayout>

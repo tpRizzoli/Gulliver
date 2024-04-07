@@ -8,9 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:buttonTint="@color/black"
-        android:text="Ciao"
+        android:text="Nome"
         android:textColor="@color/black"
-        android:checked="false" />
+        android:checked="false"
+        android:contentDescription="Tipologia Attività Selezionabile"/>
 
 
 </RelativeLayout>

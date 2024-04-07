@@ -176,6 +176,7 @@ public class ConfermaItinerarioFragment extends Fragment implements OnMapReadyCa
                     listaAttivita.invalidate();
 
                     initilizeMap();
+                    changeMarker(0);
                 }
 
                 @Override
@@ -246,7 +247,6 @@ public class ConfermaItinerarioFragment extends Fragment implements OnMapReadyCa
 
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
-        changeMarker(0);
     }
 
     private void changeMarker(Integer position) {

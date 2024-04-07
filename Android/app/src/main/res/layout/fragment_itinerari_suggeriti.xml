@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.AttivitaFragment"
-    android:orientation="vertical" >
+    android:paddingBottom="10dp">
 
 
     <LinearLayout
+        android:id="@+id/titoloCategoria"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -36,8 +37,10 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/sottotitolo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/titoloCategoria"
         android:textSize="18dp"
         android:textColor="@color/black"
         android:layout_marginTop="15dp"
@@ -50,6 +53,7 @@
         android:id="@+id/listaItinerari"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/sottotitolo"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
@@ -57,4 +61,4 @@
         android:divider="@color/white"
         android:dividerHeight="10dp" />
 
-</LinearLayout>
+</RelativeLayout>

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".Activity.MainActivity">
+    tools:context=".Activity.MainActivity"
+    android:paddingBottom="10dp">
 
     <LinearLayout
+        android:id="@+id/titolo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -36,8 +38,10 @@
 
 
     <TextView
+        android:id="@+id/sottotitolo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/titolo"
         android:layout_marginStart="20dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="20dp"
@@ -50,133 +54,29 @@
         android:id="@+id/tabellaTipologie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/sottotitolo"
+        android:layout_above="@+id/confermaTipologie"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
-        android:numColumns="2" />
+        android:numColumns="2"
+        android:contentDescription="Elenco Tipologie"/>
 
 
     <Button
         android:id="@+id/confermaTipologie"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/custom_style_button"
         android:backgroundTint="@color/azzurro"
         android:text="Avanti"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:contentDescription="Pulsante Avanti"/>
 
-
-    <!--
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
-
-            <Button
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_margin="20dp"
-                android:background="@color/azzurro"
-                android:drawableTop="@drawable/citta"
-                android:padding="15dp" />
-
-
-            <Button
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_margin="20dp"
-                android:background="@color/azzurro"
-                android:drawableTop="@drawable/citta"
-                android:padding="15dp" />
-
-
-            <Button
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_margin="20dp"
-                android:background="@color/azzurro"
-                android:drawableTop="@drawable/citta"
-                android:padding="15dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
-
-            <Button
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_margin="20dp"
-                android:background="@color/azzurro"
-                android:drawableTop="@drawable/citta"
-                android:padding="15dp" />
-
-
-            <Button
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_margin="20dp"
-                android:background="@color/azzurro"
-                android:drawableTop="@drawable/citta"
-                android:padding="15dp" />
-
-
-            <Button
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_margin="20dp"
-                android:background="@color/azzurro"
-                android:drawableTop="@drawable/citta"
-                android:padding="15dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
-
-            <Button
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_margin="20dp"
-                android:background="@color/azzurro"
-                android:drawableTop="@drawable/citta"
-                android:padding="15dp" />
-
-
-            <Button
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_margin="20dp"
-                android:background="@color/azzurro"
-                android:drawableTop="@drawable/citta"
-                android:padding="15dp" />
-
-
-            <Button
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_margin="20dp"
-                android:background="@color/azzurro"
-                android:drawableTop="@drawable/citta"
-                android:padding="15dp" />
-        </LinearLayout>
-        -->
-</LinearLayout>
+</RelativeLayout>

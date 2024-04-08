@@ -20,7 +20,14 @@
     color: var(--white-color);
 }
 
+html, body{
+    height: 100%;
+    width: 100%;
+}
 
+/* html {
+    font-size: 90%;
+} */
 
 section{
     padding: 0 8rem;  /*se non voglio cornice img principale devo togliere questa riga*/

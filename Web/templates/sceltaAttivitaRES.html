@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+    <div class="sfondo">
+    </div>
+    </div>
         <nav>
             <div class="logo bars">
                 <div class="bar">
@@ -64,7 +67,7 @@
                                     <h2 id="collapsible-h2{{ loop.index }}">{{act.nome_attivita}}</h2>
                                     <h3 id="collapsible-h3{{ loop.index }}">difficoltà: {{act.difficolta}}</h3>
                                     <p id="collapsible-p{{ loop.index }}">{{act.descrizione_attivita}}</p>
-                                    <input type="checkbox" id="collapsible-checkbox{{ loop.index }}" name="opzioneDinamica" value="{{act.nome_attivita}}">
+                                    <input type="checkbox" id="collapsible-checkbox{{ loop.index }}" name="opzioneDinamica" value="{{act.nome_attivita}}" class="check1">
                                     {%  endfor %} 
                                 </div>
                             </div>

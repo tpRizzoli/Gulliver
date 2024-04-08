@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:text="Dove vorresti andare?"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             android:layout_marginTop="50dp"
             android:layout_marginStart="20dp"/>
@@ -84,12 +84,12 @@
             android:layout_height="wrap_content"
             android:text="Lasciati ispirare..."
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             android:layout_marginTop="60dp"
             android:layout_marginStart="20dp"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -98,10 +98,10 @@
 
             <Button
                 android:id="@+id/sea"
-                android:layout_width="0dp"
+                android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
+                android:layout_margin="15dp"
+                android:layout_toLeftOf="@+id/imageMontagna"
                 android:background="@drawable/custom_btn_homepage"
                 android:drawableTop="@drawable/trace"
                 android:padding="15dp"
@@ -109,10 +109,11 @@
 
             <Button
                 android:id="@+id/imageMontagna"
-                android:layout_weight="1"
-                android:layout_width="0dp"
+                android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_margin="20dp"
+                android:layout_margin="15dp"
+                android:layout_centerInParent="true"
+
                 android:background="@drawable/custom_btn_homepage"
                 android:drawableTop="@drawable/montagna2"
                 android:padding="15dp"
@@ -120,15 +121,15 @@
 
             <Button
                 android:id="@+id/imageCitta"
-                android:layout_weight="1"
-                android:layout_width="0dp"
+                android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_margin="20dp"
+                android:layout_margin="15dp"
+                android:layout_toRightOf="@+id/imageMontagna"
                 android:background="@drawable/custom_btn_homepage"
                 android:drawableTop="@drawable/cittasvg"
                 android:padding="15dp"
                 android:contentDescription="Pulsante Accedi"/>
 
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 </ScrollView>

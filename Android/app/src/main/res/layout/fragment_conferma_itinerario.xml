@@ -52,7 +52,7 @@
         android:id="@+id/listaAttivita"
         android:layout_width="match_parent"
         android:layout_height="280dp"
-        android:layout_below="@+id/map"
+        android:layout_below="@+id/mapConferma"
         android:layout_above="@+id/pulsanti"
         android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"

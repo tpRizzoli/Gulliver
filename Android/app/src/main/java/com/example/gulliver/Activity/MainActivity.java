@@ -5,13 +5,9 @@ import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import com.example.gulliver.Fragment.DettagliItinerarioFragment;
 import com.example.gulliver.Fragment.HomePageFragment;
-import com.example.gulliver.Fragment.ItinerariSuggeritiFragment;
 import com.example.gulliver.Fragment.ItinerariUtenteFragment;
-import com.example.gulliver.Fragment.ProfileEditFragment;
 import com.example.gulliver.Fragment.ProfileShowFragment;
 import com.example.gulliver.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -19,7 +15,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     BottomNavigationView bottomNavigationView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.homePage);
-
     }
 
     @Override
@@ -60,8 +54,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 .commit();
     }
 
+    // Metodo per cambiare il fragment passandogli dei dati
     public void changeFragment(Fragment frag, Bundle extra) {
-        if(frag != null)
+        if (frag != null)
             frag.setArguments(extra);
 
         getSupportFragmentManager()

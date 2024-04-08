@@ -51,6 +51,7 @@ public class ConfermaItinerarioFragment extends Fragment implements OnMapReadyCa
 
     MyApiEndpointInterface apiService = retrofit.create(MyApiEndpointInterface.class);
 
+    static View view = null;
     Context context;
 
     EditText inserimentoNome;
@@ -72,7 +73,9 @@ public class ConfermaItinerarioFragment extends Fragment implements OnMapReadyCa
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_conferma_itinerario, container, false);
+
+        if(view == null)
+            view = inflater.inflate(R.layout.fragment_conferma_itinerario, container, false);
 
         inserimentoNome = view.findViewById(R.id.inserimentoNomeItinerario);
         listaAttivita = view.findViewById(R.id.listaAttivita);
@@ -109,7 +112,7 @@ public class ConfermaItinerarioFragment extends Fragment implements OnMapReadyCa
                     adapter.notifyDataSetChanged();
                     listaAttivita.invalidate();
 
-                    initilizeMap();
+                    //initilizeMap();
                 }
 
                 @Override
@@ -175,7 +178,7 @@ public class ConfermaItinerarioFragment extends Fragment implements OnMapReadyCa
                     adapter.notifyDataSetChanged();
                     listaAttivita.invalidate();
 
-                    initilizeMap();
+                    //initilizeMap();
                     changeMarker(0);
                 }
 
@@ -231,7 +234,7 @@ public class ConfermaItinerarioFragment extends Fragment implements OnMapReadyCa
         MapFragment mapFragment = null;
 
         if (googleMap == null) {
-            mapFragment = ((MapFragment) ((Activity)context).getFragmentManager().findFragmentById(R.id.map));
+            mapFragment = ((MapFragment) ((Activity)context).getFragmentManager().findFragmentById(R.id.mapConferma));
             mapFragment.getMapAsync(this);
         }
     }

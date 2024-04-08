@@ -46,6 +46,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class DettagliItinerarioFragment extends Fragment implements OnMapReadyCallback {
 
+    static View view = null;
     TextView nomeItinerario;
     ListView elencoAttivita;
     Button pulsanteElimina;
@@ -69,10 +70,13 @@ public class DettagliItinerarioFragment extends Fragment implements OnMapReadyCa
         this.context = context;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_dettagli_itinerario, container, false);
+
+        if (view == null)
+            view = inflater.inflate(R.layout.fragment_dettagli_itinerario, container, false);
+
+        initilizeMap();
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(MyApiEndpointInterface.urlServer)
@@ -109,8 +113,8 @@ public class DettagliItinerarioFragment extends Fragment implements OnMapReadyCa
                     adapter.notifyDataSetChanged();
                     elencoAttivita.invalidate();
 
-                    initilizeMap();
-                    changeMarker(0);
+                    if(googleMap != null)
+                        changeMarker(0);
 
                 } else {
                     Toast.makeText(getActivity(), "Query Error", Toast.LENGTH_SHORT).show();

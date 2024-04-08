@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.gulliver.Fragment.DettagliItinerarioFragment;
 import com.example.gulliver.Fragment.HomePageFragment;
 import com.example.gulliver.Fragment.ItinerariSuggeritiFragment;
 import com.example.gulliver.Fragment.ItinerariUtenteFragment;
@@ -18,6 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     BottomNavigationView bottomNavigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

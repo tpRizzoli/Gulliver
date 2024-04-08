@@ -36,41 +36,58 @@ VALUES
 ('Tour al museo della scienza della tecnica', 1, 3, 'Visita guidata Museo Nazionale della Sciena e della Tecnica');
 
 INSERT INTO attivita_itinerari (id_attivita, id_itinerario) VALUES
-(15, 1), 
-(16, 1),
-(17, 1), 
+(1, 1), 
+(2, 1),
+(3, 1), 
 
-(18, 2),
-(19, 2),
-(20, 2),
+(4, 2),
+(5, 2),
+(6, 2),
 
-(21, 3),
-(22, 3),
-(23, 3);
+(7, 3),
+(8, 3),
+(9, 3);
+
+INSERT INTO luoghi (nome, stato, longitudine, latitudine) 
+VALUES
+('Monte Bianco', 'Italia', 45.8325, 6.8650), -- Luogo di montagna
+('Pirenei', 'Francia', 42.6611, 0.3328), -- Luogo di montagna
+('Mediterraneo', 'Mare', 35.0000, 18.0000), -- Luogo di mare
+('Parigi', 'Francia', 48.8566, 2.3522), -- Luogo di città
+('Londra', 'Regno Unito', 51.5074, -0.1278), -- Luogo di città
+('Tanzania', 'Tanzania', -6.3690, 34.8888), -- Luogo di mare
+('Maldive', 'Maldive', 3.2028, 73.2207), -- Luogo di mare
+('Yosemite National Park', 'Stati Uniti', 37.8651, -119.5383), -- Luogo di montagna
+('Roma', 'Italia', 41.8933203, 12.4829321); -- Luogo di città
+
 
 INSERT INTO attivita_luoghi (id_attivita, id_luogo) VALUES
-(15, 1),
-(16, 2),
-(17, 3),
+(1, 1),
+(2, 2),
+(3, 3),
 
-(18, 9),
-(19, 4),
-(20, 5),
+(4, 9),
+(5, 4),
+(6, 5),
 
-(21, 6),
-(22, 6),
-(23, 6);
+(7, 6),
+(8, 6),
+(9, 6);
+
+
+-- FIXARE QUESTO:
 
 INSERT INTO luoghi_categorie (id_luogo, id_categoria) VALUES
 -- 1 mare 2 montagna 3 citta
-(3, 1),
-(6, 1),
-(8, 1),
-
 (1, 2),
 (2, 2),
-(10, 2),
+(6, 2),
 
-(3, 3),
+(4, 3),
 (5, 3),
-(11, 3);
+(9, 3),
+
+
+(7, 1),
+(3, 1),
+(8, 1);

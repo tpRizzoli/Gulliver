@@ -4,21 +4,15 @@ width: 90%;
 margin: auto;
 display: flex;
 justify-content: space-between;
+margin-top: 60px;
 }
 
 .left{
 width:44%;
 height: 80%;
-/* background-color: aquamarine; */
+background: rgb(39, 167, 115);
 position: fixed;
 border-radius: .7rem;
-}
-
-#map{
-  border-radius: .7rem;
-  border: #112a34 solid 5px;
-  width: 100%;
-  height: 100%;
 }
 
 .right{
@@ -296,7 +290,7 @@ color: grey;
   margin: auto;
   /* background-color: rgb(150, 143, 143); */
   display: block;
-  padding-top: 30px;
+  padding-top: 90px;
 }
 
 .container-profilo{

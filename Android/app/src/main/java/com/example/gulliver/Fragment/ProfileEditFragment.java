@@ -48,6 +48,9 @@ public class ProfileEditFragment extends Fragment {
         EditText inputDataPassword = view.findViewById(R.id.cPassword);
         Button btnSalvaModifiche = view.findViewById(R.id.btnSalvaModfiche);
 
+        Button btnAnnullaModifiche = view.findViewById(R.id.btnAnnullaModifiche);
+
+
         SharedPreferences sp = getActivity().getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
         inputDataUsername.setText(sp.getString(LoginActivity.USERNAME, null));
         inputDataEmail.setText(sp.getString(LoginActivity.EMAIL, null));
@@ -60,6 +63,18 @@ public class ProfileEditFragment extends Fragment {
 
             updateUserInfo(new_username, new_email, new_pwd);
         });
+
+        btnAnnullaModifiche.setOnClickListener(v -> {
+            ProfileShowFragment profileShowFragment = new ProfileShowFragment();
+
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.flFragment, profileShowFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
 
         return view;
     }

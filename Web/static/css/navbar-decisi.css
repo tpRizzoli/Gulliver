@@ -20,15 +20,12 @@
     color: var(--white-color);
 }
 
-html, body{
+body{
     height: 100%;
     width: 100%;
     padding: 10px;
 }
 
-/* html {
-    font-size: 90%;
-} */
 
 
 .label{

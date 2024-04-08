@@ -473,31 +473,43 @@ def deleteItinerarioUtente():
     print(nomeItinerario)
 
     cursor=db.cursor()
-    ricercaIdItinerario = "SELECT ID FROM itinerari WHERE nome = '"+nomeItinerario+"';"
+    ricercaIdItinerario = "SELECT id, sysDefault FROM itinerari WHERE nome = '"+nomeItinerario+"';"
     cursor.execute(ricercaIdItinerario)
-    idItinerario = cursor.fetchone()
-    print(idItinerario)
+    result = cursor.fetchone()
+    if result: 
+        idItinerario = result[0]
+        sysDefault = result[1]
+        print(idItinerario)
+        print(sysDefault)
+    else:
+        return "Error: Itinerario non trovato"
+
+
     idUtente = session.get("id")
 
-    eliminaItinerarioUtente = "DELETE FROM utenti_itinerari WHERE id_utente = %s AND id_itinerario = %s;"
-    cursor.execute(eliminaItinerarioUtente, (idUtente, idItinerario))
-    db.commit()
+    if sysDefault == 1:
+        try:
+            eliminaItinerarioUtente = "DELETE FROM utenti_itinerari WHERE id_utente = %s AND id_itinerario = %s;"
+            cursor.execute(eliminaItinerarioUtente, (idUtente, idItinerario))
+            db.commit()
+        except:
+            return redirect("/profilo") ###!!!!!!!###
+    else:
+        try:
+            eliminaItinerarioUtente = "DELETE FROM utenti_itinerari WHERE id_utente = %s AND id_itinerario = %s;"
+            cursor.execute(eliminaItinerarioUtente, (idUtente, idItinerario))
+            eliminaItinerario = "DELETE FROM itinerari WHERE id_itinerario = %s;"
+            cursor.execute(eliminaItinerario,(idItinerario))
+            db.commit()
+        except:
+            return redirect("/profilo") ###!!!!!!!###
+
 
     return redirect("/profilo")
 
 
 
 
-
-
-
-
-
-
-
-
-
-### DA COMPLETARE ###
 @appWebApi.route("/ItinerarioSalvato", methods=["POST"])
 def salvaItinerario():
     if not session.get("id"):
@@ -524,18 +536,31 @@ def salvaItinerario():
             print("Errore: l'attività non esiste nel database.")
     print(listaIDAttivita)
 
+    try:
+        creazioneItinerario = "INSERT INTO itinerari (nome) VALUES ('"+nuovoItinerario+"');"
+        cursor.execute(creazioneItinerario)
+        db.commit()
 
-    cercaItinerarioNome = """SELECT * FROM itinerari WHERE nome = '%s';"""
-    cercaItinerarioId = """SELECT * FROM itinerari WHERE id = %d;"""
-    controllaRelazioneUtenteItinerario = """SELECT * FROM utenti_itinerari WHERE id_utente = %d AND id_itinerario = %d;"""
+        cursor.execute("SELECT MAX(id) FROM itinerari;")
+        last_insert_id = cursor.fetchone()[0]
+        db.commit()
+        print("Ultimo ID_itinerario:", last_insert_id)
 
-    creazioneItinerario = """INSERT INTO itinerari (nome) VALUES ('%s');"""
-    creazioneRelazioniAttivitaItinerario = """INSERT INTO attivita_itinerari (id_attivita, id_itinerario) VALUES (%d, %d);"""
-    creazioneRelazioneUtenteItinerario = """INSERT INTO utenti_itinerari (id_utente, id_itinerario) VALUES (%d, %d);"""
 
-    
+        for i in range(len(listaIDAttivita)):
+            creazioneRelazioniAttivitaItinerario = "INSERT INTO attivita_itinerari (id_attivita, id_itinerario)\
+                VALUES ("+str(listaIDAttivita[i])+", "+str(last_insert_id)+");"
+            cursor.execute(creazioneRelazioniAttivitaItinerario)
+            db.commit()
 
-    
+        idUtente = session.get("id")
+        creazioneRelazioneUtenteItinerario = "INSERT INTO utenti_itinerari (id_utente, id_itinerario)\
+                 VALUES ("+str(idUtente)+", "+str(last_insert_id)+");"
+        cursor.execute(creazioneRelazioneUtenteItinerario)
+        db.commit()
+
+    except:
+        print ("Error: cannot fetch data")
 
     return redirect("/profilo")
 

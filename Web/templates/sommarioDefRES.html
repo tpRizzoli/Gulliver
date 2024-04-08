@@ -38,7 +38,9 @@
 
         <div class="main">
             <div class="left">
-                MAPPA
+                {% for dati in luogo %}
+                <div id="map" dati-lat="{{dati.latitudine_luogo}}" dati-lng="{{dati.longitudine_luogo}}"></div>
+                {% endfor %} 
             </div>
             <div class="right">
                 <div class="right-content">

@@ -64,6 +64,19 @@ class Itinerario:
         self.nome_itinerario = nome
         self.default_itinerario = default
 
+class Luogo:
+    id_luogo = None
+    nome_luogo = None
+    stato_luogo = None
+    latitudine_luogo = None
+    longitudine_luogo = None
+    def __init__(self, id, nome, stato, latitudine, longitudine):
+        self.id_luogo = id
+        self.nome_luogo = nome
+        self.stato_luogo = stato
+        self.latitudine_luogo = latitudine
+        self.longitudine_luogo = longitudine
+
 #INIZIO GESTIONE ACCOUNT UTENTE -----------------------------------------------------------------------------------------------
 
 #visualizzazione del profilo utente
@@ -247,7 +260,24 @@ def getTipologieAttivita():
             listaTipologieXLuogo.append(Tipologia(id_tipologia, nome_tipologia))
     except:
         print ("Error: cannot fetch data")
-    return render_template('sceltaTipologiaRES.html', destinazione = nomeLuogo, lista = listaTipologieXLuogo)
+
+    luogo1=[]    
+    try:
+        slq2 = "SELECT * FROM luoghi WHERE nome = %s"
+        cursor.execute(slq2,(nomeLuogo))
+        results2 = cursor.fetchall()
+        for row in results2:
+            id_luogo = row[0]
+            nome_luogo = row[1]
+            stato_luogo = row[2]
+            latitudine_luogo = row[3]
+            longitudine_luogo = row[4]
+            luogo1.append(Luogo(id_luogo, nome_luogo, stato_luogo, latitudine_luogo, longitudine_luogo))
+    except:
+        print ("Error: cannot fetch data")        
+
+    return render_template('sceltaTipologiaRES.html', destinazione = nomeLuogo, lista = listaTipologieXLuogo, luogo = luogo1)
+
 
 
 @appWebApi.route("/Attivita", methods=["POST"]) 
@@ -284,8 +314,25 @@ def getAttivita():
 
         except:
             print ("Error: cannot fetch data")
+    
+    luogo1=[]    
+    try:
+        slq2 = "SELECT * FROM luoghi WHERE nome = %s"
+        cursor.execute(slq2,(nomeLuogo))
+        results2 = cursor.fetchall()
+        for row in results2:
+            id_luogo = row[0]
+            nome_luogo = row[1]
+            stato_luogo = row[2]
+            latitudine_luogo = row[3]
+            longitudine_luogo = row[4]
+            luogo1.append(Luogo(id_luogo, nome_luogo, stato_luogo, latitudine_luogo, longitudine_luogo))
+    except:
+        print ("Error: cannot fetch data")  
+            
 
-    return render_template('sceltaAttivitaRES.html', destinazione = nomeLuogo, lista = dizionarioAttivita)
+    return render_template('sceltaAttivitaRES.html', destinazione = nomeLuogo, lista = dizionarioAttivita, luogo = luogo1)
+
 
 
 @appWebApi.route("/Sommario", methods=['POST'])
@@ -318,8 +365,23 @@ def createSommario():
 
         except:
             print ("Error: cannot fetch data")
+
+    luogo1=[]    
+    try:
+        slq2 = "SELECT * FROM luoghi WHERE nome = %s"
+        cursor.execute(slq2,(nomeLuogo))
+        results2 = cursor.fetchall()
+        for row in results2:
+            id_luogo = row[0]
+            nome_luogo = row[1]
+            stato_luogo = row[2]
+            latitudine_luogo = row[3]
+            longitudine_luogo = row[4]
+            luogo1.append(Luogo(id_luogo, nome_luogo, stato_luogo, latitudine_luogo, longitudine_luogo))
+    except:
+        print ("Error: cannot fetch data")  
             
-    return render_template('sommarioRES.html', destinazione=nomeLuogo, sommario = sommarioAttivita)
+    return render_template('sommarioRES.html', destinazione=nomeLuogo, sommario = sommarioAttivita, luogo = luogo1)       
     
 
 @appWebApi.route("/SommarioDefault")

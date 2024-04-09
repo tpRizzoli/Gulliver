@@ -79,6 +79,7 @@ class Luogo:
 
 #INIZIO GESTIONE ACCOUNT UTENTE -----------------------------------------------------------------------------------------------
 
+
 #visualizzazione del profilo utente
 @appWebApi.route("/profilo")
 def getProfilo():
@@ -219,7 +220,7 @@ def getCategorie():
             JOIN luoghi l ON al.id_luogo = l.ID\
             JOIN luoghi_categorie lc ON l.ID = lc.id_luogo\
             JOIN categorie c ON lc.id_categoria = c.ID\
-            Where c.nome ='"+categoriaPassata+"'\
+            Where c.nome ='"+categoriaPassata+"' AND i.sysDefault = 1\
             GROUP BY i.nome;"
     
     # print(sql)
@@ -397,6 +398,7 @@ def getDefaultSummary():
         WHERE i.nome = '"+nomeItinerario+"';"
     
     sommarioAttivita=[]
+    listaNomeAttivita=[]
     cursor=db.cursor()
 
     try:
@@ -408,12 +410,52 @@ def getDefaultSummary():
             difficolta = row[1]
             descrizione_attivita = row[2]
             sommarioAttivita.append(Attivita(nome_attivita, difficolta, descrizione_attivita))
-
+            listaNomeAttivita.append(nome_attivita)
+            
     except:
         print ("Error: cannot fetch data")
+
+    print('lista nome attivita: ', listaNomeAttivita)
+    
+    strListaAttività = ""
+    for i in range(len(listaNomeAttivita)):
+        strListaAttività += "'"  + listaNomeAttivita[i] + "'"
+        if i < len(listaNomeAttivita) - 1:
+            strListaAttività += ", "
+
+
+    #ricavare luogo dll'itinerario: select nome_luogo 
+    cercaLuogo = "SELECT l.nome AS nome_luogo\
+        FROM luoghi l\
+        JOIN attivita_luoghi al ON l.ID = al.id_luogo\
+        JOIN attivita a ON al.id_attivita = a.ID\
+        WHERE a.nome IN ("+strListaAttività+");"
+    
+    try:
+        cursor.execute(cercaLuogo)
+        result = cursor.fetchone()
+        nomeLuogo = result[0]
+        print(nomeLuogo)
+    except:
+        print ("Error: cannot fetch data")
+
+    luogo1=[]    
+    try:
+        slq2 = "SELECT * FROM luoghi WHERE nome = %s"
+        cursor.execute(slq2,(nomeLuogo))
+        results2 = cursor.fetchall()
+        for row in results2:
+            id_luogo = row[0]
+            nome_luogo = row[1]
+            stato_luogo = row[2]
+            latitudine_luogo = row[3]
+            longitudine_luogo = row[4]
+            luogo1.append(Luogo(id_luogo, nome_luogo, stato_luogo, latitudine_luogo, longitudine_luogo))
+    except:
+        print ("Error: cannot fetch data")        
             
 
-    return render_template("sommarioDefRES.html", nomeItinerario = nomeItinerario, lista = sommarioAttivita)
+    return render_template("sommarioDefRES.html", nomeItinerario = nomeItinerario, lista = sommarioAttivita, luogo = luogo1)
 
 
 
@@ -457,18 +499,39 @@ def deleteItinerarioUtente():
     print(nomeItinerario)
 
     cursor=db.cursor()
-    ricercaIdItinerario = "SELECT ID FROM itinerari WHERE nome = '"+nomeItinerario+"';"
+    ricercaIdItinerario = "SELECT id, sysDefault FROM itinerari WHERE nome = '"+nomeItinerario+"';"
     cursor.execute(ricercaIdItinerario)
-    idItinerario = cursor.fetchone()
-    print(idItinerario)
+    result = cursor.fetchone()
+    if result: 
+        idItinerario = result[0]
+        sysDefault = result[1]
+        print(idItinerario)
+        print(sysDefault)
+    else:
+        return "Error: Itinerario non trovato"
+
+
     idUtente = session.get("id")
 
-    eliminaItinerarioUtente = "DELETE FROM utenti_itinerari WHERE id_utente = %s AND id_itinerario = %s;"
-    cursor.execute(eliminaItinerarioUtente, (idUtente, idItinerario))
-    db.commit()
+    if sysDefault == 1:
+        try:
+            eliminaItinerarioUtente = "DELETE FROM utenti_itinerari WHERE id_utente = %s AND id_itinerario = %s;"
+            cursor.execute(eliminaItinerarioUtente, (idUtente, idItinerario))
+            db.commit()
+        except:
+            return redirect("/profilo") ###!!!!!!!###
+    else:
+        try:
+            eliminaItinerarioUtente = "DELETE FROM utenti_itinerari WHERE id_utente = %s AND id_itinerario = %s;"
+            cursor.execute(eliminaItinerarioUtente, (idUtente, idItinerario))
+            eliminaItinerario = "DELETE FROM itinerari WHERE id_itinerario = %s;"
+            cursor.execute(eliminaItinerario,(idItinerario))
+            db.commit()
+        except:
+            return redirect("/profilo") ###!!!!!!!###
+
 
     return redirect("/profilo")
-
 
 
 
@@ -508,14 +571,32 @@ def salvaItinerario():
             print("Errore: l'attività non esiste nel database.")
     print(listaIDAttivita)
 
+    try:
+        creazioneItinerario = "INSERT INTO itinerari (nome) VALUES ('"+nuovoItinerario+"');"
+        cursor.execute(creazioneItinerario)
+        db.commit()
 
-    cercaItinerarioNome = """SELECT * FROM itinerari WHERE nome = '%s';"""
-    cercaItinerarioId = """SELECT * FROM itinerari WHERE id = %d;"""
-    controllaRelazioneUtenteItinerario = """SELECT * FROM utenti_itinerari WHERE id_utente = %d AND id_itinerario = %d;"""
+        cursor.execute("SELECT MAX(id) FROM itinerari;")
+        last_insert_id = cursor.fetchone()[0]
+        db.commit()
+        print("Ultimo ID_itinerario:", last_insert_id)
 
-    creazioneItinerario = """INSERT INTO itinerari (nome) VALUES ('%s');"""
-    creazioneRelazioniAttivitaItinerario = """INSERT INTO attivita_itinerari (id_attivita, id_itinerario) VALUES (%d, %d);"""
-    creazioneRelazioneUtenteItinerario = """INSERT INTO utenti_itinerari (id_utente, id_itinerario) VALUES (%d, %d);"""
+        for i in range(len(listaIDAttivita)):
+            creazioneRelazioniAttivitaItinerario = "INSERT INTO attivita_itinerari (id_attivita, id_itinerario)\
+                VALUES ("+str(listaIDAttivita[i])+", "+str(last_insert_id)+");"
+            cursor.execute(creazioneRelazioniAttivitaItinerario)
+            db.commit()
+
+        idUtente = session.get("id")
+        creazioneRelazioneUtenteItinerario = "INSERT INTO utenti_itinerari (id_utente, id_itinerario)\
+                 VALUES ("+str(idUtente)+", "+str(last_insert_id)+");"
+        cursor.execute(creazioneRelazioneUtenteItinerario)
+        db.commit()
+
+    except:
+        print ("Error: cannot fetch data")
+
+    return redirect("/profilo")
 
     
 

@@ -63,16 +63,14 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Call<User> call, Response<User> response) {
 
                     if (response.isSuccessful()) {
+                        //if(salvaCred.isChecked()) {
                             User utenteLoggato = response.body();
-                            if (utenteLoggato == null){
-                                Toast.makeText(LoginActivity.this, "Credenziali errate", Toast.LENGTH_SHORT).show();
-                            }else {
-                                savePreferencesData(utenteLoggato);
 
-                                Intent activity = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(activity);
-                                Toast.makeText(LoginActivity.this, "Accesso eseguito con successo!", Toast.LENGTH_SHORT).show();
-                            }
+                            savePreferencesData(utenteLoggato);
+                        //}
+                        Intent activity = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(activity);
+                        Toast.makeText(LoginActivity.this, "Accesso eseguito con successo!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(LoginActivity.this, "Credenziali errate", Toast.LENGTH_SHORT).show();
                     }

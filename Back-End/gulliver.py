@@ -401,10 +401,7 @@ def getUser():
         cursor.execute(sql)
         res = cursor.fetchone()
         
-        if res != None:
-            output = Utente(res[0], res[1], res[2], res[3]).__dict__
-        else:
-            output = None
+        output = Utente(res[0], res[1], res[2], res[3]).__dict__
     except:
         print("Error: unable to fetch data")
 

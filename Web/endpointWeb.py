@@ -173,7 +173,7 @@ def modificaProfilo():
             new_pwd = request.form["password"]
 
             with db.cursor() as cursor:
-                sql= "update utenti set username = '%s', email = '%s', pwd = '%s' where id = '%s'" % (new_username, new_email, new_pwd, id_utente)
+                sql= "update utenti set username ='%s', email =REPLACE(TRIM(BOTH ' ' FROM '%s'), ' ', ''), pwd = REPLACE(TRIM(BOTH ' ' FROM '%s'), ' ', '') where id = '%s'; " % (new_username, new_email, new_pwd, id_utente)
                 cursor.execute(sql)
                 db.commit()
                 

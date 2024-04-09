@@ -125,7 +125,7 @@ def login():
         password = request.form.get('password')
 
         # Query per verificare le credenziali nel database
-        sql = "SELECT ID FROM utenti WHERE username = %s AND pwd = %s"
+        sql = "SELECT ID FROM utenti WHERE username = %s AND BINARY pwd = %s"
         cursor = db.cursor()
         cursor.execute(sql, (username, password))
         user = cursor.fetchone()

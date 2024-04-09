@@ -9,11 +9,13 @@ function initMap() {
     zoom: 11,
     center: center,
   });
-
-  var marker = new google.maps.Marker({
-    position: center,
-    map: map,
-  });
+ var markers = [{lat: lat, lng: lng},];
+  for(var i= 0; i< markers.length; i++){
+      new google.maps.Marker({
+      position: markers[i],
+      map: map,
+    });
+  }
 }
 
 function loadGoogleMaps() {

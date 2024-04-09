@@ -308,7 +308,6 @@ color: grey;
 .main-profilo{
   width: 90%;
   margin: auto;
-  /* background-color: rgb(150, 143, 143); */
   display: block;
   padding-top: 90px;
 }
@@ -317,7 +316,6 @@ color: grey;
     width: 90%;
     margin: auto;
     height: 350px;
-    /* background-color: aqua; */
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -347,8 +345,6 @@ h1, h2{
 
 .container-itinerari{
     margin-top: 50px;
-    /* background-color: blueviolet; */
-    
 }
 
 .container-itinerari>h2{
@@ -432,3 +428,16 @@ h1, h2{
  .logout{
   margin-right: 10px;
  }
+
+ /* custom scroll-bar */
+::-webkit-scrollbar{
+  display: none;
+}
+
+::-webkit-scrollbar-track{
+  display: none;
+}
+
+::-webkit-scrollbar-thumb{
+  display: none;
+}

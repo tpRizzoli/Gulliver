@@ -16,7 +16,7 @@
         android:id="@+id/nomeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_gravity="center_vertical"
         android:text="Nome Itinerario"
         android:textColor="@color/black"
         android:textSize="20sp"

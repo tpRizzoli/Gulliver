@@ -51,7 +51,7 @@
                 android:id="@+id/cUsername"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:hint="Modifica Username"
                 android:textColorHint="@color/black"
                 android:textColor="#000000"
                 android:background="@drawable/custom_input"
@@ -80,7 +80,7 @@
                 android:id="@+id/cEmail"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:hint="Modifica Email"
                 android:textColorHint="@color/black"
                 android:textColor="#000000"
                 android:background="@drawable/custom_input"
@@ -109,7 +109,7 @@
                 android:id="@+id/cPassword"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:hint="Modifica Password"
                 android:textColorHint="@color/black"
                 android:textColor="#000000"
                 android:background="@drawable/custom_input"
@@ -134,7 +134,9 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:text="Salva"
-                android:textStyle="bold"/>
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:contentDescription="Pulsante Salva Modifiche"/>
 
             <Button
                 android:id="@+id/btnAnnullaModifiche"
@@ -145,7 +147,9 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:text="Annulla"
-                android:textStyle="bold"/>
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:contentDescription="Pulsante Annulla Modifiche"/>
 
         </LinearLayout>
     </LinearLayout>

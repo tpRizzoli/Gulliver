@@ -12,7 +12,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="5dp"
-        android:src="@drawable/logoapp" />
+        android:src="@drawable/logoapp"/>
 
     <TextView
         android:id="@+id/nomeAttivita"
@@ -42,12 +42,10 @@
         android:id="@+id/difficoltaTesto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_below="@id/logoItinerario"
         android:layout_gravity="top"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="9dp"
-
         android:text="Difficoltà: "
         android:textColor="@color/black"
         android:textSize="15dp"
@@ -70,7 +68,6 @@
         android:id="@+id/luogoTesto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_below="@id/difficoltaValore"
         android:layout_gravity="top"
         android:layout_marginLeft="15dp"
@@ -78,7 +75,6 @@
         android:layout_toRightOf="@id/difficoltaValore"
         android:text="Luogo: "
         android:textColor="@color/black"
-
         android:textSize="15dp"
         android:textStyle="bold" />
 
@@ -91,23 +87,8 @@
         android:layout_marginLeft="3dp"
         android:layout_marginTop="-20dp"
         android:layout_toRightOf="@id/luogoTesto"
-
         android:text="Posto"
         android:textColor="@color/black"
-
         android:textSize="15dp" />
-
-    <CheckBox
-        android:id="@+id/checkboxAttivita"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/descrizioneAttivita"
-
-        android:layout_marginLeft="148dp"
-        android:layout_marginTop="17dp"
-        android:layout_toRightOf="@id/difficoltaValore"
-        android:contentDescription="Seleziona attività"/>
-
-
 
 </RelativeLayout>

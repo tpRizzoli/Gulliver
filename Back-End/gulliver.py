@@ -1,6 +1,6 @@
 # Gulliver Back-End
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response
 import pymysql
 import json
 
@@ -60,7 +60,7 @@ class Categoria:
 
 
 # Trova le tipologie di attività in base al luogo indicato
-@app.route('/findTipologie', methods=['GET'])
+@app.route('/api/findTipologie', methods=['GET'])
 def fetchTipologieByLuogo():
     cursor = db.cursor()
 
@@ -92,7 +92,7 @@ def fetchTipologieByLuogo():
     return json.dumps(output, indent=4)
 
 
-@app.route('/findAttivitaTipologie', methods=["GET"])
+@app.route('/api/findAttivitaTipologie', methods=["GET"])
 def findAttivitaTipologie():
     cursor = db.cursor()
 
@@ -126,7 +126,9 @@ def findAttivitaTipologie():
     return json.dumps(output, indent=4)
 
 
-@app.route('/createItinerario', methods=['POST']) #mi serve un idItinerario
+
+@app.route('/api/createItinerario', methods=['POST']) #mi serve un idItinerario
+
 
 def createItinerario():
 
@@ -250,14 +252,14 @@ def createItinerario():
     return json.dumps(output, indent=4)
 
 #lista degli itinerari che possiede un utente
-@app.route('/findItinerariUtente',methods=['GET'])
+@app.route('/api/findItinerariUtente',methods=['GET'])
 def findItinerariUtente():
     cursor = db.cursor()
 
     args = request.args
 
     
-    sql= 'SELECT i.* FROM itinerari i JOIN utenti_itinerari ui ON i.id = ui.id_itinerario WHERE ui.id_utente = %s;' % (int(args.get('idUtente')))
+    sql= 'SELECT i.* FROM itinerari i JOIN utenti_itinerari ui ON i.id = ui.id_itinerario WHERE ui.id_utente = %d;' % (int(args.get('idUtente')))
     
     try:
         cursor.execute(sql)
@@ -273,7 +275,7 @@ def findItinerariUtente():
 
     return json.dumps(output, indent=4)
 
-@app.route('/getDettagliItinerario', methods=['GET'])
+@app.route('/api/getDettagliItinerario', methods=['GET'])
 def getDettagliItinerari():
     cursor = db.cursor()
 
@@ -302,8 +304,50 @@ def getDettagliItinerari():
     return json.dumps(output, indent=4)
 
 
+@app.route('/api/getDettagliAttivita', methods=['GET'])
+def getDettagliAttivita():
+    cursor = db.cursor()
 
-@app.route('/createUser', methods=['POST'])
+    args = request.args
+
+    idAttivita = args.getlist('idAttivita')
+    listaId = ', '.join(idAttivita)    
+    
+    sql = '''SELECT a.id, a.nome, a.descrizione, a.difficolta, l.id, l.nome, l.stato, l.longitudine, l.latitudine
+            FROM attivita a
+            JOIN attivita_luoghi al ON a.id = al.id_attivita
+            JOIN luoghi l ON l.id = al.id_luogo
+            WHERE a.id IN (%s);''' % (listaId)
+
+    try:
+        cursor.execute(sql)
+        response = cursor.fetchall()
+
+        output = []
+
+        for row in response:
+            d = {
+                    'idAttivita' : row[0],
+                    'nomeAttivita' : row[1],
+                    'descrizioneAttivita' : row[2],
+                    'difficoltaAttivita' : row[3],
+                    'idLuogo' : row[4],
+                    'nomeLuogo' : row[5],
+                    'statoLuogo' : row[6],
+                    'latitudine' : row[7],
+                    'longitudine' : row[8]
+                }
+            output.append(d)
+        
+    except:
+        print('Error: unable to fetch data')
+        return 'Errore'
+    
+    return json.dumps(output, indent=4)
+
+
+
+@app.route('/api/createUser', methods=['POST'])
 def createUser():
     cursor = db.cursor()
     args = request.args
@@ -333,7 +377,7 @@ def createUser():
         return 'Errore'
     
 #login utente
-@app.route('/getUser', methods=['GET'])
+@app.route('/api/getUser', methods=['GET'])
 def getUser():
     cursor = db.cursor()
 
@@ -347,7 +391,10 @@ def getUser():
         cursor.execute(sql)
         res = cursor.fetchone()
         
-        output = Utente(res[0], res[1], res[2], res[3]).__dict__
+        if res != None:
+            output = Utente(res[0], res[1], res[2], res[3]).__dict__
+        else:
+            output = None
     except:
         print("Error: unable to fetch data")
 
@@ -355,7 +402,7 @@ def getUser():
 
 
 #modifica del profilo utente
-@app.route("/modificaProfilo/<id>", methods = ['PUT'])
+@app.route("/api/modificaProfilo/<id>", methods = ['PUT'])
 def modificaProfilo(id):
     cursor = db.cursor()
     args = request.args
@@ -380,7 +427,7 @@ def modificaProfilo(id):
 
 
 # Elimina un itinerario   
-@app.route('/eliminaItinerario', methods = ['DELETE'])
+@app.route('/api/eliminaItinerario', methods = ['DELETE'])
 def deleteItinerario():
     cursor = db.cursor()
     args = request.args
@@ -400,15 +447,15 @@ def deleteItinerario():
 
         db.commit()
     except:
-        connection.rollback()
+        db.rollback()
         print('Query Error')
         return 'Errore'
 
-    return 'Itinerario eliminato'
+    return 'Itinerario eliminato!'
 
 
 # Ritorna elenco di Itinerari in base alla categoria scelta
-@app.route("/findItinerariSuggeriti", methods=['GET'])
+@app.route("/api/findItinerariSuggeriti", methods=['GET'])
 def findItinerariSuggeriti():
     
     nomeCategoria = request.args.get('categoria')

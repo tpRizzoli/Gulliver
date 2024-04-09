@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.AttivitaFragment"
-    android:orientation="vertical">
+    android:orientation="vertical" >
+
 
     <LinearLayout
+        android:id="@+id/titolo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -34,8 +36,10 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/sottotitolo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/titolo"
         android:textSize="18dp"
         android:textColor="@color/black"
         android:layout_marginTop="15dp"
@@ -47,23 +51,38 @@
     <ListView
         android:id="@+id/listaAttivita"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+
+        android:layout_height="match_parent"
+        android:layout_below="@+id/sottotitolo"
+        android:layout_above="@+id/confermaAttivita"
+
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        />
+
+        android:divider="@color/white"
+        android:dividerHeight="10dp"
+        android:contentDescription="Lista Attività"/>
+
 
     <Button
         android:id="@+id/confermaAttivita"
         android:layout_width="150dp"
         android:layout_height="50dp"
+
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+
         android:background="@drawable/custom_style_button"
         android:backgroundTint="@color/azzurro"
         android:text="Avanti"
         android:textColor="@color/white"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="20dp" />
 
-</LinearLayout>
+        android:layout_marginTop="20dp"
+        android:contentDescription="Pulsante Avanti"/>
+
+
+</RelativeLayout>

@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.gulliver.Activity.MainActivity;
 import com.example.gulliver.ClassiModello.Itinerario;
 import com.example.gulliver.Adapter.ItinerarioAdapter;
 import com.example.gulliver.MyApiEndpointInterface;
@@ -58,7 +60,7 @@ public class ItinerariUtenteFragment extends Fragment {
         MyApiEndpointInterface apiService = retrofit.create(MyApiEndpointInterface.class);
 
         listView = view.findViewById(R.id.listaItinerari);
-        adapter = new ItinerarioAdapter(context, R.layout.lista_itinerari, listaItinerari);
+        adapter = new ItinerarioAdapter(context, R.layout.itinerari_list_item, listaItinerari);
         listView.setAdapter(adapter);
 
 
@@ -72,23 +74,39 @@ public class ItinerariUtenteFragment extends Fragment {
             public void onResponse(Call<ArrayList<Itinerario>> call, Response<ArrayList<Itinerario>> response) {
                 if (response.isSuccessful()) {
                     listaItinerari.clear();
-                    listaItinerari.addAll(response.body()); // Aggiungi gli itinerari alla lista esistente
+
+                    listaItinerari.addAll(response.body());
 
                     adapter.notifyDataSetChanged();
                     listView.invalidate();
 
-                    //codice per visualizzare le info dell'itinerario cliccato
-
                 } else {
-                    Toast.makeText(getActivity(), "Impossibile vedere", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Query Error", Toast.LENGTH_SHORT).show();
                 }
             }
 
             public void onFailure(Call<ArrayList<Itinerario>> call, Throwable t) {
-                // Gestisci eventuali errori di comunicazione qui
-                Toast.makeText(getActivity(), "error...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Errore di rete", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle extra = new Bundle();
+
+                Itinerario i = listaItinerari.get(position);
+
+                extra.putInt("idItinerario", i.id);
+                extra.putString("nomeItinerario", i.nome);
+
+                DettagliItinerarioFragment dettagliItinerario = new DettagliItinerarioFragment();
+                ((MainActivity)context).changeFragment(dettagliItinerario, extra);
+            }
+        });
+
+
         return view;
     }
 }

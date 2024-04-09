@@ -60,7 +60,7 @@ class Categoria:
 
 
 # Trova le tipologie di attività in base al luogo indicato
-@app.route('/findTipologie', methods=['GET'])
+@app.route('/api/findTipologie', methods=['GET'])
 def fetchTipologieByLuogo():
     cursor = db.cursor()
 
@@ -92,7 +92,7 @@ def fetchTipologieByLuogo():
     return json.dumps(output, indent=4)
 
 
-@app.route('/findAttivitaTipologie', methods=["GET"])
+@app.route('/api/findAttivitaTipologie', methods=["GET"])
 def findAttivitaTipologie():
     cursor = db.cursor()
 
@@ -126,7 +126,7 @@ def findAttivitaTipologie():
     return json.dumps(output, indent=4)
 
 
-@app.route('/createItinerario', methods=['POST']) #mi serve un idItinerario
+@app.route('/api/createItinerario', methods=['POST']) #mi serve un idItinerario
 
 def createItinerario():
 
@@ -250,7 +250,7 @@ def createItinerario():
     return json.dumps(output, indent=4)
 
 #lista degli itinerari che possiede un utente
-@app.route('/findItinerariUtente',methods=['GET'])
+@app.route('/api/findItinerariUtente',methods=['GET'])
 def findItinerariUtente():
     cursor = db.cursor()
 
@@ -273,7 +273,7 @@ def findItinerariUtente():
 
     return json.dumps(output, indent=4)
 
-@app.route('/getDettagliItinerario', methods=['GET'])
+@app.route('/api/getDettagliItinerario', methods=['GET'])
 def getDettagliItinerari():
     cursor = db.cursor()
 
@@ -314,7 +314,7 @@ def getDettagliItinerari():
     return json.dumps(output, indent=4)
 
 
-@app.route('/getDettagliAttivita', methods=['GET'])
+@app.route('/api/getDettagliAttivita', methods=['GET'])
 def getDettagliAttivita():
     cursor = db.cursor()
 
@@ -357,7 +357,7 @@ def getDettagliAttivita():
 
 
 
-@app.route('/createUser', methods=['POST'])
+@app.route('/api/createUser', methods=['POST'])
 def createUser():
     cursor = db.cursor()
     args = request.args
@@ -387,7 +387,7 @@ def createUser():
         return 'Errore'
     
 #login utente
-@app.route('/getUser', methods=['GET'])
+@app.route('/api/getUser', methods=['GET'])
 def getUser():
     cursor = db.cursor()
 
@@ -412,7 +412,7 @@ def getUser():
 
 
 #modifica del profilo utente
-@app.route("/modificaProfilo/<id>", methods = ['PUT'])
+@app.route("/api/modificaProfilo/<id>", methods = ['PUT'])
 def modificaProfilo(id):
     cursor = db.cursor()
     args = request.args
@@ -437,7 +437,7 @@ def modificaProfilo(id):
 
 
 # Elimina un itinerario   
-@app.route('/eliminaItinerario', methods = ['DELETE'])
+@app.route('/api/eliminaItinerario', methods = ['DELETE'])
 def deleteItinerario():
     cursor = db.cursor()
     args = request.args
@@ -465,7 +465,7 @@ def deleteItinerario():
 
 
 # Ritorna elenco di Itinerari in base alla categoria scelta
-@app.route("/findItinerariSuggeriti", methods=['GET'])
+@app.route("/api/findItinerariSuggeriti", methods=['GET'])
 def findItinerariSuggeriti():
     
     nomeCategoria = request.args.get('categoria')

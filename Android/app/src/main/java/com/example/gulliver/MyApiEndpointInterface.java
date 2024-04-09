@@ -20,42 +20,42 @@ import java.util.List;
 
 public interface MyApiEndpointInterface {
 
-    String urlServer = "http://192.168.1.84:5000";
+    String urlServer = "http://192.168.0.104:5000";
 
-    @GET("/getUser")
+    @GET("/api/getUser")
     Call<User> getUser(@Query("utente") String username, @Query("password") String password);
 
-    @PUT("/modificaProfilo/{id}")
+    @PUT("/api/modificaProfilo/{id}")
     Call<User> modificaProfilo(@Path("id")Integer id, @Query("username") String username, @Query("email") String email, @Query("password") String pwd);
 
-    @POST("/createUser")
+    @POST("/api/createUser")
     Call<User> createUser(@Query("username") String username, @Query("email") String email, @Query("password") String password);
 
-    @GET("/findTipologie")
+    @GET("/api/findTipologie")
     Call<ArrayList<Tipologia>> findTipologie(@Query("nomeLuogo") String nomeLuogo);
 
-    @GET("/findItinerariUtente")
+    @GET("/api/findItinerariUtente")
     Call<ArrayList<Itinerario>> findItinerariUtente(@Query("idUtente") Integer id);
 
-    @GET("/findAttivitaTipologie")
+    @GET("/api/findAttivitaTipologie")
     Call<ArrayList<Attivita>> findAttivitaFromTipologie(@Query("nomeLuogo") String nomeLuogo, @Query("idTipologia") List<Integer> idTipologia);
 
-    @GET("/getDettagliAttivita")
+    @GET("/api/getDettagliAttivita")
     Call<ArrayList<AttivitaConLuogo>> findDettagliAttivita(@Query("idAttivita") ArrayList<Integer> idAttivita);
 
-    @GET("/getDettagliItinerario")
+    @GET("/api/getDettagliItinerario")
     Call<ArrayList<AttivitaConLuogo>> findDettagliItinerario(@Query("idItinerario") Integer idItinerario);
 
-    @POST("/createItinerario")
+    @POST("/api/createItinerario")
     Call<Itinerario> creaItinerario(@Query("idUtente") Integer idUtente, @Query("nomeItinerario") String nomeItinerario, @Query("idAttivita") ArrayList<Integer> idAttivita);
 
-    @GET("/findItinerariSuggeriti")
+    @GET("/api/findItinerariSuggeriti")
     Call<ArrayList<Itinerario>> findItinerariSuggeriti(@Query("categoria") String nomeCategoria);
 
-    @POST("/createItinerario")
+    @POST("/api/createItinerario")
     Call<Itinerario> associaItinerario(@Query("idUtente") Integer idUtente, @Query("idItinerario") Integer idItinerario);
 
-    @DELETE("/eliminaItinerario")
+    @DELETE("/api/eliminaItinerario")
     Call<String> eliminaItinerario(@Query("idUtente") Integer idUtente, @Query("idItinerario") Integer idItinerario);
 
 

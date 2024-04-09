@@ -2,7 +2,7 @@
 .main-title{
     width: 90%;
     margin: auto;
-    margin-top: 20px;
+    padding-top: 100px;
     display: flex;
 }
 
@@ -20,6 +20,10 @@
     margin-top: 20px;
     margin-left: 20px;
     margin-right: 20px;
+}
+
+.img-container{
+  width: 100%;
 }
 
 .card-body>img{

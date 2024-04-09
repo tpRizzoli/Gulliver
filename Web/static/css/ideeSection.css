@@ -26,7 +26,7 @@
 }
 
 .travel .container .box img{
-    width:100%;     /*se uso icone height:10rem*/
+    height: 13.5rem;     /*se uso icone height:10rem*/
     border-radius: 1.5rem;
     
 }

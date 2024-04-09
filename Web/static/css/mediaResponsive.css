@@ -1,4 +1,4 @@
-/* responsive adj */
+/* responsive other */
 @media (max-width: 1020px) {
     html {
         font-size: 85%;
@@ -21,18 +21,66 @@
     }
 }
 
+@media (max-width: 884px) {
+    /*idee*/
+    .main-card{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .elemlist{
+        width: 80%;
+    }
+    
+
+    /*profilo*/
+    .main-profilo{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 50px;
+    }
+
+    .container-profilo, .container-itinerari{
+        width: 80%;
+    }
+
+    .container-itinerari{
+        padding-top: 30px;
+    }
+
+    .container-profilo{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .dati-profilo{
+        width: 80%;
+        margin: auto;
+    }
+}
+
+
+
+
 @media (max-width: 767px) {
     .heading{
         font-size: 2rem;
     }
 
-    .home .home-box nav .menu{
+
+    nav .menu{
         display: none;
     }
-    .home .home-box nav .logo .bar{
+    nav .logo .bar{
         display: block;
     }
-    .home .home-box nav .menu.active{
+    nav .menu.active{
         display: block;
         position: absolute;
         left: -1.5rem;
@@ -44,7 +92,7 @@
         align-items: center;
         padding: 0 3rem;
     }
-    .home .home-box nav .menu .close{
+    nav .menu .close{
         display: block;
         position: absolute;
         left: 3rem;
@@ -53,21 +101,21 @@
         font-size: 2rem;
         cursor: pointer;
     }
-    .home .home-box nav .menu .close:hover{
+    nav .menu .close:hover{
         color: rgb(255 255 255/40%);        
     }
-    .home .home-box nav .menu ul{
+    nav .menu ul{
         flex-direction: column;
         font-size: 2rem;
         gap: 1rem;
     }
-    .home .home-box nav .menu ul:hover li a{
+    nav .menu ul:hover li a{
         color: rgb(255 255 255/40%); 
     }
-    .home .home-box nav .menu ul li a:hover{
+    nav .menu ul li a:hover{
         color: var(--white-color);
     }
-    .home .home-box .content{
+    .content{
         padding: 2rem;
     }
     .travel .container{
@@ -76,7 +124,47 @@
         padding-top: 1.2rem;
         gap: 4rem;
     }
+
+    /*idee*/
+    .main-card{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .elemlist{
+        width: 80%;
+    }
     
+    /*profilo*/
+    .main-profilo{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 50px;
+    }
+
+    .container-profilo, .container-itinerari{
+        width: 80%;
+    }
+
+    .container-itinerari{
+        padding-top: 30px;
+    }
+
+    .container-profilo{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .dati-profilo{
+        width: 80%;
+        margin: auto;
+    }
 
 }
 
@@ -88,4 +176,23 @@
         font-size: 1.2rem;
     }
 }
-/* responsive adj */
+
+@media (max-width: 530px) {
+    .dati-profilo{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .log-mod{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .container-itinerari{
+        padding-top: 30px;
+    }
+}

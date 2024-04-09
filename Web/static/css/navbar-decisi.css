@@ -48,9 +48,8 @@ html, body{
 }
 
 nav{
-    width: 97.5%;
+    width: 97%;
     height: 67px;
-    /* background: linear-gradient(rgb(255,255,255,0.2), rgb(255,255,255,.2)); */
     background: #112a34;
     position: fixed;
     backdrop-filter: blur(1px);
@@ -60,6 +59,7 @@ nav{
     align-items: center;
     padding: 0 4rem; 
     z-index: 10;
+    margin: auto;
 }
 
 nav .logo{
@@ -130,18 +130,7 @@ nav .signup-login a:last-child:hover{
     background: #3b9ca6
 }
 
-/* custom scroll-bar */
-::-webkit-scrollbar{
-    display: none;
-  }
-  
-  ::-webkit-scrollbar-track{
-    display: none;
-  }
-  
-  ::-webkit-scrollbar-thumb{
-    display: none;
-  }
+
 
 
 

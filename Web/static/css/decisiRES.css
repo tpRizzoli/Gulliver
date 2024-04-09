@@ -64,6 +64,7 @@ color: #176B87;
 .check{
   width: 30px; 
   height: 30px;
+  cursor: pointer;
 }
 
 .check1{
@@ -90,7 +91,6 @@ background-color: #eee;
 border: none;
 padding: 1rem;
 font-size: 1rem;
-width: 10em;
 border-radius: 1rem;
 color: #3b9ca6;
 box-shadow: 0 0.4rem #dfd9d9;
@@ -299,9 +299,9 @@ color: grey;
     outline-color:#3b9ca6;
   }
   
-  /* .add{
+  .add{
     width: 3.5rem;
-  } */
+  }
 
 
 /*profilo-----------------*/
@@ -309,7 +309,7 @@ color: grey;
   width: 90%;
   margin: auto;
   display: block;
-  padding-top: 90px;
+  padding-top: 97px;
 }
 
 .container-profilo{
@@ -325,6 +325,7 @@ color: grey;
 
 .img-profilo{
     height: 350px;
+    border-radius: 0.7rem;
 }
 
 .dati-profilo{
@@ -376,10 +377,6 @@ h1, h2{
     border-radius: .7rem;
     }
 
-
-.img-profilo{
-  border-radius: 0.7rem;
-}
 .card-body>img{
     height: 200px;
 }
@@ -425,9 +422,11 @@ h1, h2{
   color: grey;
  }
 
- .logout{
+ .logout, .modifica{
   margin-right: 10px;
+  margin-left: 10px;
  }
+
 
  /* custom scroll-bar */
 ::-webkit-scrollbar{

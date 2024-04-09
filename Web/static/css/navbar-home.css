@@ -66,7 +66,8 @@ section.home{
 .home .home-box nav{
     width: 100%;
     height: 65px;
-    background: linear-gradient(rgb(255,255,255,0.2), rgb(255,255,255,.2));
+    /* background: linear-gradient(rgb(255,255,255,0.2), rgb(255,255,255,.2)); */
+    background: rgb(17, 42, 52,0.85);
     backdrop-filter: blur(1px);
     border-radius: .7rem; /*se non voglio cornice img principale devo togliere questa riga*/
     display: flex;
@@ -131,7 +132,7 @@ section.home{
 }
 
 .home .home-box nav .signup-login a:last-child{
-    background: var(--green-color);
+    background: #02636e;
     padding: .3rem 1rem;
     border-radius: 2rem;
 }
@@ -142,7 +143,7 @@ section.home{
 
 .home .home-box nav .signup-login a:last-child:hover{
     color: var(--white-color);
-    background:#02636e
+    background:#3b9ca6
 }
 
 .home .home-box .content{
@@ -232,7 +233,18 @@ section.home{
 }
 
 
-
+/* custom scroll-bar */
+::-webkit-scrollbar{
+    display: none;
+  }
+  
+  ::-webkit-scrollbar-track{
+    display: none;
+  }
+  
+  ::-webkit-scrollbar-thumb{
+    display: none;
+  }
 
 
 

@@ -74,10 +74,12 @@ public class ItinerariUtenteFragment extends Fragment {
             public void onResponse(Call<ArrayList<Itinerario>> call, Response<ArrayList<Itinerario>> response) {
                 if (response.isSuccessful()) {
                     listaItinerari.clear();
+
                     listaItinerari.addAll(response.body());
 
                     adapter.notifyDataSetChanged();
                     listView.invalidate();
+
                 } else {
                     Toast.makeText(getActivity(), "Query Error", Toast.LENGTH_SHORT).show();
                 }
@@ -87,6 +89,7 @@ public class ItinerariUtenteFragment extends Fragment {
                 Toast.makeText(getActivity(), "Errore di rete", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -102,6 +105,7 @@ public class ItinerariUtenteFragment extends Fragment {
                 ((MainActivity)context).changeFragment(dettagliItinerario, extra);
             }
         });
+
 
         return view;
     }

@@ -1,4 +1,4 @@
-body{
+/* body{
     background-color: white;
     font-family: "Poppins", sans-serif;
     font-weight: 400;
@@ -17,10 +17,10 @@ body{
     border-bottom: #176B87 solid;
     background-color: rgb(196, 221, 244);
     z-index: 1000; /* Ensure it's above other content */
-    position: fixed;
-}
+    /* position: fixed;
+} */
 
-.logo{
+/* .logo{
     position: relative;
     height: 50%;
     padding: 7px 10px;
@@ -40,10 +40,10 @@ body{
 .login-icon{
     margin-right: 20px;
     margin-bottom: -5px;
-}
+}  */
 
 /* custom scroll-bar */
-::-webkit-scrollbar{
+/* ::-webkit-scrollbar{
     width: 15px;
   }
   
@@ -53,7 +53,7 @@ body{
   
   ::-webkit-scrollbar-thumb{
     background: linear-gradient(red,yellow);
-  }
+  } */
 
 .main{
     width: 90%;

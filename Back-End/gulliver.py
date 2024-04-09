@@ -126,7 +126,9 @@ def findAttivitaTipologie():
     return json.dumps(output, indent=4)
 
 
+
 @app.route('/api/createItinerario', methods=['POST']) #mi serve un idItinerario
+
 
 def createItinerario():
 
@@ -281,10 +283,9 @@ def getDettagliItinerari():
 
     idItinerario = int(args.get('idItinerario'))    
     
-    sql = '''SELECT a.id, a.nome, a.descrizione, a.difficolta, l.id, l.nome, l.stato, l.longitudine, l.latitudine
+    sql = '''SELECT a.id, a.nome, a.descrizione, t.nome, a.difficolta
             FROM attivita a
-            JOIN attivita_luoghi al ON a.id = al.id_attivita
-            JOIN luoghi l ON l.id = al.id_luogo
+            JOIN tipologie t ON a.id_tipologia = t.id
             JOIN attivita_itinerari ai ON a.id = ai.id_attivita
             WHERE ai.id_itinerario = %d;''' % (idItinerario)
 
@@ -294,18 +295,7 @@ def getDettagliItinerari():
 
         output = []
         for row in results:
-            d = {
-                'idAttivita' : row[0],
-                'nomeAttivita' : row[1],
-                'descrizioneAttivita' : row[2],
-                'difficoltaAttivita' : row[3],
-                'idLuogo' : row[4],
-                'nomeLuogo' : row[5],
-                'statoLuogo' : row[6],
-                'latitudine' : row[7],
-                'longitudine' : row[8]
-            }
-            output.append(d)
+            output.append(Attivita(row[0], row[1], row[2], row[3], row[4]).__dict__)
             
     except:
         print('Error: unable to fetch data')

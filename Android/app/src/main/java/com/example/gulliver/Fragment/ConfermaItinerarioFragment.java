@@ -1,5 +1,6 @@
 package com.example.gulliver.Fragment;
 
+
 import static com.example.gulliver.MyApiEndpointInterface.urlServer;
 
 import android.app.Activity;

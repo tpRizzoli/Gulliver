@@ -73,3 +73,33 @@ footer {
 .login-btn:active {
     transform: translateY(1px);
 }
+
+.card-form{
+    margin-top: 5%;
+    background-color: #fff;
+    text-align: center;
+    padding: 2rem;
+    padding-bottom: 1rem;
+    border-radius: .7rem;
+}
+
+.login-form{
+    padding-top: 20px;
+    margin: auto;
+    width: 100%;
+    text-align: center;
+}
+
+/* custom scroll-bar */
+::-webkit-scrollbar{
+    display: none;
+  }
+  
+  ::-webkit-scrollbar-track{
+    display: none;
+  }
+  
+  ::-webkit-scrollbar-thumb{
+    display: none;
+  }
+

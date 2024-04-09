@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/ideeSection.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/popularSection.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/footerSection.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/mediaResponsive.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mediaResponsiveHome.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -21,7 +21,7 @@
                     <div class="bar">
                         <i class="fa fa-bars"></i>
                     </div>
-                    <h3>Gulliver</h3>
+                    <a href="/"><h3>Gulliver</h3></a>
                 </div>
                 <div class="menu">
                     <div class="close">
@@ -35,7 +35,7 @@
                 </div>
                 <div class="signup-login">
                     <a href="/registrazione">Registrati</a>
-                    <a href="/login">Accedi</a>
+                    <a href="/login" >Accedi</a>
                 </div>
             </nav>
 
@@ -47,7 +47,7 @@
                 <form action="/destinazione" class="search-form">
                     <div class="search">
                         <i class="fa fa-search"></i>
-                        <input type="text" name="destinazione" placeholder="La tua Destinazione..">
+                        <input type="text" name="destinazione" placeholder="La tua Destinazione.." required>
                         <button type="submit" value="Nuovo Itinerario">Cerca</button>
                     </div>
                 </form>
@@ -61,21 +61,21 @@
         <h2>Esplora...</h2>
         <div class="container">
             <div class="box">
-                <a href="{{ url_for('getCategorie', categoria='Montagna')}}"><img src="/static/images/montagna.jpg" alt=""></a>
+                <a href="{{ url_for('getCategorie', categoria='Montagna')}}"><img src="/static/images/ideemontagna.jpg" alt=""></a>
                 <div class="content">
                     <h4>Montagna</h4>
                     <p>Esplora panorami mozzafiato, sentieri escursionistici e attività come lo sci, immerso nella bellezza naturale delle montagne.</p>
                 </div>
             </div>
             <div class="box">
-                <a href="{{ url_for('getCategorie', categoria='Mare')}}"><img src="/static/images/mare.jpg" alt=""></a>
+                <a href="{{ url_for('getCategorie', categoria='Mare')}}"><img src="/static/images/ideemare.jpg" alt=""></a>
                 <div class="content">
                     <h4>Mare</h4>
                     <p>Goditi la tranquillità delle spiagge di sabbia dorata e le acque cristalline, ideali per il relax e gli sport acquatici.</p>
                 </div>
             </div>
             <div class="box">
-                <a href="{{ url_for('getCategorie', categoria='Citta')}}"><img src="/static/images/citta.jpg" alt=""></a>
+                <a href="{{ url_for('getCategorie', categoria='Citta')}}"><img src="/static/images/ideecitta.jpg" alt=""></a>
                 <div class="content">
                     <h4>Città</h4>
                     <p>Scopri l'energia vibrante delle città con musei, monumenti storici e una vita notturna vivace, offrendo esperienze culturali.</p>
@@ -135,16 +135,18 @@
         </div>
     </section>
 
-    <!-- footer -->
     <footer>
         <div class="footer">
             <div class="container">
                 <div class="detail">
                     <h3>Gulliver</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo porro perspiciatis dolorem sint, 
-                        necessitatibus molestias. Harum totam magnam sint et.</p>
-                    <h5>get in touch</h5>
-                    <a href="#">gulliver@mail.com</a>
+                    <p>© 2024 Gulliver. Tutti i diritti riservati.<br>
+                        Privacy Policy | Termini di Utilizzo<br>
+                        
+                        Indirizzo: Via Soderini 24, Milano, 20146<br>
+                        Telefono: +39 012 3456789</p>
+                    <h5>Contattaci</h5>
+                    <a href="#">gulliver@gmail.com</a>
                 </div>
             </div>
         </div>

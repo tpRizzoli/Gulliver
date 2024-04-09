@@ -5,8 +5,6 @@ import pymysql
 
 
 appWebApi = Flask(__name__)
-# appWebApi.config["SESSION_PERMANENT"] = False
-# appWebApi.config['SECRET_KEY'] = 'chiave_secreta'
 appWebApi.config['SESSION_TYPE'] = 'filesystem'
 Session(appWebApi)
 
@@ -64,32 +62,62 @@ class Itinerario:
         self.nome_itinerario = nome
         self.default_itinerario = default
 
-@appWebApi.route("/prova")
-def prova():
-    return render_template("sceltaTipologiaRES.html")
+class Luogo:
+    id_luogo = None
+    nome_luogo = None
+    stato_luogo = None
+    latitudine_luogo = None
+    longitudine_luogo = None
+    def __init__(self, id, nome, stato, latitudine, longitudine):
+        self.id_luogo = id
+        self.nome_luogo = nome
+        self.stato_luogo = stato
+        self.latitudine_luogo = latitudine
+        self.longitudine_luogo = longitudine
 
+
+
+
+#visualizzazione del profilo utente
 @appWebApi.route("/profilo")
 def getProfilo():
-    if not session.get("username"):
+    if not session.get("id"):
         return redirect("/login")
     
-    utente = session.get("username")
+    utente = session.get("id")
     cursor = db.cursor()
-    sql = "SELECT username, email FROM utenti WHERE username ='"+utente+"';"
-    #print(sql)
+    sql = "SELECT username, email FROM utenti WHERE id ='%s';"
 
     try:
-        cursor.execute(sql)
+        cursor.execute(sql,(utente))
         results = cursor.fetchone()
-        #print(results)
         username_utente = results[0]
         email_utente = results[1]
     except:
         print ("Error: cannot fetch data")
     
-    return render_template("profilo.html", user = username_utente, email = email_utente)
+    query = "SELECT i.ID, i.nome , i.sysDefault\
+        FROM utenti_itinerari ui\
+        JOIN itinerari i ON ui.id_itinerario = i.ID\
+        JOIN utenti u ON ui.id_utente = u.ID\
+        WHERE u.username ='"+username_utente+"';"
+    
+    listaItinerariUtenti = []
+    try:
+        cursor.execute(query)
+        results = cursor.fetchall()
+        for row in results:
+            id_itinerario = row[0]
+            nome_itinerario = row[1]
+            default_itinerario = row[2]
+            listaItinerariUtenti.append(Itinerario(id_itinerario, nome_itinerario, default_itinerario))
+    except:
+        print ("Error: cannot fetch data")
 
     
+    return render_template("profiloRES.html", user = username_utente, email = email_utente, lista = listaItinerariUtenti)
+
+#login utente e creazione della sessione utente
 @appWebApi.route("/login", methods=["POST", "GET"])
 def login():
     if request.method == 'POST':
@@ -97,30 +125,77 @@ def login():
         password = request.form.get('password')
 
         # Query per verificare le credenziali nel database
-        sql = "SELECT username FROM utenti WHERE username = %s AND pwd = %s"
+        sql = "SELECT ID FROM utenti WHERE username = %s AND BINARY pwd = %s"
         cursor = db.cursor()
         cursor.execute(sql, (username, password))
         user = cursor.fetchone()
 
         if user:
-            # Se l'utente esiste nel database, registra il nome utente nella sessione
-            session['username'] = user[0]
+            session['id'] = user[0]
             return redirect('/profilo')
-            # return redirect(next or ('/profilo'))
         else:
             print("Errore: credenziali errate")
             return render_template('loginPage.html')
     return render_template('loginPage.html')
 
+#registrazione utente e creazione della sessione utente
+@appWebApi.route('/registrazione', methods=['POST','GET'])
+def registrazione():
+    if request.method == 'POST': 
 
+        cursor = db.cursor()
+        username = request.form['username']
+        email = request.form['email']
+        pwd = request.form['password']
+
+        try:
+            sql = "INSERT INTO utenti (username, email, pwd) VALUES (%s, %s, %s);"
+            cursor.execute(sql, (username, email, pwd))
+            db.commit()
+            session['id'] = cursor.lastrowid
+
+            return redirect('/profilo')
+        except:
+            print("Errore durante la creazione dell'utente")
+            
+         
+    else:
+        return render_template('registrazione.html')
+
+#modifica del profilo utente
+@appWebApi.route("/modificaProfilo", methods = ['PUT', 'POST'])
+def modificaProfilo():
+    if request.method == 'POST':
+        try:
+            id_utente = session['id']
+            new_username = request.form["username"]
+            new_email = request.form["email"]
+            new_pwd = request.form["password"]
+
+            with db.cursor() as cursor:
+                sql= "update utenti set username ='%s', email =REPLACE(TRIM(BOTH ' ' FROM '%s'), ' ', ''), pwd = '%s' where id = '%s'; " % (new_username, new_email, new_pwd, id_utente)
+                cursor.execute(sql)
+                db.commit()
+                
+                return redirect("/profilo")
+        except:
+            db.rollback()
+            return render_template("Impossibile modificare l'utente")
+    else:
+        return redirect('/')
+
+@appWebApi.route("/paginaModifica")
+def paginaModifica():
+    return render_template("modificaProfilo.html")
+    
+#logout utente chiusura della sessione dell'utente
 @appWebApi.route("/logout")
 def logout():
-    session['username'] = None
+    session['id'] = None
     return redirect("/")
 
-
-
-@appWebApi.route("/", methods=['POST', 'GET'])
+#homepage
+@appWebApi.route("/")
 def main():
     return render_template('homepage.html')
 
@@ -137,11 +212,8 @@ def getCategorie():
             JOIN luoghi l ON al.id_luogo = l.ID\
             JOIN luoghi_categorie lc ON l.ID = lc.id_luogo\
             JOIN categorie c ON lc.id_categoria = c.ID\
-            Where c.nome ='"+categoriaPassata+"'\
+            Where c.nome ='"+categoriaPassata+"' AND i.sysDefault = 1\
             GROUP BY i.nome;"
-    
-    print(sql)
-    
     try:
         cursor.execute(sql)
         results = cursor.fetchall()
@@ -150,8 +222,8 @@ def getCategorie():
             nome_categoria = row[1]
             listaItinerariXCategoria.append(Categoria(nome_itinerario, nome_categoria))
     except:
-        print ("Error: cannot fetch data")
-    return render_template('idee.html',  categoria = categoriaPassata, lista = listaItinerariXCategoria)
+        print ("Errore nel recupero dei dati")
+    return render_template('ideeRES.html',  categoria = categoriaPassata, lista = listaItinerariXCategoria)
 
 @appWebApi.route("/destinazione") 
 def getTipologieAttivita():
@@ -166,9 +238,7 @@ def getTipologieAttivita():
         WHERE l.nome ='"+nomeLuogo+"'\
         GROUP BY t.id;"
     
-    print(sql)
     listaTipologieXLuogo = []
-
     try:
         cursor.execute(sql)
         results = cursor.fetchall()
@@ -177,9 +247,24 @@ def getTipologieAttivita():
             nome_tipologia = row[1]
             listaTipologieXLuogo.append(Tipologia(id_tipologia, nome_tipologia))
     except:
-        print ("Error: cannot fetch data")
-    return render_template('sceltaTipologiaRES.html', destinazione = nomeLuogo, lista = listaTipologieXLuogo)
+        print ("Errore nel recupero dei dati")
 
+    luogo1=[]    
+    try:
+        slq2 = "SELECT * FROM luoghi WHERE nome = %s"
+        cursor.execute(slq2,(nomeLuogo))
+        results2 = cursor.fetchall()
+        for row in results2:
+            id_luogo = row[0]
+            nome_luogo = row[1]
+            stato_luogo = row[2]
+            latitudine_luogo = row[3]
+            longitudine_luogo = row[4]
+            luogo1.append(Luogo(id_luogo, nome_luogo, stato_luogo, latitudine_luogo, longitudine_luogo))
+    except:
+        print ("Errore nel recupero dei dati")       
+
+    return render_template('sceltaTipologiaRES.html', destinazione = nomeLuogo, lista = listaTipologieXLuogo, luogo = luogo1)
 
 @appWebApi.route("/Attivita", methods=["POST"]) 
 def getAttivita():
@@ -188,9 +273,7 @@ def getAttivita():
     print("Destinazione: ", nomeLuogo)
     print("Tipologie selezionate:", listaTipologieSelezionate)
     
-   
     dizionarioAttivita = {}
-    
     cursor = db.cursor()
     
     for i in range(len(listaTipologieSelezionate)): 
@@ -214,10 +297,24 @@ def getAttivita():
                 dizionarioAttivita[listaTipologieSelezionate[i]].append(Attivita(nome_attivita, difficolta, descrizione_attivita))
 
         except:
-            print ("Error: cannot fetch data")
-
-    return render_template('sceltaAttivitaRES.html', destinazione = nomeLuogo, lista = dizionarioAttivita)
-
+            print ("Errore nel recupero dei dati")
+    
+    luogo1=[]    
+    try:
+        slq2 = "SELECT * FROM luoghi WHERE nome = %s"
+        cursor.execute(slq2,(nomeLuogo))
+        results2 = cursor.fetchall()
+        for row in results2:
+            id_luogo = row[0]
+            nome_luogo = row[1]
+            stato_luogo = row[2]
+            latitudine_luogo = row[3]
+            longitudine_luogo = row[4]
+            luogo1.append(Luogo(id_luogo, nome_luogo, stato_luogo, latitudine_luogo, longitudine_luogo))
+    except:
+        print ("Errore nel recupero dei dati") 
+            
+    return render_template('sceltaAttivitaRES.html', destinazione = nomeLuogo, lista = dizionarioAttivita, luogo = luogo1)
 
 @appWebApi.route("/Sommario", methods=['POST'])
 def createSommario():
@@ -249,219 +346,207 @@ def createSommario():
 
         except:
             print ("Error: cannot fetch data")
+
+    luogo1=[]    
+    try:
+        slq2 = "SELECT * FROM luoghi WHERE nome = %s"
+        cursor.execute(slq2,(nomeLuogo))
+        results2 = cursor.fetchall()
+        for row in results2:
+            id_luogo = row[0]
+            nome_luogo = row[1]
+            stato_luogo = row[2]
+            latitudine_luogo = row[3]
+            longitudine_luogo = row[4]
+            luogo1.append(Luogo(id_luogo, nome_luogo, stato_luogo, latitudine_luogo, longitudine_luogo))
+    except:
+        print ("Error: cannot fetch data")  
             
-    return render_template('sommario.html', destinazione=nomeLuogo, sommario = sommarioAttivita)
+    return render_template('sommarioRES.html', destinazione=nomeLuogo, sommario = sommarioAttivita, luogo = luogo1)       
     
-@appWebApi.route("/ItinerarioSalvato", methods=["POST"])
-def salvaItinerario():
-    if not session.get("username"):
+@appWebApi.route("/SommarioDefault")
+def getDefaultSummary():
+    nomeItinerario = str(request.args.get('nomeItinerarioDef'))
+    print(nomeItinerario)
+
+    sql = "SELECT a.nome, a.difficolta, a.descrizione AS nome_attivita\
+        FROM attivita_itinerari ai\
+        JOIN itinerari i ON ai.id_itinerario = i.ID\
+        JOIN attivita a ON ai.id_attivita = a.ID\
+        WHERE i.nome = '"+nomeItinerario+"';"
+    
+    sommarioAttivita=[]
+    listaNomeAttivita=[]
+    cursor=db.cursor()
+
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        print(results)
+        for row in results:
+            nome_attivita = row[0]
+            difficolta = row[1]
+            descrizione_attivita = row[2]
+            sommarioAttivita.append(Attivita(nome_attivita, difficolta, descrizione_attivita))
+            listaNomeAttivita.append(nome_attivita)
+            
+    except:
+        print ("Errore nel recupero dei dati")
+
+    print('lista nome attivita: ', listaNomeAttivita)
+    
+    strListaAttività = ""
+    for i in range(len(listaNomeAttivita)):
+        strListaAttività += "'"  + listaNomeAttivita[i] + "'"
+        if i < len(listaNomeAttivita) - 1:
+            strListaAttività += ", "
+
+    cercaLuogo = "SELECT l.nome AS nome_luogo\
+        FROM luoghi l\
+        JOIN attivita_luoghi al ON l.ID = al.id_luogo\
+        JOIN attivita a ON al.id_attivita = a.ID\
+        WHERE a.nome IN ("+strListaAttività+");"
+    
+    try:
+        cursor.execute(cercaLuogo)
+        result = cursor.fetchone()
+        nomeLuogo = result[0]
+        print(nomeLuogo)
+    except:
+        print ("Errore nel recupero dei dati")
+
+    luogo1=[]    
+    try:
+        slq2 = "SELECT * FROM luoghi WHERE nome = %s"
+        cursor.execute(slq2,(nomeLuogo))
+        results2 = cursor.fetchall()
+        for row in results2:
+            id_luogo = row[0]
+            nome_luogo = row[1]
+            stato_luogo = row[2]
+            latitudine_luogo = row[3]
+            longitudine_luogo = row[4]
+            luogo1.append(Luogo(id_luogo, nome_luogo, stato_luogo, latitudine_luogo, longitudine_luogo))
+    except:
+        print ("Errore nel recupero dei dati")      
+
+    return render_template("sommarioDefRES.html", nomeItinerario = nomeItinerario, lista = sommarioAttivita, luogo = luogo1)
+
+@appWebApi.route("/SalvaDefault", methods=["POST"])
+def salvaDefault():
+    if not session.get("id"):
         return redirect("/login")
-     
-    # nuovoItinerario = request.form.get('nuovoItinerario')
-    # print(nuovoItinerario)
+    
+    nomeItinerario = request.form.get('nomeItinerario')
+    print(nomeItinerario)
 
-    # cursor = db.cursor()
-    # listaItinerariUtente=[]
-    # sql = "SELECT i.nome\
-    #     FROM itinerari i\
-    #     JOIN utenti_itinerari ui ON i.ID = ui.id_itinerario\
-    #     JOIN utenti u ON ui.id_utente = u.ID\
-    #     WHERE u.username ='"+nuovoItinerario+"';"
+    cursor=db.cursor()
+    ricercaIdItinerario = "SELECT ID FROM itinerari WHERE nome = '"+nomeItinerario+"';"
+    cursor.execute(ricercaIdItinerario)
+    idItinerario = cursor.fetchone()
+    idUtente = session.get("id")
 
+    controlloPresenzaItinerario = "SELECT id, id_utente, id_itinerario \
+                                    FROM utenti_itinerari \
+                                    WHERE id_utente = %s AND id_itinerario = %s;"
+    cursor.execute(controlloPresenzaItinerario, (idUtente, idItinerario))
+    presenza = cursor.fetchone()
 
-    # print(sql)
-    # try:
-    #     cursor.execute(sql)
-    #     results = cursor.fetchall()
-    #     print(results)
-    #     for row in results:
-    #         nome_itinerario = row[0]
-    #         listaItinerariUtente.append(Itinerario(nome_itinerario))
+    if presenza == None:
+        addItinerario = "INSERT INTO utenti_itinerari (id_utente, id_itinerario)\
+            SELECT u.ID, i.ID\
+            FROM utenti u, itinerari i\
+            WHERE u.id = %s\
+            AND i.id = %s;"
 
-    # except:
-    #     print ("Error: cannot fetch data")
-    # return redirect("/profilo", lista = listaItinerariUtente)
+        cursor.execute(addItinerario, (idUtente, idItinerario))
+        db.commit()
+
+    return redirect("/profilo")
+    
+@appWebApi.route("/DeleteItinerarioUtente")
+def deleteItinerarioUtente():
+    nomeItinerario = str(request.args.get('nomeItinerarioDelete'))
+
+    cursor=db.cursor()
+    ricercaIdItinerario = "SELECT id, sysDefault FROM itinerari WHERE nome = '"+nomeItinerario+"';"
+    cursor.execute(ricercaIdItinerario)
+    result = cursor.fetchone()
+    if result: 
+        idItinerario = result[0]
+        sysDefault = result[1]
+    else:
+        return "Error: Itinerario non trovato"
+
+    idUtente = session.get("id")
+
+    if sysDefault == 1:
+        try:
+            eliminaItinerarioUtente = "DELETE FROM utenti_itinerari WHERE id_utente = %s AND id_itinerario = %s;"
+            cursor.execute(eliminaItinerarioUtente, (idUtente, idItinerario))
+            db.commit()
+        except:
+            print ("Errore nel recupero dei dati")
+    else:
+        try:
+            eliminaItinerarioUtente = "DELETE FROM utenti_itinerari WHERE id_utente = %s AND id_itinerario = %s;"
+            cursor.execute(eliminaItinerarioUtente, (idUtente, idItinerario))
+            eliminaAttivitaItinerario = "DELETE FROM attivita_itinerari WHERE id_itinerario = %s;"
+            cursor.execute(eliminaAttivitaItinerario,(idItinerario))
+            eliminaItinerario = "DELETE FROM itinerari WHERE id = %s;"
+            cursor.execute(eliminaItinerario,(idItinerario))
+            db.commit()
+        except:
+            print ("Errore nel recupero dei dati")
+
     return redirect("/profilo")
 
+@appWebApi.route("/ItinerarioSalvato", methods=["POST"])
+def salvaItinerario():
+    if not session.get("id"):
+        return redirect("/login")
 
+    listaAttivitaSommario = request.form.getlist('nomeAttivita')
+    nuovoItinerario = request.form.get('nuovoItinerario')
 
+    cursor = db.cursor()
+    listaIDAttivita=[]
+    for nomeAttivita in listaAttivitaSommario:
+        sql = "SELECT id FROM Attivita WHERE nome = %s"
+        cursor.execute(sql,(nomeAttivita))
+        result = cursor.fetchone()
+        if result:
+            listaIDAttivita.append(result[0])
+        else:
+            print("Errore: l'attività non esiste nel database.")
 
-@appWebApi.route('/registrazione', methods=['POST','GET'])
-def registrazione():
-    if request.method == 'POST': 
-
-        cursor=db.cursor()
-        username = request.form['username']
-        email = request.form['email']
-        pwd = request.form['password']
-
-        
-        
-        try:
-            sql=("INSERT INTO utenti (username, email, pwd) VALUES ('%s', '%s', '%s');")
-            cursor.execute(sql,(username, email, pwd))
-            cursor.commit()
-            try:
-                cursor.execute('SELECT * FROM utenti WHERE id = LAST_INSERT_ID()')
-                res = cursor.fetchone()
-                user = Utente(res[0], res[1], res[2], res[3])
-                db.session.add(user)
-                db.session.commit()
-            except:
-                return "errore"
-            return redirect('/login')
-        except Exception  :
-            print("Errore durante la creazione dell'utente")
-            traceback.print_exc()
-            return render_template('registrazione.html', error = 'Registrazione fallita')
-         
-    else:
-        return render_template('registrazione.html')
-
-
-
-
-
-
-
-
-
-
-# @appWebApi.route('/createUser', methods=['POST'])
-# def createUser():
-#     cursor = db.cursor()
-#     args = request.args
-
-#     username = args.get("username")
-#     email = args.get("email")
-#     pwd = args.get("password")
-    
-#     query = "INSERT INTO utenti (username, email, pwd) VALUES ('%s', '%s', '%s');"
-
-#     try:
-        
-#         cursor.execute(query % (username, email, pwd))
-#         db.commit()
-
-#         try:
-#             cursor.execute('SELECT * FROM utenti WHERE id = LAST_INSERT_ID();')
-#             res = cursor.fetchone()
-#             output = Utente(res[0], res[1], res[2], res[3]).__dict__
-#         except:
-#             print('QUERY_ERROR : Get Utente appena registrato')
-#             return "Errore"
-
-#         return render_template('createUser.html')
-    
-#     except:
-#         print('Error: unable to fetch data')
-#         return 'Errore'
-
-
-
-
-
-    
-    
-    
-    
-    
-#     """
-#     try:
-#         cursor.execute(sql)
-#         results = cursor.fetchone()
-        
-#         output = []
-#         for row in results:
-#             utente = Utente(row[0], row[1], row[2], row[3])
-#             output.append(utente.__dict__)
-#     except:
-#         print("Error: unable to fetch data")
-
-#     return render_template('getUser.html')
-# """
-
-#modifica del profilo utente
-@appWebApi.route("/modificaProfilo/<int:id>", methods = ['PUT'])
-def modificaProfilo(id):
     try:
-        new_username = request.form["username"]
-        new_email = request.form["email"]
-        new_pwd = request.form["password"]
+        creazioneItinerario = "INSERT INTO itinerari (nome) VALUES ('"+nuovoItinerario+"');"
+        cursor.execute(creazioneItinerario)
+        db.commit()
 
-        with db.cursor() as cursor:
-            sql= "update utenti set username = %s, email = %s, pwd = %s where id = %s"
-            cursor.execute(sql,(new_username, new_email, new_pwd, id))
+        cursor.execute("SELECT MAX(id) FROM itinerari;")
+        last_insert_id = cursor.fetchone()[0]
+        db.commit()
+        print("Ultimo ID_itinerario:", last_insert_id)
+
+        for i in range(len(listaIDAttivita)):
+            creazioneRelazioniAttivitaItinerario = "INSERT INTO attivita_itinerari (id_attivita, id_itinerario)\
+                VALUES ("+str(listaIDAttivita[i])+", "+str(last_insert_id)+");"
+            cursor.execute(creazioneRelazioniAttivitaItinerario)
             db.commit()
 
-            return redirect("/login")
-    except Exception as e:
-        db.rollback()
-        return render_template("Impossibile modificare l'utente")
-    
+        idUtente = session.get("id")
+        creazioneRelazioneUtenteItinerario = "INSERT INTO utenti_itinerari (id_utente, id_itinerario)\
+                 VALUES ("+str(idUtente)+", "+str(last_insert_id)+");"
+        cursor.execute(creazioneRelazioneUtenteItinerario)
+        db.commit()
 
+    except:
+        print ("Errore nel recupero dei dati")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#--------------------------------------------------------------------------------------------------------------------------------
-# Classi database
-
-
-
-
-
-# class Luogo:
-#     def __init__(self, id, nome, stato, latitudine, longitudine):
-#         self.id = id
-#         self.nome = nome
-#         self.stato = stato
-#         self.latitudine = latitudine
-#         self.longitudine = longitudine
-
-
-
-
-
-
-@appWebApi.route("/logout")
-def closeAll():
-    db.close()
-
-
-
-
+    return redirect("/profilo")
 
 if __name__ == "__main__":
     appWebApi.run(host='0.0.0.0', port=5000)
-
-
-
-
-
-
-
-
-
-
 

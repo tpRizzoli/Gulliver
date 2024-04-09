@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sommario</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar-decisi.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/decisiRES.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footerSection.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mediaResponsive.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="sfondo">
+    </div>
+        <nav>
+            <div class="logo bars">
+                <div class="bar">
+                    <i class="fa fa-bars"></i>
+                </div>
+                <a href="/"><h3>Gulliver</h3></a>
+            </div>
+            <div class="menu">
+                <div class="close">
+                    <i class="fa fa-close"></i>
+                </div>    
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/#travel">Esplora</a></li>
+                    <li><a href="/profilo">Profilo</a></li>
+                </ul> 
+            </div>
+            <div class="signup-login">
+                <a href="/registrazione">Registrati</a>
+                <a href="/login">Accedi</a>
+            </div>
+        </nav>
+
+        <div class="main">
+                <div class="left">
+                    {% for dati in luogo %}
+                    <div id="map" dati-lat="{{dati.latitudine_luogo}}" dati-lng="{{dati.longitudine_luogo}}"></div>
+                    {% endfor %} 
+                </div>
+                <div class="right">
+                    <div class="right-content">
+                        <h1>Itinerario a: <span>{{destinazione}}</span></h1>
+                        <p style="color:darkgrey"><i>Sommario delle attività selezionate</i></p>
+                                        
+                        <div class="summary">
+                            <form action="/ItinerarioSalvato" method="POST">
+                                {% for elem in sommario %}
+                                    <div class="activity {{ loop.index }}">
+                                        <input type="hidden" name="nomeAttivita" value="{{elem.nome_attivita}}"/>   <!--con questa riga mi passo le attività selezionate-->
+                                        <h2 class="activity-head{{ loop.index }}">{{elem.nome_attivita}}</h2>
+                                        <h3 style="color:darkgrey; font-weight: 300;" class="activity-difficulty{{ loop.index }}">difficoltà: {{elem.difficolta}}</h3>
+                                        <p class="activity-text{{ loop.index }}">{{elem.descrizione_attivita}}</p>
+                                    </div>
+                                {% endfor %}
+                                
+        
+        
+                                
+                                <div class="crea-wrapper">
+                                    <div class="crea">
+                                        <input type="checkbox" class="tohide" id="crea-head">
+                                        <label for="crea-head">Crea Itinerario</label>
+                                        <div class="crea-text">
+                                            
+                                            <div class="newIt-wrapper">
+                                                <input type="text" placeholder="Nome Itinerario..." name="nuovoItinerario" class="newIt" required>
+                                            </div>
+                                            <button class="add"type="submit">+</button>
+                                            
+                                    </div>
+                                    
+                                </div>
+                            </form>
+                                
+                            
+                            
+                    
+        
+                        </div>    
+        
+                    
+                        
+                        
+                    </div>
+                </div>
+        </div>
+    
+        
+
+
+
+   
+    
+
+     <!--GSAP CDN: js animation framework -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" 
+        integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/static/js/script.js"></script>
+
+    <!--MAPPA-->
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" async defer></script> -->
+    <script src="/static/js/map.js"></script>
+
+    
+</body>    
+</html>

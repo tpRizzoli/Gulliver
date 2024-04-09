@@ -98,13 +98,17 @@ public class TipologieFragment extends Fragment {
                     gridView.invalidate();
 
                 }else{
+
                     Toast.makeText(context, "Query Error", Toast.LENGTH_SHORT).show();
+
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<Tipologia>> call, Throwable t) {
+
                 Toast.makeText(context, "Connection Error", Toast.LENGTH_SHORT).show();
+
             }
         });
 

@@ -41,3 +41,16 @@
 .travel .container .box p{
     color: #666;
 }
+
+/* custom scroll-bar */
+::-webkit-scrollbar{
+    display: none;
+  }
+  
+  ::-webkit-scrollbar-track{
+    display: none;
+  }
+  
+  ::-webkit-scrollbar-thumb{
+    display: none;
+  }

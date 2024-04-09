@@ -1,0 +1,42 @@
+/* modifiche per idee.html */
+.main-title{
+    width: 90%;
+    margin: auto;
+    margin-top: 20px;
+    display: flex;
+}
+
+.main-card{
+    margin: auto;
+    text-align: center;
+    padding-bottom: 150px;
+}
+
+.elemlist{
+    width: 25%;
+    margin: auto;
+    display: inline-block;
+    padding-bottom: 40px;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.card-body>img{
+    height: 200px;
+}
+
+
+
+/* custom scroll-bar */
+::-webkit-scrollbar{
+    display: none;
+  }
+  
+  ::-webkit-scrollbar-track{
+    display: none;
+  }
+  
+  ::-webkit-scrollbar-thumb{
+    display: none;
+  }

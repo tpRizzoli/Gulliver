@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scelta Attività</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar-decisi.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ideeRES.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footerSection.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mediaResponsive.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="sfondo">
+    </div>
+        <nav>
+            <div class="logo bars">
+                <div class="bar">
+                    <i class="fa fa-bars"></i>
+                </div>
+                <a href="/"><h3>Gulliver</h3></a>
+            </div>
+            <div class="menu">
+                <div class="close">
+                    <i class="fa fa-close"></i>
+                </div>    
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/#travel">Esplora</a></li>
+                    <li><a href="/profilo">Profilo</a></li>
+                </ul> 
+            </div>
+            <div class="signup-login">
+                <a href="/registrazione">Registrati</a>
+                <a href="/login">Accedi</a>
+            </div>
+        </nav>
+
+        <div class="main-title">
+            <h1>Itinerari per {{categoria}}</h1>
+        </div>
+       
+        <div class="main-card">
+            {% for elem in lista %}
+            <div class="elemlist">
+                <div class="card-body">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2038/2038466.png">
+                    <h3 class="card-title">{{elem.nome_itinerario}}</h3>
+                    <a href="{{ url_for('getDefaultSummary', nomeItinerarioDef=elem.nome_itinerario)}}" class="card-link">Dettagli</a>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+
+
+        <footer>
+            <div class="footer">
+                <div class="container">
+                    <div class="detail">
+                        <h3>Gulliver</h3>
+                        <p>© 2024 Gulliver. Tutti i diritti riservati.<br>
+                            Privacy Policy | Termini di Utilizzo<br>
+                            
+                            Indirizzo: Via Soderini 24, Milano, 20146<br>
+                            Telefono: +39 012 3456789</p>
+                        <h5>Contattaci</h5>
+                        <a href="#">gulliver@gmail.com</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+
+
+    <!--GSAP CDN: js animation framework -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" 
+        integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/static/js/script.js"></script>
+</body>    
+</html>

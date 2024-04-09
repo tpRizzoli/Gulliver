@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scelta Attività</title>
+    <title>Sommario Default</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar-decisi.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/decisiRES.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/footerSection.css') }}">
@@ -12,7 +12,6 @@
 </head>
 <body>
     <div class="sfondo">
-    </div>
     </div>
         <nav>
             <div class="logo bars">
@@ -45,46 +44,37 @@
             </div>
             <div class="right">
                 <div class="right-content">
-                    <h1 style="font-size: 2rem;">Attività da fare a <span>{{destinazione}}</span></h1>
-                    <p>Seleziona le attività desiderate</p>
-
-                    <div class="wrapper">
-                        <form action="/Sommario" method="POST">
-                            <input type="hidden" name="destinazione" value="{{destinazione}}"/>
-                            {% for elem in lista.keys() %}
-                            <div class="collapsible">
-                                <input type="checkbox" class="tohide"id="collapsible-head{{ loop.index }}">
-                                <label for="collapsible-head{{ loop.index }}">{{elem}}</label>
-                                <div class="collapsible-text">
-                                    {% for act in lista[elem] %}
-                                    <h2 id="collapsible-h2{{ loop.index }}">{{act.nome_attivita}}</h2>
-                                    <h3 id="collapsible-h3{{ loop.index }}">difficoltà: {{act.difficolta}}</h3>
-                                    <div class="divisore">
-                                        <p id="collapsible-p{{ loop.index }}">{{act.descrizione_attivita}}</p>
-                                        <input type="checkbox" id="collapsible-checkbox{{ loop.index }}" name="opzioneDinamica" value="{{act.nome_attivita}}" class="check1">
-                                    </div>
-                                    {%  endfor %} 
-                                </div>
-                            </div>
-                            {% endfor %}
-                            <button>Avanti</button>
-                        </form>
-                        
-                    </div>
+                    <h1><span>{{nomeItinerario}}</span></h1>
+                    <p style="color:darkgrey"><i>Sommario delle attività</i></p>
     
                     
+                    <div class="summary">
+                        <form action="/SalvaDefault" method="POST">
+                            {% for elem in lista %}
+                                <input type="hidden" name="nomeItinerario" value="{{nomeItinerario}}">
+                                <div class="activity {{ loop.index }}">
+                                    <input type="hidden" name="nomeAttivita" value="{{elem.nome_attivita}}"/> 
+                                    <h2 class="activity-head{{ loop.index }}">{{elem.nome_attivita}}</h2>
+                                    <h3 style="color:darkgrey; font-weight: 300;" class="activity-difficulty{{ loop.index }}">difficoltà: {{elem.difficolta}}</h3>
+                                    <p class="activity-text{{ loop.index }}">{{elem.descrizione_attivita}}</p>
+                                </div>
+                            {% endfor %} 
+                            <button class="add"type="submit">I tuoi itinerari</button>
+                        </form>
+                    </div>    
+    
+                 
                     
                       
                 </div>
             </div>
         </div>
-
-
-
-
-
-
     
+        
+
+
+
+
 
     <!--GSAP CDN: js animation framework -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" 
@@ -93,7 +83,7 @@
     <script src="/static/js/script.js"></script>
 
     <!--MAPPA-->
-    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" async defer></script> -->
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" async defer></script>   -->
     <script src="/static/js/map.js"></script>
 </body>    
 </html>

@@ -1,7 +1,9 @@
 package com.example.gulliver;
 
 import com.example.gulliver.ClassiModello.Attivita;
+
 import com.example.gulliver.ClassiModello.AttivitaConLuogo;
+
 import com.example.gulliver.ClassiModello.Itinerario;
 import com.example.gulliver.ClassiModello.Tipologia;
 import com.example.gulliver.ClassiModello.User;
@@ -20,7 +22,7 @@ import java.util.List;
 
 public interface MyApiEndpointInterface {
 
-    String urlServer = "http://192.168.0.104:5000";
+    String urlServer = "http://192.168.0.137:5000";
 
     @GET("/api/getUser")
     Call<User> getUser(@Query("utente") String username, @Query("password") String password);
@@ -57,7 +59,5 @@ public interface MyApiEndpointInterface {
 
     @DELETE("/api/eliminaItinerario")
     Call<String> eliminaItinerario(@Query("idUtente") Integer idUtente, @Query("idItinerario") Integer idItinerario);
-
-
 
 }

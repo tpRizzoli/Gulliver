@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/loginPageButton.css') }}">
 </head>
 <body>
+    <div class="sfondo">
+    </div>
     <section class="home">
         <div class="home-box">
             <nav>
@@ -22,25 +24,33 @@
                 <div class="menu">
                     <div class="close">
                         <i class="fa fa-close"></i>
-                    </div>
+                    </div>    
                     <ul>
                         <li><a href="/">Home</a></li>
                         <li><a href="/#travel">Esplora</a></li>
                         <li><a href="/profilo">Profilo</a></li>
-                    </ul>
+                    </ul> 
                 </div>
                 <div class="signup-login">
-                    <a href="/registrazione">Registrati</a>
+                    <a style="display: none;" href="#">Registrati</a>
+                    <a style="display: none;" href="/login">Accedi</a>
                 </div>
             </nav>
+            
             <div class="content">
                 <div class="card-form">
-                <h2>Accedi al tuo account</h2>
-                
-                <form action="/login" class="login-form" method="POST">
+                <h2>Modifica account</h2>
+                <form action="/modificaProfilo" class="login-form" method="POST">
                     <div class="search">
                         <i class="fa fa-user"></i>
-                        <input class="input" name="username" placeholder="Username" type="username" required>
+                        <input  placeholder="Username" name="username" class="username" type="text" required>
+                    </div>
+
+                    <br>
+                   
+                    <div class="search">
+                        <i class="fa fa-envelope"></i>
+                        <input  placeholder="Email" name="email" class="email" type="email" required>
                     </div>
                     <br>
                     
@@ -49,7 +59,7 @@
                         <input class="input" name="password" placeholder="Password" type="password" required>
                     </div>
                     <br>
-                    <button type="submit" class="login-btn">Accedi</button>
+                    <button type="submit" class="login-btn" id="modbtn">modifica</button>
                     <br>
 
                     <br>

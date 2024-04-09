@@ -49,19 +49,15 @@ footer {
     display: inline-block;
 }
 
-/* .footer .container .about-us{
-    color: #fff;
-}
-
-.footer .container li{
-    list-style: none;
-    margin-top: 1rem;
-}
-
-.footer .container a{
-    color: rgb(255 255 255/80%);
-}
-
-.footer .container a:hover{
-    color:#fff;
-} */
+/* custom scroll-bar */
+::-webkit-scrollbar{
+    display: none;
+  }
+  
+  ::-webkit-scrollbar-track{
+    display: none;
+  }
+  
+  ::-webkit-scrollbar-thumb{
+    display: none;
+  }

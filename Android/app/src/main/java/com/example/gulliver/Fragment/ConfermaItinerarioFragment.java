@@ -97,10 +97,11 @@ public class ConfermaItinerarioFragment extends Fragment implements OnMapReadyCa
         if (idAttivitaScelte != null) {
             inserimentoNome.setEnabled(true);
             recuperoDettagli = apiService.findDettagliAttivita(idAttivitaScelte);
-        }else
+        }else {
             inserimentoNome.setEnabled(false);
             inserimentoNome.setText(nomeItinerario);
             recuperoDettagli = apiService.findDettagliItinerario(idItinerario);
+        }
 
         recuperoDettagli.enqueue(new Callback<ArrayList<AttivitaConLuogo>>() {
             @Override

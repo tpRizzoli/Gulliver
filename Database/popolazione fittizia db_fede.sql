@@ -79,15 +79,15 @@ INSERT INTO attivita_luoghi (id_attivita, id_luogo) VALUES
 
 INSERT INTO luoghi_categorie (id_luogo, id_categoria) VALUES
 -- 1 mare 2 montagna 3 citta
-(1, 2),
-(2, 2),
-(6, 2),
+(1, 4),
+(2, 4),
+(6, 4),
 
-(4, 3),
-(5, 3),
-(9, 3),
+(4, 5),
+(5, 5),
+(9, 5),
 
 
-(7, 1),
-(3, 1),
-(8, 1);
+(7, 3),
+(3, 3),
+(8, 3);

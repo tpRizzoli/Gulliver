@@ -52,18 +52,14 @@
                 <h2>i tuoi itinerari</h2>
                 <div class="main-card">
                     {% for elem in lista %}
-                        <!-- <form action=""> -->
                             <div class="elemlist">
                                 <div class="card-body">
                                     <img src="https://cdn-icons-png.flaticon.com/512/2038/2038466.png">
                                     <h3 class="card-title">{{elem.nome_itinerario}}</h3>
-                                    <!-- <p class="card-text">//descrizione itinerario</p> -->
-                                    
                                     <a href="{{ url_for('getDefaultSummary', nomeItinerarioDef=elem.nome_itinerario)}}" class="card-link">Dettagli</a>
                                     <a href="{{ url_for('deleteItinerarioUtente', nomeItinerarioDelete=elem.nome_itinerario)}}"><i class="fa fa-trash-o"></i></a>
                                 </div>
                             </div>
-                        <!-- </form> -->
                     {% endfor %}
 
                    

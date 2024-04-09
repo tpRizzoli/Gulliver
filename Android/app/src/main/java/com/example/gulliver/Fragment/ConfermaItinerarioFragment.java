@@ -62,6 +62,8 @@ public class ConfermaItinerarioFragment extends Fragment implements OnMapReadyCa
 
     GoogleMap googleMap;
 
+    String nomeItinerario;
+
     LatLng marker;
 
     ArrayList<AttivitaConLuogo> dettagliAttivita = new ArrayList<>();
@@ -90,12 +92,13 @@ public class ConfermaItinerarioFragment extends Fragment implements OnMapReadyCa
 
         ArrayList<Integer> idAttivitaScelte = extra.getIntegerArrayList("idAttivita");
         Integer idItinerario = extra.getInt("idItinerario");
-        String nomeItinerario = extra.getString("nomeItinerario");
+        nomeItinerario = extra.getString("nomeItinerario");
 
         Call recuperoDettagli = null;
 
         if (idAttivitaScelte != null) {
             inserimentoNome.setEnabled(true);
+            inserimentoNome.setText("");
             recuperoDettagli = apiService.findDettagliAttivita(idAttivitaScelte);
         }else {
             inserimentoNome.setEnabled(false);
@@ -143,11 +146,21 @@ public class ConfermaItinerarioFragment extends Fragment implements OnMapReadyCa
                 SharedPreferences sp = getActivity().getSharedPreferences(LoginActivity.MY_PREFERENCES, Context.MODE_PRIVATE);
                 Integer idUtente = sp.getInt(LoginActivity.ID, -1);
 
-                if (idAttivitaScelte != null) {
+                if(nomeItinerario == null || nomeItinerario.equals("")){
+                    nomeItinerario = inserimentoNome.getText().toString();
+                }
+
+                if(nomeItinerario.equals("")){
+                    Toast.makeText(context, "Inserire un nome!", Toast.LENGTH_SHORT).show();
+
+                } else if (idAttivitaScelte != null) {
                     creaNuovoItinerario(idUtente, nomeItinerario, idAttivitaScelte);
+
                 }else {
                     associaItinerarioEsistente(idUtente, idItinerario);
+
                 }
+
             }
         });
 

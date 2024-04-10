@@ -181,7 +181,8 @@ def modificaProfilo():
                 return redirect("/profilo")
         except:
             db.rollback()
-            return render_template("Impossibile modificare l'utente")
+            print("Errore: Username o email già esistenti")
+            return redirect("/paginaModifica")
     else:
         return redirect('/')
 

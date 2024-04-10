@@ -313,9 +313,9 @@ color: grey;
 }
 
 .container-profilo{
-    width: 90%;
+    width: 80%;
     margin: auto;
-    height: 350px;
+    
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -324,13 +324,13 @@ color: grey;
 }
 
 .img-profilo{
-    height: 350px;
+    height: 300px;
     border-radius: 0.7rem;
+    
 }
 
 .dati-profilo{
     width: 100%;
-    margin-left: 50px;
     margin-bottom: 10px;
     
 }

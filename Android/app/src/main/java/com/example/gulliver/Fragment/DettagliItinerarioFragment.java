@@ -73,8 +73,7 @@ public class DettagliItinerarioFragment extends Fragment implements OnMapReadyCa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        if (view == null)
-            view = inflater.inflate(R.layout.fragment_dettagli_itinerario, container, false);
+        view = inflater.inflate(R.layout.fragment_dettagli_itinerario, container, false);
 
         initilizeMap();
 

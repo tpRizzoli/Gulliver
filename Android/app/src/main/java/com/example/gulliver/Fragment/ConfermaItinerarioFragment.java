@@ -78,7 +78,7 @@ public class ConfermaItinerarioFragment extends Fragment implements OnMapReadyCa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        if(view == null)
+        //if(view == null)
             view = inflater.inflate(R.layout.fragment_conferma_itinerario, container, false);
 
         inserimentoNome = view.findViewById(R.id.inserimentoNomeItinerario);
@@ -127,6 +127,7 @@ public class ConfermaItinerarioFragment extends Fragment implements OnMapReadyCa
         listaAttivita.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int p = position;
                 changeMarker(position);
             }
         });
@@ -226,6 +227,7 @@ public class ConfermaItinerarioFragment extends Fragment implements OnMapReadyCa
     @Override
     public void onResume() {
         super.onResume();
+
         initilizeMap();
     }
     @Override
@@ -237,14 +239,16 @@ public class ConfermaItinerarioFragment extends Fragment implements OnMapReadyCa
     }
 
     private void changeMarker(Integer position) {
-        googleMap.clear();
-        AttivitaConLuogo attivita = dettagliAttivita.get(position);
+        if (googleMap != null) {
+            googleMap.clear();
+            AttivitaConLuogo attivita = dettagliAttivita.get(position);
 
-        marker = new LatLng(attivita.latitudine, attivita.longitudine);
-        googleMap.addMarker(new MarkerOptions().position(marker).title(attivita.nomeAttivita));
+            marker = new LatLng(attivita.latitudine, attivita.longitudine);
+            googleMap.addMarker(new MarkerOptions().position(marker).title(attivita.nomeAttivita));
 
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(marker).zoom(17).build();
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(marker).zoom(17).build();
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        }
     }
 
 }
